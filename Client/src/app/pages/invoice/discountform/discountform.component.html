@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="row">
+        <mat-toolbar class="text-info bg-primary">
+            छुट / जरिवाना फाराम
+        </mat-toolbar>
+    </div>
+    <div class="row">
+        <mat-radio-group aria-label="Select an option" (change)="changeRadio($event)">
+            <mat-radio-button value="1">छुट</mat-radio-button>
+            <mat-radio-button value="2">जरिवाना</mat-radio-button>
+        </mat-radio-group>
+    </div>
+<div class="row">
+    <mat-form-field appearance="outline">
+        <mat-label>छुट/जरिवाना प्रतिशत</mat-label>
+        <mat-select (selectionChange)="changeDrop($event.value)">
+            @for (item of filtereddiscounts; track $index) {
+                <mat-option [value]=item.id>
+                    {{item.d_description}}
+                </mat-option>
+            }        
+        </mat-select>
+    </mat-form-field>
+</div>
+<div class="row text-center">
+    <mat-action-list>
+        <button class="mybtn btn btn-primary text-info" (click)="UpdateDiscount()">सेभ गर्नुहोस्</button>
+    </mat-action-list>
+</div>
+</div>

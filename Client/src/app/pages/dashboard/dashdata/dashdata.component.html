@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-sm-4">
+<apx-chart
+  *ngIf="chartOptions1 && chartOptions1.series"
+  [series]="chartOptions1.series!"
+  [chart]="chartOptions1.chart!"
+  [xaxis]="chartOptions1.xaxis!"
+  [title]="chartOptions1.title!">
+</apx-chart>
+  </div>
+  <div class="col-sm-8">
+<apx-chart
+  *ngIf="chartOptions && chartOptions.series"
+  [series]="chartOptions.series!"
+  [chart]="chartOptions.chart!"
+  [xaxis]="chartOptions.xaxis!"
+  [title]="chartOptions.title!">
+</apx-chart>
+  </div>
+</div>

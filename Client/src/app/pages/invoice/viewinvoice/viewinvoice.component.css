@@ -1,0 +1,58 @@
+*{
+  font-family: kalimati, Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 12px;
+}
+
+table,th, td {
+  border: 1px solid black;
+}
+
+h6{
+  font-size: 12.5px;
+  font-weight: bold;
+}
+
+.mytable{
+  width: 250px;
+  margin-left: 0px;
+}
+
+li{
+  list-style: none;
+}
+.border{
+  margin-top: 20px;
+  border: 1px solid black;
+  padding: 10px; /* Optional: adds space inside the border */
+}
+
+@media print {
+  body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .container {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .row, .col {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Optional: Ensure table fits to full width */
+  .maintable {
+    width: 100% !important;
+  }
+}
+
+.big-checkbox {
+  width: 25px;
+  height: 25px;
+  transform: scale(1.5);
+  cursor: pointer;
+}

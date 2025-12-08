@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row text-center">
+        <div class="col">
+<a mat-flat-button class="btn btn-info" [routerLink]="['/dashboard/reports']">पछाडी जानुहोस्</a>
+        </div>
+        <div class="col">
+<button (click)="exportToExcel()" class="btn btn-success mb-2 d-print-none">Export to Excel</button>
+        </div>
+    </div>
+     
+    <table class="table table-sm table-bordered" id="excel-table">
+        <thead>
+            <tr>
+                <th>क्र.सं</th>
+                <th>कार्यालय</th>
+                <th>गुठी प्रकार</th>
+                <th>गुठीको नाम</th>
+                <th>जग्गाधनी/मोही</th>
+                <th>नाम</th>
+                <th>ठेगाना</th>
+                <th>मोबाईल</th>
+                <th>हालको स्थानिय</th>
+                <th>गा.वि.स</th>
+                <th>जग्गको प्रकार</th>
+                <th>जग्गाको विरह</th>
+                <th>वडा</th>
+                <th>कित्ता</th>
+                <th>क्षेत्रफल प्रकार</th>
+                <th>क्षेत्रफल</th>    
+            </tr>
+        </thead>
+        <tbody>
+           @for(item of reportData;let i = $index; track item){
+            <tr>
+                <td>{{i+1}}</td>
+                <td>{{item.office_name}}</td>
+                <td>{{item.guthi_type_name}}</td>
+                <td>{{item.guthi_name}}</td>
+                <td>{{item.tenant_type_name}}</td>
+                <td>{{item.tenant_name}}</td>
+                <td>{{item.tenant_address}}</td>
+                <td>{{item.tenant_mobile_no}}</td>
+                <td>{{item.palika_name}}</td>
+                <td>{{item.gabisa_name}}</td>
+                <td>{{item.land_type_name}}</td>
+                <td>{{item.land_sub_type_name}}</td>
+                <td>{{item.ward_no}}</td>
+                <td>{{item.kitta_no}}</td>               
+                <td>{{item.area_type_name}}</td>               
+                <td>{{item.area}}</td>             
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

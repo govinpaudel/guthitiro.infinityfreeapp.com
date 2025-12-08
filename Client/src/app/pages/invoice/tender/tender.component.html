@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <mat-toolbar>
+            <h1 class="text text-primary">भुक्तानी दर्ता फाराम</h1>            
+        </mat-toolbar>
+    </div>
+    <form [formGroup]="tenderForm">
+        <div class="row">
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>मिति</mat-label>
+                <input matInput type="date" id="dob" formControlName="date" [max]="today">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>टेन्डर प्रकार</mat-label>
+                <mat-select formControlName="tender_type_id" required>
+                    <mat-option *ngFor="let item of tenders" [value]="item.id">
+                        {{item.tender_type_name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="tenderForm.controls.tender_type_id.touched && tenderForm.controls.tender_type_id.invalid">
+                    <span *ngIf="tenderForm.controls.tender_type_id.errors.required">यो क्षेत्र अनिवार्य छ!</span>
+                    <span *ngIf="tenderForm.controls.tender_type_id.errors.pattern">गलत डाटा!</span>
+                </mat-error>
+            </mat-form-field>
+        </div>        
+            <div class="row">
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>टेन्डर नं</mat-label>
+                <input matInput type="text"  formControlName="tender_no">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>रकम</mat-label>
+                <input matInput type="text" id="dob" formControlName="amount">
+            </mat-form-field>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <button class="mybtn" [disabled]="!(tenderForm.valid && tenderForm.dirty)" class="mybtn" mat-flat-button
+                    color="primary" (click)="onSubmit()" color="primary">सेभ गर्नुहोस्</button>
+            </div>
+            <div class="col">
+                <button class="mybtn" mat-flat-button color="accent" mat-dialog-close="false">रद्द गर्नुहोस्</button>
+            </div>
+        </div>
+    </form>
+</div>

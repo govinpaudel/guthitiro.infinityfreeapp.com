@@ -1,0 +1,36 @@
+<div class="container">    
+        <div class="col">
+<a mat-flat-button class="btn btn-info" [routerLink]="['/dashboard/reports']">पछाडी जानुहोस्</a>
+        </div>
+    <table class="table table-bordered table-stripped">
+        <thead>
+            <tr>
+                <th>
+                    महिना
+                </th>
+                <th>
+                    गुठी प्रकार
+                </th>
+                <th>
+                    बक्यौता रकम (जरिवाना सहित)
+                </th>
+                <th>
+                    यो आ.व.को रकम
+                </th>
+                <th>जम्मा रकम</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (i of reportData; track $index) {
+            <tr>
+                <td>{{i.month_name}}</td>
+                <td>{{i.guthi_type_name}}</td>
+                <td>{{i.bakyeuta | number:'1.2-2'}}</td>
+                <td>{{i.thisyear | number:'1.2-2'}}</td>
+                <td>{{i.total | number:'1.2-2'}}</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+</div>

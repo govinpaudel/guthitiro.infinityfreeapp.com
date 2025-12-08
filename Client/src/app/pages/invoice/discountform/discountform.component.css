@@ -1,0 +1,11 @@
+.mat-mdc-radio-button ~ .mat-mdc-radio-button {
+    margin-left: 16px;
+  }
+
+  .container{
+    margin-top: 20px;
+  }
+
+  .mybtn{
+    width: 250px;
+  }

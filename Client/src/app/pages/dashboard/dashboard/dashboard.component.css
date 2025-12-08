@@ -1,0 +1,20 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+  .drawer{
+    height: 400px;   
+    width:200px;
+    
+  }
+  .div-100{
+    width: 100wh;
+    height: 80vh;        
+  }
+  .fa{
+    color: navy;
+  }
+
+  .menubtn{
+    color: navy;
+    font-weight: 600;
+  }

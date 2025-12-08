@@ -1,0 +1,71 @@
+<mat-card>
+    <mat-card-header>
+    <span><h5 class="text text-primary">प्रणालीमा दर्ता भएका श्रेष्ता विवरण</h5></span>
+    <span class="spacer"></span>
+    <mat-form-field appearance="outline">
+        <mat-label>खोजिको लागी विवरण प्रविष्ट गर्नुहोस्</mat-label>
+        <input matInput (keyup)="applyFilter($event)" #input >
+      </mat-form-field>
+      <span class="spacer"></span>
+    <span><button (click)="showShrestaAddEditForm('नयाँ श्रेष्ता दर्ता फाराम',0)" mat-flat-button color="primary" class="addbutton">( + )थप्नुहोस्</button>
+    </span>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource">       
+        <ng-container matColumnDef="guthi_type_name">
+          <th mat-header-cell *matHeaderCellDef>गुठीको प्रकार</th>
+          <td mat-cell *matCellDef="let element"> {{element.guthi_type_name}} </td>
+        </ng-container>      
+        <ng-container matColumnDef="guthi_name">
+          <th mat-header-cell *matHeaderCellDef>गुठीको नाम</th>
+          <td mat-cell *matCellDef="let element"> {{element.guthi_name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="tenant_type_name">
+          <th mat-header-cell *matHeaderCellDef>जग्गाधनी / मोही</th>
+          <td mat-cell *matCellDef="let element"> {{element.tenant_type_name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="tenant_name">
+          <th mat-header-cell *matHeaderCellDef>जग्गाधनी/मोहीको नाम</th>
+          <td mat-cell *matCellDef="let element"> {{element.tenant_name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="tenant_address">
+          <th mat-header-cell *matHeaderCellDef>ठेगाना</th>
+          <td mat-cell *matCellDef="let element"> {{element.tenant_address}} </td>
+        </ng-container>
+        <ng-container matColumnDef="tenant_mobile_no">
+          <th mat-header-cell *matHeaderCellDef>मोबाईल नं</th>
+          <td mat-cell *matCellDef="let element"> {{element.tenant_mobile_no}} </td>
+        </ng-container>
+        <ng-container matColumnDef="view">
+          <th mat-header-cell *matHeaderCellDef>जग्गा विवरण हेर्नुहोस्</th>          
+          <td mat-cell *matCellDef="let element"><button (click)="viewShrestaDetails(element.id,element.guthi_type_id)" mat-icon-button><i class="fa fa-eye fa-xs" aria-hidden="true"></i> </button></td>
+        </ng-container>
+        <ng-container matColumnDef="rashid">
+          <th mat-header-cell *matHeaderCellDef>रसिद विवरण हेर्नुहोस्</th>          
+          <td mat-cell *matCellDef="let element"><button (click)="viewInvoiceDetails(element.id,element.guthi_type_id)" mat-icon-button><i class="fa fa-eye fa-xs" aria-hidden="true"></i> </button></td>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef>संशोधन</th>
+          <td mat-cell *matCellDef="let element"><button (click)='showShrestaAddEditForm("संसोधन फाराम",element.id)' mat-icon-button color="accent"><i class="fas fa-edit fa-xs"></i></button></td>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef>हटाउनुहोस्</th>
+          <td mat-cell *matCellDef="let element"><button (click)='delete(element.id)' mat-icon-button color="warn"><i class="fas fa-trash fa-xs"></i></button></td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>       
+    </mat-card-content> 
+    <mat-card-footer>
+      <mat-paginator [length]="100"
+      [pageSize]="5"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      showFirstLastButtons>
+</mat-paginator>    
+    </mat-card-footer>   
+    </mat-card>
+    
+    
+    
+    
+    

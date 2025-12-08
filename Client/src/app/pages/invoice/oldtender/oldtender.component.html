@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="row">
+        <mat-toolbar>
+            <h1 class="text text-primary">पुरानो रसिद दर्ता फाराम</h1>
+        </mat-toolbar>
+    </div>
+    <form [formGroup]="tenderForm">
+        <div class="row">
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>आ.व.</mat-label>
+                <input matInput type="text" formControlName="aaba_id">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>टेन्डर नं</mat-label>
+                <input matInput type="text" formControlName="tender_no">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>टेन्डर मिति</mat-label>
+                <input matInput type="text" formControlName="ndate" placeholder="2080-01-01"
+                    pattern="\d{4}-\d{2}-\d{2}">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>रकम</mat-label>
+                <input matInput type="text" formControlName="amount">
+            </mat-form-field>
+            <div class="col">
+                <button class="mybtn" [disabled]="!(tenderForm.valid && tenderForm.dirty)" class="mybtn" mat-flat-button
+                    color="primary" (click)="onSubmit()" color="primary">सेभ गर्नुहोस्</button>
+            </div>
+            <div class="col">
+                <button class="mybtn" mat-flat-button color="accent" mat-dialog-close="false">रद्द गर्नुहोस्</button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-sm table-stripped">
+        <thead>
+            <th>आ.व</th>
+            <th>रसिद नं</th>
+            <th>नेपाली मिति</th>
+            <th>जम्मा रकम</th>
+        </thead>
+        <tbody>
+            @for(item of old_tenders; track item){
+            <tr>
+                <td>{{item.aaba_name}}</td>
+                <td>{{item.tender_no}}</td>
+                <td>{{item.ndate}}</td>
+                <td>{{item.amount | number:'1.2-2'}}</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

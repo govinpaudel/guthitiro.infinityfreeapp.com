@@ -1,0 +1,68 @@
+<mat-toolbar class="d-print-none">
+    <a mat-flat-button [routerLink]="['/dashboard/listshresta']">पछाडी जानुहोस्</a>
+    <span class="spacer"></span>
+    <button (click)='ShowAddLandForm("नयाँ जग्गा दर्ता फाराम","0")' mat-flat-button><i
+            class="fa fa-plus" aria-hidden="true">जग्गा विवरण थप गर्नुहोस्</i>
+    </button>
+</mat-toolbar>
+<table class="table table-stripped table-sm nepali">
+    <thead>
+        <tr>
+            <th>गुठी को प्रकार: {{this.headerData.guthi_type_name}}</th>
+            <th>। गुठी को नाम: {{this.headerData.guthi_name}} ।</th>
+            <th>{{this.headerData.tenant_type_name}} : {{this.headerData.tenant_name}}</th>
+            <th>। ठेगाना: {{this.headerData.tenant_address}}</th>
+            <th>। सम्पर्क नं: {{this.headerData.tenant_mobile_no}}</th>
+        </tr>
+    </thead>
+</table>
+@if(landData){
+<table class="table table-stripped table-sm nepali">
+    <thead>
+        <th>सि.नं</th>
+        <th>गा.वि.स</th>
+        <th>वडा नं</th>
+        <th>कित्ता नं</th>
+        <th>जग्गाको विरह</th>
+        <th>जग्गाको प्रकार</th>
+        <th>क्षेत्रफल प्रकार</th>
+        <th>क्षेत्रफल</th>
+        <th class="d-print-none">संशोधन</th>
+        <th class="d-print-none">कपिगर्नुहोस्</th>
+        <th class="d-print-none">हटाउनुहोस्</th>
+    </thead>
+    <tbody>
+        @for(item of landData;track $index){
+        <tr>
+            <td>{{$index+1}}</td>
+            <td>{{item.gabisa_name}}</td>
+            <td>{{item.ward_no}}</td>
+            <td>{{item.kitta_no}}</td>
+            <td>{{item.land_type_name}}</td>
+            <td>{{item.land_sub_type_name}}</td>
+            <td>{{item.area_type_name}}</td>
+            <td>{{item.area}}</td>
+            <td class="d-print-none"><button class="icon-btn" (click)="ShowAddLandForm('जग्गा संशोधन गर्नुहोस्',item.id)"><i
+                        class="fas fa-edit"></i></button></td>
+            <td class="d-print-none"><button class="icon-btn" (click)="dupliland(item.id)"><i class="fa-solid fa-copy"></i></button></td>
+            <td class="d-print-none"><button class="icon-btn" (click)="DeleteLand(item.id)"><i class="fas fa-trash"></i></button></td>
+
+        </tr>
+        }
+        <tr>
+            <td colspan="5"></td>
+            <td colspan="5">जम्मा: {{totland}}</td>
+        </tr>
+    </tbody>
+</table>
+}
+@else{
+<h3 class="text text-primary text-center">कुनै पनि जग्गा दर्ता गरिएको छैन </h3>
+}
+
+<mat-toolbar class="d-print-none">    
+    <span class="spacer"></span>
+    <button (click)='viewInvoiceDetails()' mat-flat-button><i
+            class="fa fa-plus" aria-hidden="true">रसिद विवरण हेर्नुहोस्</i>
+    </button>
+</mat-toolbar>

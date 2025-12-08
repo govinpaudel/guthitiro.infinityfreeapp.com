@@ -1,0 +1,190 @@
+<div class="container container-fluid">
+    <div class="row d-print-none text-center">
+        <div class="col">
+            <button (click)="goBack()" class="btn btn-primary">पछाडि जानुहोस्</button>
+        </div>
+        <div class="col">
+            <button (click)="printInvoice()" class="btn btn-info">प्रिन्ट हेर्नुहोस</button>
+        </div>
+    </div>
+    <h1 class="text text-center">गुठी तिरो व्यवस्थापन प्रणाली</h1>
+    <h3 class="text text-center">मालपोत कार्यालय, स्याङ्गजा</h3>
+    @for(i of headerData;track i ){
+    <div class="row">
+        <div class="col text-left">
+            <ul>
+                <li>रसिद नं : {{i.invoice_no}}</li>
+                <li>गुठीको प्रकार । {{i.guthi_type_name}} </li>
+                <li>गुठीको नाम । {{i.guthi_name}}</li>
+                <li>{{i.tenant_type_name}} को नाम : {{i.tenant_name}}</li>
+                <li>ठेगाना : {{i.tenant_address}} सम्पर्क नं :{{i.tenant_mobile_no}} </li>
+            </ul>
+        </div>
+        <div class="col-sm-4 text-right">
+            <ul>
+                <li>मितिः {{i.ndate}}</li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <table class="maintable table table-sm table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th colspan="11">
+                        जग्गाको विवरण
+                    </th>
+                </tr>
+                <tr>
+                    <th>क्र.स</th>
+                    <th>गा.वि.स</th>
+                    <th>वडा नं</th>
+                    <th>कित्ता नं</th>
+                    <th>जग्गाको विरह</th>
+                    <th>जग्गाको प्रकार</th>
+                    <th>क्षेत्रफल प्रकार</th>
+                    <th>क्षेत्रफल</th>
+                    <th>आ.व.दर</th>
+                    <th>दर</th>
+                    <th>जम्मा रकम</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @for(i of detailsData;track i){
+                <tr>
+                    <td>{{$index+1}}</td>
+                    <td>{{i.gabisa_name}}</td>
+                    <td>{{i.ward_no}}</td>
+                    <td>{{i.kitta_no}}</td>
+                    <td>{{i.land_type_name}}</td>
+                    <td>{{i.land_sub_type_name}}</td>
+                    <td>{{i.area_type_name}}</td>
+                    <td>{{i.area}}</td>
+                    <td>{{i.aaba_name}}</td>
+                    <td>{{i.rate}}</td>
+                    <td>{{i.amount}}</td>
+                </tr>
+                }
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>{{this.totArea}}</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td colspan="11">
+                        <hr />
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="4">आ.व</th>
+                    <th>गणना रकम</th>
+                    <th>छुट दर</th>
+                    <th>छुट रकम</th>
+                    <th>जरिवाना दर</th>
+                    <th>जरिवाना रकम</th>
+                    <th>कैफियत</th>
+                    <th>जम्मा रकम</th>
+                </tr>
+                @for(i of headerData;track i){
+                <tr>
+                    <td colspan="4">{{i.aaba_name}}</td>
+                    <td>{{i.invoice_amount| number:'1.2-2'}}</td>
+                    <td>{{i.discount_rate}}</td>
+                    <td>{{i.discount_amount | number:'1.2-2'}}</td>
+                    <td>{{i.fine_rate}}</td>
+                    <td>{{i.fine_amount | number:'1.2-2'}}</td>
+                    <td>{{i.remarks}}</td>
+                    <td>{{i.final_amount | number:'1.2-2'}}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        @if(pendingData){
+        @if (pendingData.length>0) {
+        <table class="maintable table table-sm table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th colspan="10">बक्यौता रकम हरु</th>
+                </tr>
+                <tr>
+                    <th>#</th>
+                    <th>तिरो आ.व</th>
+                    <th>गणना रकम</th>
+                    <th>छुट दर</th>
+                    <th>छुट रकम</th>
+                    <th>जरिवाना दर</th>
+                    <th>जरिवाना रकम</th>
+                    <th>कैफियत</th>
+                    <th>जम्मा रकम</th>
+                    <th class="d-print-none text-center" colspan="2">कृयाकलाप</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(i of pendingData;track i){
+                <tr>
+                    <td class="text-center align-middle"><input class="form-check-input big-checkbox" type="checkbox"
+                            [disabled]="(i.paid_status == 1)" [checked]="selectedIds.has(i.id)"
+                            (change)="toggleSelection(i.id, $event)"></td>
+                    <td>{{i.aaba_name}}</td>
+                    <td>{{i.invoice_amount | number:'1.2-2'}}</td>
+                    <td>{{i.discount_rate}} %</td>
+                    <td>{{i.discount_amount | number:'1.2-2'}}</td>
+                    <td>{{i.fine_rate}} %</td>
+                    <td>{{i.fine_amount | number:'1.2-2'}}</td>
+                    <td>{{i.remarks}}</td>
+                    <td>{{i.final_amount | number:'1.2-2'}}</td>
+                    <td class="d-print-none text-center">
+                        <button [disabled]="(i.paid_status==1 || i.tiro_aaba_id == 9999)"
+                            (click)="calulateRateAgain(i.id,i.shresta_id)" class="btn btn-info">कर पुन गणना
+                            गर्नुहोस्</button>
+                    </td>
+                    <td class="d-print-none text-center">
+                        <button [disabled]="(i.paid_status==1 || i.tiro_aaba_id == 9999)"
+                            (click)="showDiscountForm(i.id,i.guthi_type_id)" class="btn btn-info">छुट/जरिवाना
+                            दिनुहोस्</button>
+                    </td>
+                </tr>
+                }
+                <tr>
+                    <td>जम्माः</td>
+                    <td></td>
+                    <td>{{summary.total | number:'1.2-2'}}</td>
+                    <td></td>
+                    <td>{{summary.discount | number:'1.2-2'}}</td>
+                    <td></td>
+                    <td>{{summary.fine | number:'1.2-2'}}</td>
+                    <td></td>
+                    <td>{{summary.final | number:'1.2-2'}}</td>
+                    <td colspan="2">{{totinwords}}
+                        <button (click)="ShowTenderForm()" class="btn btn-info">
+                            भुक्तानी गर्नुहोस्
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        }}
+        
+        <table class="maintable table table-sm table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>प्रदेशः {{userData.state_name}}</th>
+                    <th>प्रयोगकर्ताः {{userData.nepname}}</th>
+                </tr>
+                <tr>
+                    <th>कार्यालयः {{userData.office_name}}</th>
+                    <th>मितिः {{currentDate | date: 'yyyy-MM-dd' }}</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    }
+</div>

@@ -1,0 +1,24 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+mat-card-header{
+  height: 80px;
+}
+mat-card-content{
+  height: 100%;
+}
+.fa-eye{
+  color: darkgreen;
+}
+.fa-edit{
+    color: blue;
+}
+.fa-trash{
+  color: red;
+}
+mat-form-field{
+  width: 300px;
+}
+.mat-mdc-cell{
+  font-family: kalimati;
+}

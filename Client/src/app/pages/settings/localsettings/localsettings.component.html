@@ -1,0 +1,42 @@
+<mat-card>
+    <mat-card-header>
+        <mat-form-field appearance="outline">
+            <mat-label>खोजिको लागी विवरण प्रविष्ट गर्नुहोस्</mat-label>
+            <input matInput (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+    </mat-card-header>
+    <mat-card-content>
+        <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="state_name">
+                <th mat-header-cell *matHeaderCellDef>प्रदेशको नाम</th>
+                <td mat-cell *matCellDef="let element"> {{element.state_name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="district_name">
+                <th mat-header-cell *matHeaderCellDef>जिल्लाको नाम</th>
+                <td mat-cell *matCellDef="let element"> {{element.district_name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="palika_type_name">
+                <th mat-header-cell *matHeaderCellDef>पालिका प्रकार</th>
+                <td mat-cell *matCellDef="let element"> {{element.palika_type_name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="palika_name">
+                <th mat-header-cell *matHeaderCellDef>पालिकाको नाम</th>
+                <td mat-cell *matCellDef="let element"> {{element.palika_name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="gabisa_name">
+                <th mat-header-cell *matHeaderCellDef>गा.वि.सको नाम</th>
+                <td mat-cell *matCellDef="let element"> {{element.gabisa_name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef>संशोधन</th>
+          <td mat-cell *matCellDef="let element"><button (click)='showEditForm("संसोधन फाराम",element.id)' mat-icon-button color="accent"><i class="fas fa-edit fa-xs"></i></button></td>
+        </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </mat-card-content>
+    <mat-card-footer>
+        <mat-paginator [length]="100" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
+        </mat-paginator>
+    </mat-card-footer>
+</mat-card>

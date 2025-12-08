@@ -1,0 +1,45 @@
+<mat-toolbar>
+    <table class="table table-sm text-center"><tr>
+        <td><a mat-flat-button class="mybtn" [routerLink]="['/dashboard/listshresta']">पछाडी जानुहोस्</a></td>
+        <td><span>रसिद विवरणहरु</span></td>
+        <td><button (click)="gen_invoice()" mat-flat-button class="mybtn">( + ) नयाँ रसिद बनाउनुहोस्</button></td>
+        <td><button (click)="ShowOldTenderForm()" mat-flat-button class="btn btn-info">
+            पुरानो भुक्तानी हेर्नुहोस्
+        </button></td>
+    </tr></table>
+</mat-toolbar>
+<table class="table table-sm table-stripped">
+<thead>
+<th>रसिद नं</th>
+<th>आ.व</th>
+<th>तिरो आ.व.</th>
+<th>अंग्रेजी मिति</th>
+<th>नेपाली मिति</th>
+<th>रसिद रकम</th>
+<th>छुट रकम</th>
+<th>जरिवाना रकम</th>
+<th>जम्मा रकम</th>
+<th>भुक्तानी</th>
+<th>प्रयोगकर्ता</th>
+<th>हेर्नुहोस्</th>
+</thead>
+<tbody>
+@for(item of invoiceData; track item){
+    <tr>
+        <td>{{item.invoice_no}}</td>
+        <td>{{item.aaba_name}}</td>
+        <td>{{item.tiro_aaba_name}}</td>
+        <td>{{item.edate | date:'yyyy-MM-dd'}}</td>
+        <td>{{item.ndate}}</td>
+        <td>{{item.invoice_amount | number:'1.2-2'}}</td>
+        <td>{{item.discount_amount | number:'1.2-2'}}</td>
+        <td>{{item.fine_amount | number:'1.2-2'}}</td>
+        <td>{{item.final_amount | number:'1.2-2'}}</td>
+        <td>{{item.paid_status==1?'भएको':'नभएको'}}</td>
+        <td>{{item.nepname}}</td>
+        <td><button (click)="viewInvoiceDetails(item.id)" mat-icon-button><i class="fa fa-eye" aria-hidden="true"></i> </button>
+            </td>            
+    </tr>
+}
+</tbody>
+</table>

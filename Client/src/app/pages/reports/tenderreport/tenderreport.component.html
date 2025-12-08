@@ -1,0 +1,41 @@
+<mat-form-field appearance="outline">
+<mat-label>खोजिको लागी विवरण प्रविष्ट गर्नुहोस्</mat-label>
+<input matInput (keyup)="searchTender($event)">
+</mat-form-field>
+<div class="container">
+    <table class="table table-sm table-stripped">
+        <thead>
+            <tr>
+            <th>तिरो आ.व.</th>
+            <th>आ.व.</th>
+            <th>मिति</th>
+            <th>गुठीको नाम</th>
+            <th>जग्गाधनी/मोही</th>
+            <th>ठेगाना</th>
+            <th>पुरानो रसिद</th>
+            <th>पुरानो रसिद मिति</th>
+            <th>रसिद नं</th>
+            <th>रकम</th>
+            <th>कृयाकलाप</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (i of reportData; track $index) {
+            <tr>
+                <td>{{i.tiro_aaba_id}}</td>
+                <td>{{i.aaba_id}}</td>                
+                <td>{{i.ndate}}</td>
+                <td>{{i.guthi_name}}</td>
+                <td>{{i.tenant_name}}</td>
+                <td>{{i.tenant_address}}</td>
+                <td>{{i.old_tender_no}}</td>
+                <td>{{i.old_tender_miti}}</td>
+                <td>{{i.tender_no}}</td>
+                <td>{{i.amount | number:'1.2-2'}}</td>
+                <td><button (click)="showTenderForm(i.id)" mat-icon-button><i class="fa fa-eye" aria-hidden="true"></i></button></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+

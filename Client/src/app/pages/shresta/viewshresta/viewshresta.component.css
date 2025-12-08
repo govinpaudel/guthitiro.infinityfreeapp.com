@@ -1,0 +1,43 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+mat-card-header{
+  height: 80px;
+}
+mat-card-content{
+  height: 100%;
+}
+.fa-eye{
+  color: darkgreen;
+}
+.fa-edit{
+    color: blue;
+}
+.fa-trash{
+  color: red;
+}
+mat-form-field{
+  width: 300px;
+}
+.mat-mdc-cell{
+  font-family: kalimati;
+}
+.icon-btn {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  vertical-align: middle;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+table td {
+  vertical-align: middle;
+}
+.nepali{
+  font-family: kalimati;
+}

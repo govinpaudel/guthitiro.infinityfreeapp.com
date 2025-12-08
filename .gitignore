@@ -1,0 +1,82 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/Frontend/dist
+/Backend/dist
+/Client/dist
+/Server/dist
+
+/tmp
+/Frontend/tmp
+/Backend/tmp
+/Client/tmp
+/Server/tmp
+
+
+/out-tsc
+/Frontend/out-tsc
+/Backend/out-tsc
+/Client/out-tsc
+/Server/out-tsc
+
+/bazel-out
+/Frontend/bazel-out
+/Backend/bazel-out
+/Client/bazel-out
+/Server/bazel-out
+
+# Node
+/node_modules
+/Frontend/node_modules
+/Backend/node_modules
+/Client/node_modules
+/Server/node_modules
+npm-debug.log
+/Frontend/npm-debug.log
+/Backend/npm-debug.log
+/Client/npm-debug.log
+/Server/npm-debug.log
+yarn-error.log
+/Frontend/yarn-error.log
+/Backend/yarn-error.log
+/Client/yarn-error.log
+/Server/yarn-error.log
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+/Frontend/.vscode/*
+/Backend/.vscode/*
+/Client/.vscode/*
+/Server/.vscode/*
+
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+/Frontend/.angular/cache
+/Frontend/.angular/*
+/Client/.angular/cache
+/Client/.angular/*
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db

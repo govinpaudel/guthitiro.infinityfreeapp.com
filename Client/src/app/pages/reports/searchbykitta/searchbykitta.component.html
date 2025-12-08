@@ -1,0 +1,73 @@
+<div class="container">
+  <form [formGroup]="landForm">
+    <div class="row">
+      <mat-form-field appearance="outline" class="col">
+        <mat-label>पालिकाको नाम</mat-label>
+        <mat-select formControlName="palika_id" (selectionChange)="loadGabisas()">
+          @for(item of palikas;track item)
+          {<mat-option [value]=item.palika_id>{{item.palika_name}}</mat-option>}
+        </mat-select>
+        <app-form-error [control]="landForm.get('palika_id')"></app-form-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col">
+        <mat-label>गा.वि.स.को नाम</mat-label>
+        <mat-select formControlName="gabisa_id" (selectionChange)="loadWards()">
+          @for(item of gabisas;track item)
+          {<mat-option [value]=item.gabisa_id>{{item.gabisa_name}}</mat-option>}
+        </mat-select>
+        <app-form-error [control]="landForm.get('gabisa_id')"></app-form-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col">
+        <mat-label>वडा नं </mat-label>
+        <mat-select formControlName="ward_no">
+          @for(item of wards;track item)
+          {<mat-option [value]=item.ward_no>{{item.ward_no}}</mat-option>}
+        </mat-select>
+        <app-form-error [control]="landForm.get('ward_no')"></app-form-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col">
+        <mat-label>कित्ता नं</mat-label>
+        <input matInput formControlName="kitta_no" />
+        <app-form-error [control]="landForm.get('kitta_no')"></app-form-error>
+      </mat-form-field>
+      <div class="col">
+        <button class="mybutton" [disabled]="!(landForm.valid && landForm.dirty)" mat-flat-button color="primary"
+          (click)="onSubmit()" color="primary">खोजी गर्नुहोस्</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="container">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>गुठीको नाम</th>
+        <th>जग्गाधनीको नाम</th>
+        <th>ठेगाना</th>
+        <th>पालिकाको नाम</th>
+        <th>गा.वि.स.को नाम</th>
+        <th>वडा नं</th>
+        <th>कित्ता नं</th>
+        <th>क्षेत्रफल</th>
+        <th>श्रेष्ता हेर्नुहोस्</th>        
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of details; track $index) {
+        <tr>
+          <td>{{item.guthi_name}}-{{item.guthi_type_name}}</td>
+          <td>{{item.tenant_name}}</td>
+          <td>{{item.tenant_address}}</td>
+          <td>{{item.palika_name}}</td>
+          <td>{{item.gabisa_name}}</td>
+          <td>{{item.ward_no}}</td>
+          <td>{{item.kitta_no}}</td>
+          <td>{{item.area}}</td>
+          <td><button (click)='viewShrestaDetails(item.shresta_id,item.guthi_type_id)' mat-flat-button><i
+            class="fa fa-view" aria-hidden="true">श्रेष्ता विवरण हेर्नुहोस्</i>
+    </button></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

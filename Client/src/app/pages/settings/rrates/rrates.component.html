@@ -1,0 +1,38 @@
+<mat-toolbar>
+    <span class="spacer"></span>
+    <button (click)='AddRates("नयाँ दर दर्ता फाराम","0")' mat-flat-button><i class="fa fa-plus" aria-hidden="true">दर थप
+            गर्नुहोस्</i>
+    </button>
+</mat-toolbar>
+<div class="container">
+    <div class="row">
+        <h6>आव अनुसारको दर रेट</h6>
+        <table class="table table-sm table-bordered table-stripped">
+            <thead>
+                <th>शुरु आ.व.</th>
+                <th>अन्तिम आ.व.</th>                
+                <th>पालिका प्रकार</th>                
+                <th>क्षेत्रफल प्रकार</th>
+                <th>दर</th>
+                <th>संशोधन</th>
+                <th>हटाउनुहोस्</th>
+            </thead>
+            <tbody>
+                @for(item of rates;track item){
+                <tr>
+                    <td>{{item.start_aaba_name}}</td>
+                    <td>{{item.end_aaba_name}}</td>
+                    <td>{{item.palika_type_name}}</td>                   
+                    <td>{{item.area_type_name}}</td>
+                    <td>{{item.rate}}</td>
+                    <td><button (click)="EditRates('दर संशोधन फाराम',item.id,item.guthi_type_id)" mat-icon-button class="custom-icon-button"><i class="fa fa-cog fa-xs icon-blue"
+                                aria-hidden="true" ></i></button></td>
+                    <td><button (click)="Delete(item.id)" mat-icon-button class="custom-icon-button"><i class="fa fa-trash fa-xs icon-red"
+                                aria-hidden="true" ></i></button></td>
+                </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

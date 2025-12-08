@@ -1,0 +1,30 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+.custom-icon-button {
+  width: 32px;               /* Match Material default icon size */
+  height: 32px;
+  padding: 0;
+  min-width: 0;
+  line-height: 1;
+}
+.custom-icon-button i {
+  font-size: 18px;           /* Adjust Font Awesome icon size */
+  line-height: 32px;         /* Vertically center the icon */
+}
+
+.icon-blue {
+  color: #2196f3;
+  transition: color 0.2s ease;
+}
+.icon-blue:hover {
+  color: navy; /* Darker blue on hover */
+}
+
+.icon-red {
+  color: red;
+  transition: color 0.2s ease;
+}
+.icon-red:hover {
+  color: maroon; /* Darker red on hover */
+}

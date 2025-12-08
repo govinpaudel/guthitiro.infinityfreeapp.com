@@ -1,0 +1,19 @@
+@if (control?.touched && control?.invalid) {
+  <mat-error>
+    @if (control?.hasError('required')) {
+      <span>{{ label }} अनिवार्य छ!</span>
+    }
+    @if (control?.hasError('pattern')) {
+      <span>{{ label }} गलत डाटा छ!</span>
+    }
+    @if (control?.hasError('email')) {
+      <span>{{ label }} ठिक छैन!</span>
+    }
+    @if (control?.hasError('minlength')) {
+      <span>{{ label }} धेरै छोटो छ!</span>
+    }
+    @if (control?.hasError('maxlength')) {
+      <span>{{ label }} धेरै लामो छ!</span>
+    }
+  </mat-error>
+}

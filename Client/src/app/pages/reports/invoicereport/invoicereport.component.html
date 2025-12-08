@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row text-center">
+        <div class="col">
+<a mat-flat-button class="btn btn-info" [routerLink]="['/dashboard/reports']">पछाडी जानुहोस्</a>
+        </div>
+        <div class="col">
+<button (click)="exportToExcel()" class="btn btn-success mb-2 d-print-none">Export to Excel</button>
+        </div>
+    </div>
+     
+    <table class="table table-sm table-bordered" id="excel-table">
+        <thead>
+            <tr>
+                <th>कार्यालय</th>
+                <th>गुठी प्रकार</th>
+                <th>गुठीको नाम</th>               
+                <th>नाम</th>
+                <th>ठेगाना</th>                
+                <th>मिति</th>
+                <th>ई.स.</th>
+                <th>रसिद नं</th>
+                <th>तिरो आ.व.</th>
+                <th>भुक्तानी आ.व.</th>
+                <th>गणना रकम</th>
+                <th>छुट %</th>
+                <th>छुट रकम</th>
+                 <th>जरिवाना %</th>
+                <th>जरिवाना रकम</th>
+                <th>जम्मा रकम</th>
+            </tr>
+        </thead>
+        <tbody>
+           @for(item of reportData; track item){
+            <tr>
+                <td>{{item.office_name}}</td>
+                <td>{{item.guthi_type_name}}</td>
+                <td>{{item.guthi_name}}</td>                
+                <td>{{item.tenant_name}}</td>
+                <td>{{item.tenant_address}}</td>
+                <td>{{item.ndate}}</td>
+                <td>{{item.edate | date: 'yyyy-MM-dd'}}</td>
+                <td>{{item.tender_no}}</td>
+                <td>{{item.tiro_aaba_id}}</td>
+                <td>{{item.invoice_aaba_id}}</td>
+                <td>{{item.invoice_amount | number:'1.2-2'}}</td>
+                <td>{{item.discount_rate}}</td>
+                <td>{{item.discount_amount | number:'1.2-2'}}</td>
+                <td>{{item.fine_rate}}</td>               
+                <td>{{item.fine_amount | number:'1.2-2'}}</td>               
+                <td>{{item.final_amount | number:'1.2-2'}}</td>             
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

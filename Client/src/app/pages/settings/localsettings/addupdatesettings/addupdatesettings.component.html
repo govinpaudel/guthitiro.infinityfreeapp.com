@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="row">
+    <mat-toolbar color="primary">
+      <span class="text-primary text-center">{{data.title}}</span>
+      <!-- <span class="text-primary text-center">{{data.id}}</span> -->
+    </mat-toolbar>
+  </div>
+  <form [formGroup]="gabisaForm">
+    <div class="row">
+       <mat-form-field appearance="outline" class="col">
+        <mat-label>प्रदेशको नाम</mat-label>
+        <mat-select formControlName="state_id" required>
+          <mat-option *ngFor="let item of states" [value]="item.id">
+            {{item.state_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="gabisaForm.controls.state_id.touched && gabisaForm.controls.state_id.invalid">
+          <span *ngIf="gabisaForm.controls.state_id.errors.required">यो क्षेत्र अनिवार्य छ!</span>
+          <span *ngIf="gabisaForm.controls.state_id.errors.pattern">गलत डाटा!</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline" class="col">
+        <mat-label>जिल्ला</mat-label>
+        <mat-select formControlName="district_id" required>
+          <mat-option *ngFor="let item of districts" [value]="item.id">
+            {{item.district_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="gabisaForm.controls.district_id.touched && gabisaForm.controls.district_id.invalid">
+          <span *ngIf="gabisaForm.controls.district_id.errors.required">यो क्षेत्र अनिवार्य छ!</span>
+          <span *ngIf="gabisaForm.controls.district_id.errors.pattern">गलत डाटा!</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    
+    <div class="row">
+      <mat-form-field appearance="outline" class="col">
+        <mat-label>पालिका प्रकार</mat-label>
+        <mat-select appearance="outline" formControlName="palika_type_id" required>
+          <mat-option *ngFor="let item of palika_types" [value]="item.id">
+            {{item.palika_type_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="gabisaForm.controls.palika_type_id.touched && gabisaForm.controls.palika_type_id.invalid">
+          <span *ngIf="gabisaForm.controls.palika_type_id.errors.required">यो क्षेत्र अनिवार्य छ!</span>
+          <span *ngIf="gabisaForm.controls.palika_type_id.errors.pattern">गलत डाटा!</span>
+        </mat-error>
+      </mat-form-field>
+      </div>
+      <div class="row">
+  <mat-form-field appearance="outline" class="col">
+    <mat-label>पालिकाको नाम</mat-label>
+    <input
+      type="text"
+      matInput
+      [matAutocomplete]="auto"
+      [formControl]="palikaNameCtrl"
+      required
+      placeholder="पालिकाको नाम टाइप गर्नुहोस्"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      autoActiveFirstOption
+      (optionSelected)="onPalikaSelected($event.option.value)">
+      <mat-option *ngFor="let item of filteredPalikas | async" [value]="item.palika_name">
+        {{ item.palika_name }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-error *ngIf="palikaNameCtrl.touched && palikaNameCtrl.invalid">
+      <span *ngIf="palikaNameCtrl.errors?.['required']">यो क्षेत्र अनिवार्य छ!</span>
+    </mat-error>
+  </mat-form-field>
+</div>
+    <div class="row">
+      <mat-form-field appearance="outline" class="col">
+        <mat-label>गा.वि.स को नाम</mat-label>
+        <input matInput placeholder="जग्गाधनी/मोहीको ठेगाना" appearance="outline" formControlName="gabisa_name"
+          required>
+        <mat-error *ngIf="gabisaForm.controls.gabisa_name.touched && gabisaForm.controls.gabisa_name.invalid">
+          <span *ngIf="gabisaForm.controls.gabisa_name.errors.required">यो क्षेत्र अनिवार्य छ!</span>
+          <span *ngIf="gabisaForm.controls.gabisa_name.errors.pattern">गलत डाटा!</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    
+<div class="row text-center">
+  <div class="col">
+ <button class="mybtn" [disabled]="!(gabisaForm.valid && gabisaForm.dirty)" class="mybtn" mat-flat-button
+      color="primary" (click)="onSubmit()" color="primary">सेभ गर्नुहोस्</button>
+  </div>
+  <div class="col">
+ <button class="mybtn" mat-flat-button color="accent" mat-dialog-close="false">रद्द गर्नुहोस्</button>
+  </div>
+</div>
+</form>
+</div>

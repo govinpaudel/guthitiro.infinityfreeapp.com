@@ -1,0 +1,104 @@
+<div class="row mydiv">
+    <h2 class="text-primary text-center">प्रयोगकर्ता दर्ता फाराम</h2>
+</div>
+<div class="container">
+    <form [formGroup]="signupForm">
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="fullwidth" appearance="outline">
+            <mat-label>Name in English:</mat-label>
+            <input matInput formControlName="engname" required>
+            <mat-error *ngIf="signupForm.controls.engname.touched && signupForm.controls.engname.invalid">
+                <span *ngIf="signupForm.controls.engname.errors.required">This Field is required!</span>
+                <span *ngIf="signupForm.controls.engname.errors.pattern">Invalid Value!</span>
+            </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="fullwidth" appearance="outline">
+            <mat-label>नाम नेपालीमा:</mat-label>
+            <input matInput formControlName="nepname" required>
+            <mat-error *ngIf="signupForm.controls.nepname.touched && signupForm.controls.nepname.invalid">
+                <span *ngIf="signupForm.controls.nepname.errors.required">This Field is required!</span>
+            </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="fullwidth" appearance="outline">
+            <mat-label>ईमेल:</mat-label>
+            <input matInput formControlName="email" required>
+            <mat-error *ngIf="signupForm.controls.email.touched && signupForm.controls.email.invalid">
+                <span *ngIf="signupForm.controls.email.errors.required">This Field is required!</span>
+                <span *ngIf="signupForm.controls.email.errors.pattern">Invalid Value!</span>
+            </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="fullwidth" appearance="outline">
+            <mat-label>प्रयोगकर्ता</mat-label>
+            <input matInput formControlName="username" required>
+            <mat-error *ngIf="signupForm.controls.username.touched && signupForm.controls.username.invalid">
+                <span *ngIf="signupForm.controls.username.errors.required">This Field is required!</span>
+                <span *ngIf="signupForm.controls.username.errors.pattern">Invalid Value!</span>
+            </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field class="fullwidth" appearance="outline">
+                <mat-label>पासवर्ड:</mat-label>
+                <input matInput formControlName="password" type="password" required>
+                <mat-error *ngIf="signupForm.controls.password.touched && signupForm.controls.password.invalid">
+                    <span *ngIf="signupForm.controls.password.errors.required">This Field is required!</span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field class="fullwidth" appearance="outline">
+                <mat-label>पुन पासवर्ड:</mat-label>
+                <input matInput formControlName="confirmpassword" type="password" required>
+                <mat-error *ngIf="signupForm.controls.confirmpassword.touched && signupForm.controls.confirmpassword.invalid">
+                    <span *ngIf="signupForm.controls.confirmpassword.errors.required">This Field is required!</span>
+                </mat-error>
+            </mat-form-field>           
+        </div>
+        <div class="col">
+            <mat-form-field class="fullwidth" appearance="outline">
+                <mat-label>सम्पर्क नंः</mat-label>
+                <input matInput formControlName="contactno" required>
+                <mat-error
+                    *ngIf="signupForm.controls.contactno.touched && signupForm.controls.contactno.invalid">
+                    <span *ngIf="signupForm.controls.contactno.errors.required">This Field is required!</span>
+                    <span *ngIf="signupForm.controls.contactno.errors.pattern">Invalid Value!</span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field class="fullwidth" appearance="outline">
+                <mat-label>कार्यालयको नाम:</mat-label>
+                <mat-select formControlName="officeid" required>
+                    @for(i of officeList;track i ){
+                        <mat-option [value]=i.id>{{i.office_name}}</mat-option>
+                    } 
+                </mat-select>
+                <mat-error *ngIf="signupForm.controls.officeid.touched && signupForm.controls.officeid.invalid">
+                    <span *ngIf="signupForm.controls.officeid.errors.required">This Field is required!</span>
+                    <span *ngIf="signupForm.controls.officeid.errors.pattern">Invalid Value!</span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        
+        <div class="col">
+            <button mat-raised-button class="mybtn" color="primary" type="submit" (click)="onSignUp()"
+            [disabled]="!(signupForm.valid && signupForm.dirty)">दर्ता गर्नुहोस् ।</button>
+            
+        </div>
+        <div class="col">
+            <a [routerLink]="['/login']" mat-raised-button class="mybtn" color="warn" mat-dialog-close>प्रयोगकर्ता छ? लगईन गर्नुहोस्</a>
+        </div>
+    </div>
+    </form>
+    </div>

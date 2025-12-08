@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="row">
+        <mat-toolbar>
+            <h1 class="text text-primary">भुक्तानी शंसोधन फाराम</h1>
+        </mat-toolbar>
+    </div>
+    <form [formGroup]="tenderForm">
+        <div class="row">
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>पुरानो टेन्डर नं</mat-label>
+                <input matInput type="text"  formControlName="old_tender_no">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>पुरानो टेन्डर मिति</mat-label>
+                <input matInput type="text"  formControlName="old_tender_miti">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>टेन्डर नं</mat-label>
+                <input matInput type="text"  formControlName="tender_no">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>रकम</mat-label>
+                <input matInput type="text"  formControlName="amount">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <button class="mybtn" [disabled]="!(tenderForm.valid && tenderForm.dirty)" class="mybtn" mat-flat-button
+                color="primary" (click)="onSubmit()" color="primary">सेभ गर्नुहोस्</button>
+        </div>
+        <hr/>
+        <div class="row">
+            <button class="mybtn" mat-flat-button color="accent" mat-dialog-close="false">रद्द गर्नुहोस्</button>
+        </div>
+    </form>
+</div>
