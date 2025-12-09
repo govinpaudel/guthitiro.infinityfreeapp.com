@@ -263,7 +263,8 @@ router.get('/getallShresta/:id', async (req, res, next) => {
     let query = "select a.*,b.guthi_type_name,c.tenant_type_name from shresta_header a\
     inner join guthi_type b on a.guthi_type_id=b.id\
     inner join tenant_type c on a.tenant_type_id=c.id\
-    where office_id=?"
+    where office_id=?\
+    order by a.id"
     try {
         connection.query(query, req.params.id, (err, result) => {
             if (err) next(err.message)

@@ -19,7 +19,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 })
 export class ListShrestaComponent implements OnInit {
   userData: any;
-  displayedColumns: string[] = ['guthi_type_name', 'guthi_name', 'tenant_type_name', 'tenant_name', 'tenant_address', 'tenant_mobile_no', 'view', 'rashid', 'edit', 'delete'];
+  displayedColumns: string[] = ['guthi_id','guthi_type_name', 'guthi_name', 'tenant_type_name', 'tenant_name', 'tenant_address', 'tenant_mobile_no', 'view', 'rashid', 'edit', 'delete'];
   dataSource: any = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator
   constructor(private matDailog: MatDialog, private guthiService: GuthiService, private authService: AuthService,

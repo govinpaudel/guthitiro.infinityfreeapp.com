@@ -11,7 +11,11 @@
     </span>
     </mat-card-header>
     <mat-card-content>
-      <table mat-table [dataSource]="dataSource">       
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="guthi_id">
+          <th mat-header-cell *matHeaderCellDef>गुठी नं</th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>      
         <ng-container matColumnDef="guthi_type_name">
           <th mat-header-cell *matHeaderCellDef>गुठीको प्रकार</th>
           <td mat-cell *matCellDef="let element"> {{element.guthi_type_name}} </td>
