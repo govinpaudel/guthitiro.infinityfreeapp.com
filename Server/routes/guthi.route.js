@@ -999,10 +999,10 @@ WHERE id = ?`;
 router.get('/getTenderByNo/:tender_no', async (req, res, next) => {
     console.log(req.params.tender_no)
     let query = `select a.*,b.guthi_name,b.tenant_name,b.tenant_address from invoice_tender a
-    inner join shresta_header b on a.shresta_id=b.id
-    where a.tender_no=? or a.old_tender_no like ?`;
+    left join shresta_header b on a.shresta_id=b.id
+    where a.tender_no=?`;
     try {
-        connection.query(query, [req.params.tender_no, `%${req.params.tender_no}%`], (err, result) => {
+        connection.query(query, [req.params.tender_no], (err, result) => {
             if (err) {
                 next(err);
             }
@@ -1030,12 +1030,13 @@ router.get('/getTenderById/:tender_id', async (req, res, next) => {
 router.post('/updateTender', async (req, res, next) => {
     try {
         let user = req.body;
-        const values = [user.old_tender_no, user.old_tender_miti, user.tender_no, user.amount, user.user_id, user.id]
+        const values = [user.aaba_id,user.shresta_id,user.ndate,user.tender_no, user.amount, user.user_id, user.id]
         console.log(values)
         let query = `update invoice_tender a
     set
-    a.old_tender_no=?,
-    a.old_tender_miti=?,
+    a.aaba_id=?,
+    a.shresta_id=?,
+    a.ndate=?,
     a.tender_no=?,
     a.amount=?,
     a.updated_by_user_id=? where a.id=?`;

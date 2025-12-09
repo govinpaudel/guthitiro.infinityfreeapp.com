@@ -29,8 +29,9 @@ export class EditTenderComponent implements OnInit {
     console.log(this.aayekodata);
     this.loadEditData(this.aayekodata)
     this.tenderForm = this.formBuilder.group({
-      old_tender_no: ['', Validators.required],
-      old_tender_miti: ['', Validators.required],
+      shresta_id: ['', Validators.required],
+      aaba_id: ['', Validators.required],
+      ndate: ['', Validators.required],      
       tender_no: ['', Validators.required],
       amount: ['', Validators.required],
     })
@@ -40,8 +41,9 @@ export class EditTenderComponent implements OnInit {
       {
         next: (res: any) => {
           console.log(res);
-          this.tenderForm.get('old_tender_no')?.setValue(res.data[0].old_tender_no);
-          this.tenderForm.get('old_tender_miti')?.setValue(res.data[0].old_tender_miti);
+          this.tenderForm.get('shresta_id')?.setValue(res.data[0].shresta_id);
+          this.tenderForm.get('aaba_id')?.setValue(res.data[0].aaba_id);
+          this.tenderForm.get('ndate')?.setValue(res.data[0].ndate);
           this.tenderForm.get('tender_no')?.setValue(res.data[0].tender_no);
           this.tenderForm.get('amount')?.setValue(res.data[0].amount);
           this.data=res.data;

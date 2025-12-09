@@ -7,14 +7,18 @@
     <form [formGroup]="tenderForm">
         <div class="row">
             <mat-form-field appearance="outline" class="col">
-                <mat-label>पुरानो टेन्डर नं</mat-label>
-                <input matInput type="text"  formControlName="old_tender_no">
+                <mat-label>आ.व.</mat-label>
+                <input matInput type="text"  formControlName="aaba_id">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>श्रेष्ता नं</mat-label>
+                <input matInput type="text"  formControlName="shresta_id">
             </mat-form-field>
         </div>
         <div class="row">
             <mat-form-field appearance="outline" class="col">
-                <mat-label>पुरानो टेन्डर मिति</mat-label>
-                <input matInput type="text"  formControlName="old_tender_miti">
+                <mat-label>टेन्डर मिति</mat-label>
+                <input matInput type="text"  formControlName="ndate">
             </mat-form-field>
         </div>
         <div class="row">
