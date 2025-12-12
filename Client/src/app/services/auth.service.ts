@@ -15,14 +15,14 @@ export class AuthService {
     private toaster: ToastrService
   ) { }
   login(data: any) {
-    return this.httpClient.post(this.apiUrl + "/auth/login", data)
+    return this.httpClient.post(this.apiUrl + "/guthitiro/login", data)
   }
 
   register(data: any) {
-    return this.httpClient.post(this.apiUrl + "/auth/register", data)
+    return this.httpClient.post(this.apiUrl + "/guthitiro/register", data)
   }
   changepassword(data:any){
-    return this.httpClient.post(this.apiUrl+"/auth/changepassword",data)
+    return this.httpClient.post(this.apiUrl+"/guthitiro/changepassword",data)
   }
 
   logout() {

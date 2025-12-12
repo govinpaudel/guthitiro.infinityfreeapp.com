@@ -67,7 +67,9 @@ router.get('/getGuthiTypes', async (req, res, next) => {
         next(err)
     }
 })
+
 //get tenant types
+
 router.get('/getTenantTypes/:id', async (req, res, next) => {
     console.log(req.params.id);
     let query = "select id,tenant_type_name from tenant_type where guthi_type_id=?"
@@ -437,6 +439,7 @@ router.get('/getRatesById/:type/:id', async (req, res, next) => {
     }
 
 })
+
 router.get('/getInvoicesByShresta/:id', async (req, res, next) => {
     console.log(req.params.id);
     let query = "select a.*,b.nepname,c.aaba_name,d.aaba_name as tiro_aaba_name from invoice_header a\
@@ -672,7 +675,7 @@ router.post('/saveTender', async (req, res, next) => {
         const month = ndate.split('-')[1];
         for (const item of user.data) {
             const values = [user.office_id, user.aaba_id, item.tiro_aaba_id, item.shresta_id, user.date, ndate, month, item.id, user.tender_type_id, user.tender_no, item.final_amount, user.user_id]
-            let query = 'insert into invoice_tender(office_id,aaba_id,tiro_aaba_id,shresta_id,edate,ndate,mon,invoice_id,tender_type_id,tender_no,amount,created_by_user_id) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+            let query = 'insert into invoice_tender(office_id,aaba_id,tiro_aaba_id,shresta_id,edate,ndate,mon,invoice_id,tender_type_id,tender_no,amount,created_by_user_id) values(?,?,?,?,?,?,?,?,?,?,?,?)';
             await connection.promise().query(query, values);
             let query1 = 'update invoice_header set paid_status=1 where id=?'
             await connection.promise().query(query1, [item.id]);
@@ -682,7 +685,6 @@ router.post('/saveTender', async (req, res, next) => {
         console.log(error);
     }
 })
-
 router.post('/saveOldTender', async (req, res, next) => {
     let user = req.body;
     console.log(user);
