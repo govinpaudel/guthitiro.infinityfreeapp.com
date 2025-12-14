@@ -143,6 +143,10 @@ export class GuthiService {
   getmonthsum(office_id: any, aaba_id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getmonthsum/" + office_id + "/" + aaba_id, {})
   }
+  getmonthsuminvoice(office_id: any, aaba_id: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getmonthsuminvoice/" + office_id + "/" + aaba_id, {})
+  }
+
   dupliland(land_id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/dupliland/" + land_id, {})
   }

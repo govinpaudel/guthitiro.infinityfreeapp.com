@@ -1,1 +1,38 @@
-<p>monthlyreportinvoice works!</p>
+<div class="mb-3">
+  <div class="btn-group" role="group" aria-label="Months">
+    <button *ngFor="let month of monthKeys; let i = index"
+            type="button"
+            class="btn btn-outline-primary"
+            [class.active]="selectedMonth === month"
+            (click)="selectMonth(month)">
+      {{ monthNames[i] }}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="filteredData.length > 0" class="table-responsive">
+  <table class="table table-bordered table-striped">
+    <thead class="table-light">
+      <tr>
+        <th>रसिद नं</th>
+        <th>जग्गाधनी / मोही</th>
+        <th>रकम</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let invoice of filteredData">
+        <td>{{ invoice.tender_no }}</td>
+        <td>{{ invoice.tenant_name }}</td>
+        <td>{{ invoice.amount | number:'1.2-2' }}</td>
+      </tr>
+      <tr class="table-secondary fw-bold">
+        <td colspan="2" class="text-end">जम्मा</td>
+        <td>{{ getTotalAmount() | number:'1.2-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="filteredData.length === 0 && selectedMonth" class="alert alert-info">
+  No invoices for this month.
+</div>
