@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EditTenderComponent implements OnInit {
   userData: any;
-  data:any;
+  data: any;
   tenderForm: any = FormGroup;
   constructor(@Inject(MAT_DIALOG_DATA) public aayekodata: any,
     private formBuilder: FormBuilder,
@@ -25,13 +25,13 @@ export class EditTenderComponent implements OnInit {
     private matdailogref: MatDialogRef<EditTenderComponent>
   ) { }
   ngOnInit(): void {
-    this.userData=this.authService.getUser()
+    this.userData = this.authService.getUser()
     console.log(this.aayekodata);
     this.loadEditData(this.aayekodata)
     this.tenderForm = this.formBuilder.group({
       shresta_id: ['', Validators.required],
       aaba_id: ['', Validators.required],
-      ndate: ['', Validators.required],      
+      ndate: ['', Validators.required],
       tender_no: ['', Validators.required],
       amount: ['', Validators.required],
     })
@@ -40,13 +40,13 @@ export class EditTenderComponent implements OnInit {
     this.guthiService.getTenderById(this.aayekodata).subscribe(
       {
         next: (res: any) => {
-          console.log(res);
-          this.tenderForm.get('shresta_id')?.setValue(res.data[0].shresta_id);
-          this.tenderForm.get('aaba_id')?.setValue(res.data[0].aaba_id);
-          this.tenderForm.get('ndate')?.setValue(res.data[0].ndate);
-          this.tenderForm.get('tender_no')?.setValue(res.data[0].tender_no);
-          this.tenderForm.get('amount')?.setValue(res.data[0].amount);
-          this.data=res.data;
+          const data = res.data;
+          this.tenderForm.get('shresta_id')?.setValue(data.shresta_id);
+          this.tenderForm.get('aaba_id')?.setValue(data.aaba_id);
+          this.tenderForm.get('ndate')?.setValue(data.ndate);
+          this.tenderForm.get('tender_no')?.setValue(data.tender_no);
+          this.tenderForm.get('amount')?.setValue(data.amount);
+          this.data = res.data;
         },
         error: (err: any) => {
         }
@@ -55,12 +55,12 @@ export class EditTenderComponent implements OnInit {
   }
   onSubmit() {
     const formdata = this.tenderForm.value;
-    const newdata = { ...formdata, "user_id": this.userData.id,"id":this.data[0].id }
+    const newdata = { ...formdata, "user_id": this.userData.id, "id": this.data.id }
     this.guthiService.updateTender(newdata).subscribe(
       {
         next: (res: any) => {
           console.log(res);
-          if(res.status=true){
+          if (res.status = true) {
             this.toaster.success(res.message);
             this.matdailogref.close(true);
           }

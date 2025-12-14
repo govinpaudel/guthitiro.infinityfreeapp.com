@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MaterialModule } from '../../../shared/material';
 import { GuthiService } from '../../../services/guthi.service';
 import { AuthService } from '../../../services/auth.service';
+import { adToBs, bsToAd } from '@sbmdkl/nepali-date-converter';
 
 @Component({
   selector: 'app-geninvoice',
@@ -56,8 +57,12 @@ export class GenInvoiceComponent implements OnInit {
       this.toaster.error("कृपया आवश्यक फिल्डहरू भर्नुहोस्", "Error");
       return;
     }
-
     const formdata = this.genForm.value;
+    const todayAd = new Date(); 
+    const adString = todayAd.toISOString().split('T')[0];
+    const todayBs = adToBs(adString);
+    const parts = todayBs.split('-');
+    const todayMon = parts[1];    
     const newdata = {
       ...formdata,
       shresta_id: this.data.shresta_id,
@@ -66,7 +71,10 @@ export class GenInvoiceComponent implements OnInit {
       state_id: this.userDetails.state_id,
       district_id: this.userDetails.district_id,
       invoice_aaba_id: this.userDetails.aaba_id,
-      guthi_type_id: this.data.guthi_type_id
+      guthi_type_id: this.data.guthi_type_id,
+      todayAd:adString,
+      todayBs:todayBs,
+      todayMon:todayMon
     };
 
     console.log(newdata);

@@ -18,6 +18,7 @@ import { InvoicereportComponent } from './pages/reports/invoicereport/invoicerep
 import { MonthlyreportComponent } from './pages/reports/monthlyreport/monthlyreport.component';
 import { TenderreportComponent } from './pages/reports/tenderreport/tenderreport.component';
 import { SearchbykittaComponent } from './pages/reports/searchbykitta/searchbykitta.component';
+import { MonthlyreportinvoiceComponent } from './pages/reports/monthlyreportinvoice/monthlyreportinvoice.component';
 
 export const routes: Routes = [
     {path:"",title:"GKMS | लगईन गर्नुहोस्",redirectTo:'login',pathMatch:'full'},
@@ -38,6 +39,7 @@ export const routes: Routes = [
             {path:"reports",title:"GKMS | रिपोर्ट",component:ReportDashComponent},
             {path:"lagatreport",title:"GKMS | रिपोर्ट",component:LagatreportComponent},
             {path:"invoicereport",title:"GKMS | रिपोर्ट",component:InvoicereportComponent},
+            {path:"monthlyreportinvoice",title:"GKMS | रिपोर्ट",component:MonthlyreportinvoiceComponent},
             {path:"monthlyreport",title:"GKMS | रिपोर्ट",component:MonthlyreportComponent},
             {path:'tenderreport',title:"GKMS । टेन्डर रिपोर्ट",component:TenderreportComponent},
             {path:'searchbykitta',title:"GKMS । कित्ता खोजी",component:SearchbykittaComponent}
