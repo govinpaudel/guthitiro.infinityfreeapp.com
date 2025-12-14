@@ -147,7 +147,18 @@ if ($method === "GET") {
         case "getmonthsum":
             getMonthSumHandler($pathParts[1] ?? null, $pathParts[2] ?? null);
             break;
-
+        case "getmonthsuminvoice":
+            getMonthsSumInvoiceHandler($pathParts[1] ?? null, $pathParts[2] ?? null);
+            break;
+        case "getdistinctpalika":
+            getDistinctPalikaHandler($pathParts[1] ?? null);
+            break;
+        case "getdistinctgabisa":
+            getDistinctGabisaHandler($pathParts[1] ?? null);
+            break;
+        case "getdistinctwards":
+            getDistinctWardsHandler($pathParts[1] ?? null);
+            break;    
         default:
             notFound();
     }
@@ -180,7 +191,9 @@ if ($method === "GET") {
         case "updatetender":
             updateTenderHandler();
             break;
-        
+        case "getkittadetails":
+            getKittaDetailsHandler();
+            break;
         default:
             methodNotAllowed();
     }
@@ -981,7 +994,6 @@ function loadInvDetailDataHandler($headerId) {
         respondDbError($e);
     }
 }
-
 function getOldTendersByShrestaHandler($shrestaId) {
     if (!$shrestaId) invalidInput("shrestaId");
     $pdo = getPDO();
@@ -1088,8 +1100,7 @@ function saveOldTenderHandler() {
         respondDbError($e);
     }
 }
-function updateTenderHandler()
-{
+function updateTenderHandler(){
     try {
         $pdo = getPDO();
         if (!$pdo) {
@@ -1161,7 +1172,6 @@ function updateTenderHandler()
         exit();
     }
 }
-
 function duplilandHandler($landId) {
     if (!$landId) invalidInput("land_id");
 
@@ -1274,7 +1284,6 @@ function localTypesByDistrictHandler($districtId) {
         respondDbError($e);
     }
 }
-
 function getPalikaByDistrictAndTypeHandler($districtId, $palikaTypeId) {
     if (!$districtId) invalidInput("district_id");
     if (!$palikaTypeId) invalidInput("palika_type_id");
@@ -2091,6 +2100,185 @@ function getMonthSumHandler($office_id, $aaba_id){
             "error"   => $e->getMessage()
         ]);
         exit();
+    }
+}
+function getMonthsSumInvoiceHandler($officeId, $aabaId) {
+    if (!$officeId) invalidInput("office_id");
+    if (!$aabaId) invalidInput("aaba_id");
+
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
+
+    try {
+        $sql = "
+            SELECT 
+                a.mon, 
+                a.tender_no, 
+                b.tenant_name, 
+                SUM(a.amount) as amount
+            FROM invoice_tender a
+            INNER JOIN shresta_header b ON a.shresta_id = b.id
+            WHERE a.aaba_id = :aaba_id AND a.office_id = :office_id
+            GROUP BY a.mon, a.tender_no
+            ORDER BY a.mon, a.tender_no
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            "aaba_id" => $aabaId,
+            "office_id" => $officeId
+        ]);
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Group by month
+        $data = [];
+        foreach ($rows as $row) {
+            $monthKey = "month" . $row['mon']; // e.g., month1, month2
+            if (!isset($data[$monthKey])) {
+                $data[$monthKey] = [];
+            }
+            $data[$monthKey][] = [
+                "tender_no" => $row['tender_no'],
+                "tenant_name" => $row['tenant_name'],
+                "amount" => $row['amount']
+            ];
+        }
+
+        echo json_encode([
+            "status" => true,
+            "data" => $data
+        ]);
+        exit();
+
+    } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
+function getDistinctPalikaHandler($officeId) {
+    if (!$officeId) invalidInput("officeId");  // validate input
+
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");  // check DB connection
+
+    try {
+        $sql = "SELECT DISTINCT a.palika_id, b.palika_name
+                FROM shresta_details a
+                INNER JOIN palikas b ON b.id = a.palika_id
+                WHERE a.office_id = :officeId
+                ORDER BY b.palika_name";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(["officeId" => $officeId]);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode(["status" => true, "data" => $data]);
+        exit();
+
+    } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
+function getDistinctGabisaHandler($palikaId) {
+    if (!$palikaId) invalidInput("palikaId");
+
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
+
+    try {
+        $sql = "SELECT DISTINCT a.gabisa_id, c.gabisa_name
+                FROM shresta_details a
+                INNER JOIN gabisas c ON c.id = a.gabisa_id
+                WHERE a.palika_id = :palikaId
+                ORDER BY c.gabisa_name";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(["palikaId" => $palikaId]);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode(["status" => true, "data" => $data]);
+        exit();
+
+    } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
+function getDistinctWardsHandler($gabisaId) {
+    if (!$gabisaId) invalidInput("gabisaId");
+
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
+
+    try {
+        $sql = "SELECT DISTINCT a.ward_no
+                FROM shresta_details a
+                WHERE a.gabisa_id = :gabisaId
+                ORDER BY a.ward_no";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(["gabisaId" => $gabisaId]);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode(["status" => true, "data" => $data]);
+        exit();
+
+    } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
+function getKittaDetailsHandler() {
+    // Validate required inputs
+    $requestData = json_decode(file_get_contents('php://input'), true);
+    $requiredFields = ['office_id', 'palika_id', 'gabisa_id', 'ward_no', 'kitta_no'];
+    foreach ($requiredFields as $field) {
+        if (empty($requestData[$field])) {
+            invalidInput($field);
+        }
+    }
+
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
+
+    try {
+        $sql = "SELECT a.shresta_id,
+                       a.guthi_type_id,
+                       e.guthi_type_name,
+                       b.guthi_name,
+                       b.tenant_name,
+                       b.tenant_address,
+                       c.palika_name,
+                       d.gabisa_name,
+                       a.ward_no,
+                       a.kitta_no,
+                       a.area,
+                       a.status
+                FROM shresta_details a
+                INNER JOIN shresta_header b ON a.shresta_id = b.id
+                INNER JOIN palikas c ON c.id = a.palika_id
+                INNER JOIN gabisas d ON d.id = a.gabisa_id
+                INNER JOIN guthi_type e ON a.guthi_type_id = e.id
+                WHERE a.office_id = :office_id
+                  AND a.palika_id = :palika_id
+                  AND a.gabisa_id = :gabisa_id
+                  AND a.ward_no = :ward_no
+                  AND a.kitta_no = :kitta_no";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            "office_id" => $requestData['office_id'],
+            "palika_id" => $requestData['palika_id'],
+            "gabisa_id" => $requestData['gabisa_id'],
+            "ward_no"   => $requestData['ward_no'],
+            "kitta_no"  => $requestData['kitta_no']
+        ]);
+
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode(["status" => true, "data" => $data]);
+        exit();
+
+    } catch (Exception $e) {
+        respondDbError($e);
     }
 }
 
