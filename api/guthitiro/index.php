@@ -1026,11 +1026,7 @@ function saveTenderHandler() {
     if (!$user) invalidInput("Invalid JSON body");
 
     try {
-        $pdo->beginTransaction();
-
-        // Convert date to YYYY-MM-DD format
-        $ndate = date('Y-m-d', strtotime($user['date']));
-        $month = date('m', strtotime($user['date']));
+        $pdo->beginTransaction();                
 
         foreach ($user['data'] as $item) {
             $sqlInsert = "INSERT INTO invoice_tender
@@ -1044,9 +1040,9 @@ function saveTenderHandler() {
                 "aaba_id" => $user['aaba_id'],
                 "tiro_aaba_id" => $item['tiro_aaba_id'],
                 "shresta_id" => $item['shresta_id'],
-                "edate" => $user['date'],
-                "ndate" => $ndate,
-                "mon" => $month,
+                "edate" => $user['edate'],
+                "ndate" => $user['ndate'],
+                "mon" => $user['mon'],
                 "invoice_id" => $item['id'],
                 "tender_type_id" => $user['tender_type_id'],
                 "tender_no" => $user['tender_no'],

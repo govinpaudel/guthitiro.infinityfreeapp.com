@@ -12,24 +12,34 @@ import { EditTenderComponent } from '../edit-tender/edit-tender.component';
   styleUrl: './tenderreport.component.css'
 })
 export class TenderreportComponent {
+  timer: any;
   reportData: any;
   constructor(
     private guthiService: GuthiService,
     private matDailog: MatDialog
   ) { }
-  searchTender(e: any) {
-    console.log(e.target.value);
-    this.guthiService.getTenderByNo(e.target.value).subscribe(
-      {
-        next: (res: any) => {
-          console.log(res.data)
-          this.reportData = res.data
-        },
-        error: (err: any) => {
-        }
+
+  searchTender(e: Event) {
+  clearTimeout(this.timer);
+
+  const value = (e.target as HTMLInputElement).value;
+
+  this.timer = setTimeout(() => {
+    console.log(value);
+
+    this.guthiService.getTenderByNo(value).subscribe({
+      next: (res: any) => {
+        console.log(res.data);
+        this.reportData = res.data;
+      },
+      error: (err: any) => {
+        console.error(err);
       }
-    )
-  }
+    });
+
+  }, 500);
+}
+
   showTenderForm(id: any) {
     this.matDailog.open(EditTenderComponent,{
       width: "600px",

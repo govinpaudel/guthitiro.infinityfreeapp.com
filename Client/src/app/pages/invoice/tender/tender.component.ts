@@ -6,7 +6,7 @@ import { GuthiService } from '../../../services/guthi.service';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-
+import { adToBs, bsToAd } from '@sbmdkl/nepali-date-converter';
 
 @Component({
   selector: 'app-tender',
@@ -16,8 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class TenderComponent implements OnInit {
   tenderForm: any = FormGroup;
-  tenders: any;
-  today: any;
+  tenders: any;  
   userData: any;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
@@ -26,8 +25,8 @@ export class TenderComponent implements OnInit {
     private toaster: ToastrService,
     private matdailogref: MatDialogRef<TenderComponent>
   ) {
-    const now = new Date();
-    this.today = now.toISOString().split('T')[0];
+    
+
   }
   ngOnInit(): void {
     console.log('utabata aayeko',this.data);
@@ -44,8 +43,20 @@ export class TenderComponent implements OnInit {
     this.tenderForm.get('amount')?.setValue(totalAmount);    
   }
   onSubmit() {
+    const today = new Date(); 
+    const todayAd = today.toISOString().split('T')[0];
+    const todayBs = adToBs(todayAd);
+    const parts = todayBs.split('-');
+    const todayMon = parts[1];
     const formdata = this.tenderForm.value
-    const newdata = { ...formdata, "office_id": this.userData.office_id, "user_id": this.userData.id, "aaba_id": this.userData.aaba_id,"data":this.data }
+    const newdata = { ...formdata,
+      "office_id": this.userData.office_id, 
+      "user_id": this.userData.id,
+      "aaba_id": this.userData.aaba_id,
+      "ndate":todayBs,
+      "edate":todayAd,
+      "mon":todayMon,
+      "data":this.data }
     console.log(newdata);     
       this.guthiService.saveTender(newdata).subscribe(
         {

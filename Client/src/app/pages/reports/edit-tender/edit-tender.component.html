@@ -17,8 +17,16 @@
         </div>
         <div class="row">
             <mat-form-field appearance="outline" class="col">
-                <mat-label>टेन्डर मिति</mat-label>
-                <input matInput type="text"  formControlName="ndate">
+                <mat-label>मिति</mat-label>
+                <input matInput type="text"  formControlName="ndate" (keyup)="changeDate()">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>Date</mat-label>
+                <input matInput type="text"  formControlName="edate">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>महिना</mat-label>
+                <input matInput type="text"  formControlName="mon">
             </mat-form-field>
         </div>
         <div class="row">
