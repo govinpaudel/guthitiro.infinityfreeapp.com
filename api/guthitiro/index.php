@@ -1026,7 +1026,7 @@ function saveTenderHandler() {
     if (!$user) invalidInput("Invalid JSON body");
 
     try {
-        $pdo->beginTransaction();                
+        $pdo->beginTransaction();        
 
         foreach ($user['data'] as $item) {
             $sqlInsert = "INSERT INTO invoice_tender
@@ -1041,7 +1041,7 @@ function saveTenderHandler() {
                 "tiro_aaba_id" => $item['tiro_aaba_id'],
                 "shresta_id" => $item['shresta_id'],
                 "edate" => $user['edate'],
-                "ndate" => $user['ndate'],
+                "ndate" =>$user['ndate'],
                 "mon" => $user['mon'],
                 "invoice_id" => $item['id'],
                 "tender_type_id" => $user['tender_type_id'],
@@ -1119,7 +1119,7 @@ function updateTenderHandler(){
         }
 
         // Required fields validation
-        $required = ['id', 'aaba_id', 'shresta_id', 'ndate', 'tender_no', 'amount', 'user_id'];
+        $required = ['id', 'aaba_id', 'shresta_id', 'ndate','edate','mon', 'tender_no', 'amount', 'user_id'];
         foreach ($required as $field) {
             if (!isset($input[$field])) {
                 echo json_encode([
@@ -1136,6 +1136,8 @@ function updateTenderHandler(){
             aaba_id = :aaba_id,
             shresta_id = :shresta_id,
             ndate = :ndate,
+            edate = :edate,
+            mon = :mon,
             tender_no = :tender_no,
             amount = :amount,
             updated_by_user_id = :user_id
@@ -1147,6 +1149,8 @@ function updateTenderHandler(){
             ':aaba_id'    => $input['aaba_id'],
             ':shresta_id'=> $input['shresta_id'],
             ':ndate'     => $input['ndate'],
+            ':edate'     => $input['edate'],
+            ':mon'     => $input['mon'],
             ':tender_no' => $input['tender_no'],
             ':amount'    => $input['amount'],
             ':user_id'   => $input['user_id'],
