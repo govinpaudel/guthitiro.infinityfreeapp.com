@@ -33,8 +33,8 @@ export class EditTenderComponent implements OnInit {
       shresta_id: ['', Validators.required],
       aaba_id: ['', Validators.required],
       ndate: ['', Validators.required],
-      edate: [{ value: '', disabled: true }, Validators.required],
-      mon: [{ value: '', disabled: true }, Validators.required],
+      edate: ['', Validators.required],
+      mon: ['', Validators.required],
       tender_no: ['', Validators.required],
       amount: ['', Validators.required],
     })
