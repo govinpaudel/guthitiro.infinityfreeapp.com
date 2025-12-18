@@ -171,4 +171,14 @@ export class GuthiService {
   getKittaDetails(formdata:any) {
     return this.httpclient.post(this.apiUrl + "/guthitiro/getKittaDetails",formdata)
   }
+  downloadRecords(formdata:any){
+    return this.httpclient.post(this.apiUrl + "/guthitiro/downloadrecords",formdata)
+  }
+  deleteLand(formdata:any){
+    return this.httpclient.post(this.apiUrl + "/guthitiro/deleteland",formdata)
+  }
+  updateRecords(formdata:any){
+    return this.httpclient.post(`http://${formdata.ipaddress}` + "/api/sync/guthitiro.php",formdata)
+  }
+
 }

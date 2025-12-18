@@ -1,0 +1,23 @@
+<!-- Form 1 : Date Picker -->
+    <div class="col-md-12">
+      <div class="card shadow">
+        <div class="card-header bg-success text-white">
+          <h6 class="mb-0">कैफियत</h6>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="delform" (ngSubmit)="submitDelete()">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>कैफियत</mat-label>
+              <input matInput formControlName="remarks">              
+            </mat-form-field>
+            <button
+              type="submit"
+              class="btn btn-success w-100"
+              [disabled]="delform.invalid"
+            >
+              Submit Date
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>

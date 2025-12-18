@@ -194,6 +194,12 @@ if ($method === "GET") {
         case "getkittadetails":
             getKittaDetailsHandler();
             break;
+	case "downloadrecords":
+            downloadRecordsHandler();
+            break;
+    case "deleteland":
+            deleteLandHandler();
+            break;
         default:
             methodNotAllowed();
     }
@@ -311,7 +317,7 @@ function getDashLandDataHandler($officeId) {
                     SUM(b.area_units) AS area_units
                 FROM shresta_header a
                 INNER JOIN shresta_details b ON b.shresta_id = a.id
-                WHERE a.office_id = :office_id
+                WHERE a.office_id = :office_id and b.status=1
                 GROUP BY a.guthi_type_id, b.area_type_id";
 
         $stmt = $pdo->prepare($sql);
@@ -2281,7 +2287,96 @@ function getKittaDetailsHandler() {
         respondDbError($e);
     }
 }
+function downloadRecordsHandler() {
+    header("Content-Type: application/json");
 
+    $pdo = getPDO();
+    if (!$pdo) return dbUnavailable("Remote");
+
+    // Read JSON POST
+    $inputJSON = file_get_contents('php://input');
+    $input = json_decode($inputJSON, true);
+
+    $date   = $input['date']   ?? '';
+    $tables = $input['tables'] ?? [];
+
+    if (!$date || empty($tables) || !is_array($tables)) {
+        echo json_encode([
+            'status'  => false,
+            'message' => 'Date and tables are required'
+        ]);
+        return;
+    }
+
+    try {
+        $responseData = [];
+
+        foreach ($tables as $table) {
+
+            // 🔐 strict sanitization (letters, numbers, underscore only)
+            $table = str_replace(['`', ';', ' ', '-', '.', '/'], '', $table);
+
+            if ($table === '') {
+                continue;
+            }
+
+            $sql = "
+                SELECT *
+                FROM `$table`
+                WHERE created_at >= :date
+                   OR updated_at >= :date
+            ";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':date' => $date]);
+
+            $responseData[$table] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        echo json_encode([
+            'status' => true,
+            'data'   => $responseData
+        ]);
+
+    } catch (PDOException $e) {
+        echo json_encode([
+            'status'  => false,
+            'message' => $e->getMessage()
+        ]);
+    }
+}
+
+function deleteLandHandler() {
+    // Validate required inputs
+    $requestData = json_decode(file_get_contents('php://input'), true);
+    $requiredFields = ['id', 'remarks'];
+    foreach ($requiredFields as $field) {
+        if (empty($requestData[$field])) {
+            invalidInput($field);
+        }
+    }
+
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
+
+    try {
+        $sql = "update shresta_details set status=0,remarks_for_disabling=:remarks where id=:id";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ":remarks" => $requestData['remarks'],
+            ":id" => $requestData['id']            
+        ]);
+
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode(["status" => true, "message"=>'जग्गा सफलतापुर्वक हटाईयो ।']);
+        exit();
+
+    } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
 
 function notFound() { http_response_code(404); echo json_encode(["status"=>false,"message"=>"Not Found"]); exit(); }
 function methodNotAllowed() { http_response_code(405); echo json_encode(["status"=>false,"message"=>"Method Not Allowed"]); exit(); }

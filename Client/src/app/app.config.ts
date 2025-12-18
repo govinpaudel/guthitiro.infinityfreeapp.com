@@ -8,6 +8,7 @@ import { provideToastr, ToastrModule } from 'ngx-toastr';
 import { apiInterceptor } from './services/api.interceptor';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgxUiLoaderModule, NgxUiLoaderConfig, SPINNER, PB_DIRECTION } from 'ngx-ui-loader';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsType: SPINNER.ballSpinClockwise,
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),        
     provideHttpClient(withInterceptors([apiInterceptor])),
     provideAnimations(),
+    provideNativeDateAdapter(),
     importProvidersFrom(
       BrowserAnimationsModule,
       ToastrModule.forRoot({

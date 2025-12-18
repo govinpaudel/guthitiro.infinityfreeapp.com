@@ -10,6 +10,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { AreaToUnitsService } from '../../../services/area-to-units.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
+import { DellandComponent } from '../delland/delland.component';
 
 
 @Component({
@@ -113,6 +114,19 @@ export class ViewshrestaComponent implements OnInit {
     })
   }
   DeleteLand(id: any) {
+    let dialogRef = this.matDailog.open(DellandComponent, {      
+      enterAnimationDuration: "500ms",
+      exitAnimationDuration: "500ms",
+      data: id
+    });
+    dialogRef.afterClosed().subscribe((item: any) => {
+      if (item == true) {
+        this.loadLands(this.aayekodata.shresta_id)
+      }
+    })
+
+
+    
 
   }
   showForm(title: any, id: any) {
@@ -121,7 +135,7 @@ export class ViewshrestaComponent implements OnInit {
       // width: '550px',
       enterAnimationDuration: "500ms",
       exitAnimationDuration: "500ms",
-      data: { title: title, id: id }
+      data: id 
     });
     dialogRef.afterClosed().subscribe((item: any) => {
       if (item == true) {
