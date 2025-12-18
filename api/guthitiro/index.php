@@ -2119,14 +2119,15 @@ function getMonthsSumInvoiceHandler($officeId, $aabaId) {
         $sql = "
             SELECT 
                 a.mon, 
-                a.tender_no, 
+                a.tender_no,
+                a.ndate, 
                 b.tenant_name, 
                 SUM(a.amount) as amount
             FROM invoice_tender a
             INNER JOIN shresta_header b ON a.shresta_id = b.id
             WHERE a.aaba_id = :aaba_id AND a.office_id = :office_id
             GROUP BY a.mon, a.tender_no
-            ORDER BY a.mon, a.tender_no
+            ORDER BY a.mon, a.tender_no,a.ndate
         ";
 
         $stmt = $pdo->prepare($sql);
@@ -2146,6 +2147,7 @@ function getMonthsSumInvoiceHandler($officeId, $aabaId) {
             }
             $data[$monthKey][] = [
                 "tender_no" => $row['tender_no'],
+                "ndate"=>$row['ndate'],
                 "tenant_name" => $row['tenant_name'],
                 "amount" => $row['amount']
             ];
