@@ -6,7 +6,7 @@ import { GuthiService } from '../../../services/guthi.service';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-
+import { adToBs, bsToAd } from '@sbmdkl/nepali-date-converter';
 
 @Component({
   selector: 'app-tender',
@@ -32,6 +32,8 @@ export class oldTenderComponent implements OnInit {
     this.tenderForm = this.formBuilder.group({
       aaba_id: ['', Validators.required],     
       ndate: ['', [Validators.required,Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]],
+      edate:['', [Validators.required,Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]],
+      mon:['',Validators.required],
       tender_no: ['', Validators.required],     
       amount: ['', Validators.required]     
     }
@@ -70,5 +72,16 @@ export class oldTenderComponent implements OnInit {
         }
       }
     )
+  }
+  changeDate() {
+    const ndateValue = this.tenderForm.get('ndate')?.value;
+    console.log(ndateValue)
+    if (ndateValue) {
+      const edateValue = bsToAd(ndateValue)
+      this.tenderForm.patchValue({
+        edate: edateValue,
+        mon: ndateValue.split('-')[1]
+      });
+    }
   }
 }

@@ -58,15 +58,15 @@ export class EditTenderComponent implements OnInit {
       }
     )
   }
-  changeDate(){
-const ndateValue = this.tenderForm.get('ndate')?.value;
-  if (ndateValue) {
-    const edateValue=bsToAd(ndateValue)
-    this.tenderForm.patchValue({
-      edate: edateValue,
-      mon: ndateValue.split('-')[1]
-    });
-  }
+  changeDate() {
+    const ndateValue = this.tenderForm.get('ndate')?.value;
+    if (ndateValue) {
+      const edateValue = bsToAd(ndateValue)
+      this.tenderForm.patchValue({
+        edate: edateValue,
+        mon: ndateValue.split('-')[1]
+      });
+    }
   }
   onSubmit() {
     const formdata = this.tenderForm.value;
