@@ -42,48 +42,39 @@ if (!isset($input['data']) || !is_array($input['data'])) {
 
 $data = $input['data'];
 
+// --------------------
+// PRIORITY TABLES
+// --------------------
+$priority = ['shresta_header', 'invoice_header'];
+
 try {
     $pdo->beginTransaction();
 
-    foreach ($data as $tableName => $rows) {
+    /* ===============================
+       1) INSERT PRIORITY TABLES FIRST
+       =============================== */
+    foreach ($priority as $tableName) {
 
-        // Skip empty tables
-        if (!is_array($rows) || count($rows) === 0) {
-            continue;
-        }
+        if (!isset($data[$tableName])) continue;
 
-        // 🔐 sanitize table name
+        $rows = $data[$tableName];
+        if (!is_array($rows) || count($rows) === 0) continue;
+
         $tableName = str_replace(['`', ';', ' ', '-', '.', '/'], '', $tableName);
 
         foreach ($rows as $row) {
 
-            if (!isset($row['id'])) {
-                continue; // id is mandatory
-            }
+            if (!isset($row['id'])) continue;
 
-            // --------------------
-            // Build Dynamic Query
-            // --------------------
             $columns = array_keys($row);
 
-            $colList = implode(
-                ", ",
-                array_map(fn($c) => "`$c`", $columns)
-            );
+            $colList = implode(", ", array_map(fn($c) => "`$c`", $columns));
+            $placeholders = implode(", ", array_map(fn($c) => ":$c", $columns));
 
-            $placeholders = implode(
-                ", ",
-                array_map(fn($c) => ":$c", $columns)
-            );
-
-            // update all except id
-            $updateList = implode(
-                ", ",
-                array_map(
-                    fn($c) => "`$c` = VALUES(`$c`)",
-                    array_filter($columns, fn($c) => $c !== 'id')
-                )
-            );
+            $updateList = implode(", ", array_map(
+                fn($c) => "`$c` = VALUES(`$c`)",
+                array_filter($columns, fn($c) => $c !== 'id')
+            ));
 
             $sql = "
                 INSERT INTO `$tableName` ($colList)
@@ -93,7 +84,46 @@ try {
 
             $stmt = $pdo->prepare($sql);
 
-            // Bind values
+            foreach ($row as $key => $value) {
+                $stmt->bindValue(":$key", $value);
+            }
+
+            $stmt->execute();
+        }
+    }
+
+    /* ===============================
+       2) INSERT REMAINING TABLES
+       =============================== */
+    foreach ($data as $tableName => $rows) {
+
+        if (in_array($tableName, $priority)) continue;
+        if (!is_array($rows) || count($rows) === 0) continue;
+
+        $tableName = str_replace(['`', ';', ' ', '-', '.', '/'], '', $tableName);
+
+        foreach ($rows as $row) {
+
+            if (!isset($row['id'])) continue;
+
+            $columns = array_keys($row);
+
+            $colList = implode(", ", array_map(fn($c) => "`$c`", $columns));
+            $placeholders = implode(", ", array_map(fn($c) => ":$c", $columns));
+
+            $updateList = implode(", ", array_map(
+                fn($c) => "`$c` = VALUES(`$c`)",
+                array_filter($columns, fn($c) => $c !== 'id')
+            ));
+
+            $sql = "
+                INSERT INTO `$tableName` ($colList)
+                VALUES ($placeholders)
+                ON DUPLICATE KEY UPDATE $updateList
+            ";
+
+            $stmt = $pdo->prepare($sql);
+
             foreach ($row as $key => $value) {
                 $stmt->bindValue(":$key", $value);
             }

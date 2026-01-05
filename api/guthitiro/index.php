@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set("Asia/Kathmandu");
 if (!headers_sent()) {
     header("Content-Type: application/json; charset=UTF-8");
     // header("Access-Control-Allow-Origin: *");
@@ -158,6 +159,9 @@ if ($method === "GET") {
             break;
         case "getdistinctwards":
             getDistinctWardsHandler($pathParts[1] ?? null);
+            break;
+ 	case "getvouchers":
+            getVouchers($pathParts[1] ?? null, $pathParts[2] ?? null);
             break;    
         default:
             notFound();
@@ -191,6 +195,9 @@ if ($method === "GET") {
         case "updatetender":
             updateTenderHandler();
             break;
+        case "updatevoucher":
+            updateVoucherHandler();
+            break;
         case "getkittadetails":
             getKittaDetailsHandler();
             break;
@@ -200,6 +207,9 @@ if ($method === "GET") {
     case "deleteland":
             deleteLandHandler();
             break;
+    case "updateratesininvoicebyid":
+        updateRatesInInvoiceByid();
+        break;
         default:
             methodNotAllowed();
     }
@@ -751,7 +761,7 @@ function getLandSubTypesHandler() {
     if (!$pdo) dbUnavailable("Main");
 
     try {
-        $stmt = $pdo->query("SELECT * FROM land_sub_type ORDER BY land_sub_type_name");
+        $stmt = $pdo->query("SELECT * FROM land_sub_type ORDER BY id");
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode(["status" => true, "data" => $data]);
         exit();
@@ -1006,7 +1016,7 @@ function getOldTendersByShrestaHandler($shrestaId) {
     if (!$pdo) dbUnavailable("Main");
 
     try {
-        $sql = "SELECT a.aaba_id, b.aaba_name, ndate, tender_no, SUM(amount) AS amount
+        $sql = "SELECT a.id,a.shresta_id,a.aaba_id, b.aaba_name,edate,a.mon, ndate, tender_no, SUM(amount) AS amount
                 FROM invoice_tender a
                 INNER JOIN aabas b ON a.aaba_id = b.id
                 WHERE shresta_id = :shrestaId
@@ -1178,6 +1188,124 @@ function updateTenderHandler(){
         exit();
     }
 }
+function updateVoucherHandler() {
+    try {
+        $pdo = getPDO();
+        if (!$pdo) {
+            echo json_encode([
+                "status" => false,
+                "message" => "Database connection failed"
+            ]);
+        }
+
+        // Read JSON body
+        $input = json_decode(file_get_contents("php://input"), true);
+        if (!$input) {
+            echo json_encode([
+                "status" => false,
+                "message" => "Invalid request body"
+            ]);
+        }
+
+        // Required fields (id is optional)
+        $required = ['aaba_id','ndate','edate','mon','amount','user_id','office_id'];
+        foreach ($required as $field) {
+            if (!isset($input[$field])) {
+                echo json_encode([
+                    "status" => false,
+                    "message" => "$field is required"
+                ]);
+            }
+        }
+
+        $id = (int)($input['id'] ?? 0);
+
+        /* ================= UPDATE ================= */
+        if ($id > 0) {
+
+            $sql = "
+                UPDATE vouchers SET
+                    office_id = :office_id,
+                    aaba_id   = :aaba_id,
+                    ndate     = :ndate,
+                    edate     = :edate,
+                    mon       = :mon,
+                    amount    = :amount,
+                    updated_by_user_id = :user_id,
+                    updated_at = NOW()
+                WHERE id = :id
+            ";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':office_id' => $input['office_id'],
+                ':aaba_id'   => $input['aaba_id'],
+                ':ndate'     => $input['ndate'],
+                ':edate'     => $input['edate'],
+                ':mon'       => $input['mon'],
+                ':amount'    => $input['amount'],
+                ':user_id'   => $input['user_id'],
+                ':id'        => $id
+            ]);
+
+            echo json_encode([
+                "status"  => true,
+                "message" => "भौचर विवरण संशोधन भयो।"
+            ], JSON_UNESCAPED_UNICODE);
+            exit();
+        }
+
+        /* ================= INSERT ================= */
+        $sql = "
+            INSERT INTO vouchers (
+                office_id,
+                aaba_id,
+                ndate,
+                edate,
+                mon,
+                amount,
+                created_by_user_id,
+                created_at
+            ) VALUES (
+                :office_id,
+                :aaba_id,
+                :ndate,
+                :edate,
+                :mon,
+                :amount,
+                :user_id,
+                NOW()
+            )
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':office_id' => $input['office_id'],
+            ':aaba_id'   => $input['aaba_id'],
+            ':ndate'     => $input['ndate'],
+            ':edate'     => $input['edate'],
+            ':mon'       => $input['mon'],
+            ':amount'    => $input['amount'],
+            ':user_id'   => $input['user_id']
+        ]);
+
+        echo json_encode([
+            "status"  => true,
+            "message" => "नयाँ भौचर सफलतापूर्वक थपियो।",
+            "id"      => $pdo->lastInsertId()
+        ], JSON_UNESCAPED_UNICODE);
+        exit();
+
+    } catch (Exception $e) {
+        echo json_encode([
+            "status"  => false,
+            "message" => "Server Error",
+            "error"   => $e->getMessage()
+        ]);
+        exit();
+    }
+}
+
 function duplilandHandler($landId) {
     if (!$landId) invalidInput("land_id");
 
@@ -1657,46 +1785,87 @@ function insertIntoDetail($pdo, $data, $invoice_header_id) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$invoice_header_id, $data['invoice_no'], $data['aaba_id'], $data['shresta_id']]);
 }
-function updateRaitaniRatesInDetail($pdo, $invoice_header_id) {
-    $sql = "UPDATE invoice_details AS i
-            JOIN rates_raitani AS r
-            ON i.rate_aaba_id BETWEEN r.start_aaba_id AND r.end_aaba_id
-            AND i.palika_type_id = r.palika_type_id
-            AND i.area_type_id = r.area_type_id
-            SET i.rate = r.rate, i.unit_rate = r.unit_rate, i.amount = ROUND(r.unit_rate * i.area_units,2)
-            WHERE i.invoice_header_id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$invoice_header_id]);
-
-    $sql1 = "UPDATE invoice_header h 
-             JOIN (SELECT invoice_header_id, SUM(ROUND(amount,2)) AS total FROM invoice_details GROUP BY invoice_header_id) d
-             ON h.id = d.invoice_header_id
-             SET h.invoice_amount = d.total, h.final_amount = d.total
-             WHERE h.id = ?";
-    $stmt1 = $pdo->prepare($sql1);
-    $stmt1->execute([$invoice_header_id]);
-}
 function updateAdhinastaRatesInDetail($pdo, $invoice_header_id) {
-    $sql = "UPDATE invoice_details AS i
+    try {
+        // Update invoice details
+        $sql = "
+            UPDATE invoice_details AS i
             JOIN rates_adhinasta AS r
             ON i.rate_aaba_id BETWEEN r.start_aaba_id AND r.end_aaba_id
             AND i.palika_type_id = r.palika_type_id
             AND i.land_type_id = r.land_type_id
             AND i.land_sub_type_id = r.land_sub_type_id
             AND i.area_type_id = r.area_type_id
-            SET i.rate = r.rate, i.unit_rate = r.unit_rate, i.amount = ROUND(r.unit_rate * i.area_units,2)
-            WHERE i.invoice_header_id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$invoice_header_id]);
+            SET i.rate = r.rate,
+                i.unit_rate = r.unit_rate,
+                i.amount = ROUND(r.unit_rate * i.area_units,2)
+            WHERE i.invoice_header_id = ?
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$invoice_header_id]);
 
-    $sql1 = "UPDATE invoice_header h 
-             JOIN (SELECT invoice_header_id, SUM(ROUND(amount,2)) AS total FROM invoice_details GROUP BY invoice_header_id) d
-             ON h.id = d.invoice_header_id
-             SET h.invoice_amount = d.total, h.final_amount = d.total
-             WHERE h.id = ?";
-    $stmt1 = $pdo->prepare($sql1);
-    $stmt1->execute([$invoice_header_id]);
+        // Update invoice header totals
+        $sql1 = "
+            UPDATE invoice_header h 
+            JOIN (
+                SELECT invoice_header_id, SUM(ROUND(amount,2)) AS total
+                FROM invoice_details
+                GROUP BY invoice_header_id
+            ) d ON h.id = d.invoice_header_id
+            SET h.invoice_amount = d.total,
+                h.final_amount = d.total
+            WHERE h.id = ?
+        ";
+        $stmt1 = $pdo->prepare($sql1);
+        $stmt1->execute([$invoice_header_id]);
+
+        return true;
+
+    } catch (PDOException $e) {
+        error_log("Adhinasta update error: " . $e->getMessage());
+        return false;
+    }
 }
+function updateRaitaniRatesInDetail($pdo, $invoice_header_id) {
+    try {
+        // Update invoice details
+        $sql = "
+            UPDATE invoice_details AS i
+            JOIN rates_raitani AS r
+            ON i.rate_aaba_id BETWEEN r.start_aaba_id AND r.end_aaba_id
+            AND i.palika_type_id = r.palika_type_id
+            AND i.area_type_id = r.area_type_id
+            SET i.rate = r.rate,
+                i.unit_rate = r.unit_rate,
+                i.amount = ROUND(r.unit_rate * i.area_units,2)
+            WHERE i.invoice_header_id = ?
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$invoice_header_id]);
+
+        // Update invoice header totals
+        $sql1 = "
+            UPDATE invoice_header h 
+            JOIN (
+                SELECT invoice_header_id, SUM(ROUND(amount,2)) AS total
+                FROM invoice_details
+                GROUP BY invoice_header_id
+            ) d ON h.id = d.invoice_header_id
+            SET h.invoice_amount = d.total,
+                h.final_amount = d.total
+            WHERE h.id = ?
+        ";
+        $stmt1 = $pdo->prepare($sql1);
+        $stmt1->execute([$invoice_header_id]);
+
+        return true;
+
+    } catch (PDOException $e) {
+        error_log("Raitani update error: " . $e->getMessage());
+        return false;
+    }
+}
+
 function updateDiscountsHandler() {
     $data = json_decode(file_get_contents('php://input'), true);
     if (!$data || !isset($data['invoiceid'], $data['radiovalue'], $data['seldiscount'])) {
@@ -2379,6 +2548,105 @@ function deleteLandHandler() {
         respondDbError($e);
     }
 }
+function getVouchers($aaba_id,$office_id) {
+    $pdo = getPDO();
+    if (!$pdo) return dbUnavailable("Remote");
+
+    if (!$office_id || !$aaba_id) {
+        return invalidInput("office_id or aaba_id");
+    }
+
+    try {
+        $stmt = $pdo->prepare("
+            SELECT a.*,b.aaba_name,c.office_name
+            FROM vouchers a
+            INNER JOIN aabas b ON a.aaba_id = b.id
+            INNER JOIN offices c ON a.office_id = c.id
+            WHERE a.office_id = ? AND a.aaba_id = ?
+        ");
+
+        $stmt->execute([$office_id, $aaba_id]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode([
+            "status"  => true,
+            "message" => "भौचर सूची प्राप्त भयो",
+            "data"    => $results
+        ], JSON_UNESCAPED_UNICODE);
+
+    } catch (PDOException $e) {
+        respondDbError($e);
+    }
+}
+
+function updateRatesInInvoiceByid() {
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
+
+    // Read JSON body
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    $invoice_id = $input['invoice_id'] ?? null;
+    $shresta_id = $input['shresta_id'] ?? null;
+
+    if (!$invoice_id) invalidInput("invoice_id");
+    if (!$shresta_id) invalidInput("shresta_id");
+
+    try {
+        // -----------------------------
+        // Get guthi_type_id from shresta_header
+        // -----------------------------
+        $stmt = $pdo->prepare(
+            "SELECT guthi_type_id 
+             FROM shresta_header 
+             WHERE id = :shresta_id"
+        );
+        $stmt->execute(['shresta_id' => $shresta_id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            echo json_encode([
+                "status" => false,
+                "message" => "श्रेष्ता विवरण फेला परेन ।"
+            ], JSON_UNESCAPED_UNICODE);
+            exit();
+        }
+
+        $guthi_type_id = (int)$row['guthi_type_id'];
+
+        // -----------------------------
+        // Update rates based on guthi type
+        // -----------------------------
+        if ($guthi_type_id === 1) {
+
+            // === ADHINASTA ===
+            $result = updateAdhinastaRatesInDetail($pdo,$invoice_id);
+
+        } else {
+
+            // === RAITANI ===
+            $result = updateRaitaniRatesInDetail($pdo,$invoice_id);
+        }
+
+        if ($result === true) {
+            echo json_encode([
+                "status" => true,
+                "message" => "सफलतापुर्वक गणना भयो ।"
+            ], JSON_UNESCAPED_UNICODE);
+            exit();
+        }
+
+        echo json_encode([
+            "status" => false,
+            "message" => "गणना गर्न सकिएन ।"
+        ], JSON_UNESCAPED_UNICODE);
+        exit();
+
+    } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
+
 
 function notFound() { http_response_code(404); echo json_encode(["status"=>false,"message"=>"Not Found"]); exit(); }
 function methodNotAllowed() { http_response_code(405); echo json_encode(["status"=>false,"message"=>"Method Not Allowed"]); exit(); }

@@ -23,6 +23,7 @@ function getPDO() {
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
             ]
+
         );
     } catch (PDOException $e) {
         error_log("Remote DB connection failed: " . $e->getMessage());
