@@ -40,11 +40,11 @@ export class TenderreportComponent {
   }, 500);
 }
 
-  showTenderForm(id: any) {
+  showTenderForm(data: any) {
     this.matDailog.open(EditTenderComponent,{
       width: "600px",
       height: "500px",
-      data: id}
+      data: data}
     )
   }
 }
