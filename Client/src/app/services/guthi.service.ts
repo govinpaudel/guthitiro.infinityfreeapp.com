@@ -137,8 +137,8 @@ export class GuthiService {
   getInvoicesByOfficeId(officeid: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getInvoicesByOfficeId/" + officeid)
   }
-  updateRatesInInvoiceByid(invoice_id: any, shresta_id: any) {
-    return this.httpclient.put(this.apiUrl + "/guthitiro/updateRatesInInvoiceByid/" + invoice_id + "/" + shresta_id, {})
+  updateRatesInInvoiceByid(data:any) {
+    return this.httpclient.post(this.apiUrl + "/guthitiro/updateRatesInInvoiceByid",data)
   }
   getmonthsum(office_id: any, aaba_id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getmonthsum/" + office_id + "/" + aaba_id, {})

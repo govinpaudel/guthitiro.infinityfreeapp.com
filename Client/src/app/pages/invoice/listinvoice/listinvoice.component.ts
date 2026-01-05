@@ -96,11 +96,11 @@ export class ListInvoiceComponent implements OnInit {
     })
   }
 
-  showTenderForm(id: any) {
+  showTenderForm(data: any) {
     let matDailog = this.matDailog.open(EditTenderComponent, {
       width: "600px",
       height: "500px",
-      data: id
+      data: data
     })
     matDailog.afterClosed().subscribe((item: any) => {
       if (item == true) {

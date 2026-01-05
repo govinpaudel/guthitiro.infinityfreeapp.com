@@ -27,7 +27,7 @@ export class SyncDataComponent {
 
     this.ipForm = this.fb.group({
       ip: [
-        '',
+        '127.0.0.1',
         [
           Validators.required,
           Validators.pattern(
@@ -65,7 +65,8 @@ export class SyncDataComponent {
         'tenant_type',
         'tenders',
         'users',
-        'wards'
+        'wards',
+        'vouchers'
       ]
     };
 

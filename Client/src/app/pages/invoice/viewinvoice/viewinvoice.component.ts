@@ -111,7 +111,11 @@ export class ViewinvoiceComponent implements OnInit {
   }
   calulateRateAgain(invoice_id: any, shresta_id: any) {
     this.loader.start();
-    this.guthiService.updateRatesInInvoiceByid(invoice_id, shresta_id).subscribe(
+    const data={
+      invoice_id:invoice_id,
+      shresta_id:shresta_id
+    }
+    this.guthiService.updateRatesInInvoiceByid(data).subscribe(
       {
         next: (res: any) => {
           this.toaster.success(res.message);
