@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="row">
+        <mat-toolbar>
+            <h1 class="text text-primary">भौचर दर्ता । संशोधन फाराम</h1>
+        </mat-toolbar>
+    </div>
+    <form [formGroup]="voucherForm">
+        <div class="row">
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>आ.व.</mat-label>
+                <input matInput type="text"  formControlName="aaba_id">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>मिति</mat-label>
+                <input matInput type="text"  formControlName="ndate" (keyup)="changeDate()">
+            </mat-form-field>           
+        </div>
+        <div class="row">
+              <mat-form-field appearance="outline" class="col">
+                <mat-label>महिना</mat-label>
+                <input matInput type="text"  formControlName="mon">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>Date</mat-label>
+                <input matInput type="text"  formControlName="edate">
+            </mat-form-field>
+          
+        </div>
+        
+        <div class="row">
+            <mat-form-field appearance="outline" class="col">
+                <mat-label>रकम</mat-label>
+                <input matInput type="text"  formControlName="amount">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <button class="mybtn" [disabled]="!(voucherForm.valid && voucherForm.dirty)" class="mybtn" mat-flat-button
+                color="primary" (click)="onSubmit()" color="primary">सेभ गर्नुहोस्</button>
+        </div>
+        <hr/>
+        <div class="row">
+            <button class="mybtn" mat-flat-button color="accent" mat-dialog-close="false">रद्द गर्नुहोस्</button>
+        </div>
+    </form>
+</div>

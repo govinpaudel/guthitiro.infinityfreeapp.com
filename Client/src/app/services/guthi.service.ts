@@ -159,6 +159,9 @@ export class GuthiService {
   updateTender(data: any) {
     return this.httpclient.post(this.apiUrl + "/guthitiro/updateTender", data)
   }
+  updateVoucher(data: any) {
+    return this.httpclient.post(this.apiUrl + "/guthitiro/updateVoucher", data)
+  }
   getDistinctPalika(office_id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getDistinctPalika/" + office_id)
   }
@@ -167,6 +170,9 @@ export class GuthiService {
   }
   getDistinctWards(gabisa_id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getDistinctWards/" + gabisa_id)
+  }
+  getVouchers(aaba_id:any,office_id:any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getVouchers/" + aaba_id+"/"+office_id)
   }
   getKittaDetails(formdata:any) {
     return this.httpclient.post(this.apiUrl + "/guthitiro/getKittaDetails",formdata)

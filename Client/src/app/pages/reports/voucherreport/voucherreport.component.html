@@ -1,0 +1,95 @@
+<div class="container-fluid">
+
+    <mat-card>
+        <mat-card-header class="header-flex">
+            <mat-card-title>भौचर विवरण</mat-card-title>
+
+            <span class="spacer"></span>
+
+            <button mat-raised-button color="primary" (click)="showAddEditForm(0)">
+                
+                Add
+            </button>
+        </mat-card-header>
+
+        <mat-card-content>
+
+            <div class="table-responsive" *ngIf="voucherData.length; else noData">
+
+                <table mat-table [dataSource]="voucherData" class="mat-elevation-z2 w-100">
+
+                    <!-- SN -->
+                    <ng-container matColumnDef="sn">
+                        <th mat-header-cell *matHeaderCellDef>क्र.सं.</th>
+                        <td mat-cell *matCellDef="let row; let i = index">
+                            {{ i + 1 }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Office Name -->
+                    <ng-container matColumnDef="office_name">
+                        <th mat-header-cell *matHeaderCellDef>कार्यालय</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.office_name }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Aaba Name -->
+                    <ng-container matColumnDef="aaba_name">
+                        <th mat-header-cell *matHeaderCellDef>आ.व.</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.aaba_name }}
+                        </td>
+                    </ng-container>
+
+                    <!-- English Date -->
+                    <ng-container matColumnDef="edate">
+                        <th mat-header-cell *matHeaderCellDef>मिति (ई.)</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.edate | date:'yyyy-MM-dd' }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Nepali Date -->
+                    <ng-container matColumnDef="ndate">
+                        <th mat-header-cell *matHeaderCellDef>मिति (ने.)</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.ndate }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Amount -->
+                    <ng-container matColumnDef="amount">
+                        <th mat-header-cell *matHeaderCellDef class="text-end">रकम</th>
+                        <td mat-cell *matCellDef="let row" class="text-end">
+                            {{ row.amount | number:'1.2-2' }}
+                        </td>
+                    </ng-container>
+                    <!-- Action -->
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="text-end">कृयाकलाप</th>
+                        <td class="text-end"  mat-cell *matCellDef="let row">
+                            <button mat-raised-button color="primary" (click)="showAddEditForm(row)">
+                               
+                                Edit
+                            </button>
+                        </td>
+                    </ng-container>
+                    <!-- Header & Row -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                </table>
+            </div>
+
+            <!-- No Data -->
+            <ng-template #noData>
+                <div class="text-center text-muted p-4">
+                    कुनै डाटा उपलब्ध छैन
+                </div>
+            </ng-template>
+
+        </mat-card-content>
+    </mat-card>
+
+</div>
