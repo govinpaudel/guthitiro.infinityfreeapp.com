@@ -1,0 +1,26 @@
+<!-- report.component.html -->
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>श्रेष्ता नं</th>
+            <th>रसिद</th>
+            <th>तिरो आ.व.</th>
+            <th>जग्गाधनी/मोही</th>
+            <th>रकम</th>            
+            <th>भुक्तानीको अवस्था</th>           
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of reportData">
+            <td>{{ item.shresta_id }}</td>
+            <td>{{ item.invoice_no }}</td>
+            <td>{{ item.invoice_aaba_id }}</td>
+            <td>{{ item.tenant_name }}</td>            
+            <td>{{ item.final_amount | number:'1.2-2' }}</td>            
+            <td>
+                <span *ngIf="item.paid_status === 1" class="text-success">भएको</span>
+                <span *ngIf="item.paid_status === 0" class="text-danger">बाँकी</span>
+            </td>      
+        </tr>
+    </tbody>
+</table>

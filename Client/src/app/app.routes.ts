@@ -21,6 +21,7 @@ import { SearchbykittaComponent } from './pages/reports/searchbykitta/searchbyki
 import { MonthlyreportinvoiceComponent } from './pages/reports/monthlyreportinvoice/monthlyreportinvoice.component';
 import { SyncDataComponent } from './pages/settings/sync-data/sync-data.component';
 import { VoucherreportComponent } from './pages/reports/voucherreport/voucherreport.component';
+import { PendingpaymentComponent } from './pages/reports/pendingpayment/pendingpayment.component';
 
 export const routes: Routes = [
     {path:"",title:"GKMS | लगईन गर्नुहोस्",redirectTo:'login',pathMatch:'full'},
@@ -46,7 +47,9 @@ export const routes: Routes = [
             {path:"monthlyreport",title:"GKMS | रिपोर्ट",component:MonthlyreportComponent},
             {path:'tenderreport',title:"GKMS । टेन्डर रिपोर्ट",component:TenderreportComponent},
             {path:'searchbykitta',title:"GKMS । कित्ता खोजी",component:SearchbykittaComponent},
-            {path:'voucherreport',title:"GKMS । भौचर रिपोर्ट",component:VoucherreportComponent}
+            {path:'voucherreport',title:"GKMS । भौचर रिपोर्ट",component:VoucherreportComponent},
+            {path:'pendingpayment',title:"GKMS । भुक्तानी बाँकी",component:PendingpaymentComponent}
+
         ]
     },
 ];

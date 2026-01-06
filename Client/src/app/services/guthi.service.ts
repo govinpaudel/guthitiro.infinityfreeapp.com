@@ -83,6 +83,10 @@ export class GuthiService {
   getInvoicesByShresta(id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getInvoicesByShresta/" + id)
   }
+  getPendingInvoicesByOfficeId(id: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getPendingInvoicesByOfficeId/" + id)
+  }
+
   genInvoice(data: any) {
     return this.httpclient.post(this.apiUrl + "/guthitiro/genInvoice", data)
   }
