@@ -44,6 +44,7 @@ export class AreaToUnitsService {
     let totarea = "";
     if (type == 1) {
       let x = data;
+      let sqm=x*(508.74/256);
       let ur = 0;
       let bd = 0;
       let ua = 0;
@@ -54,7 +55,7 @@ export class AreaToUnitsService {
       bd = bd - (ua * 16);
       ud = Math.floor(bd / 4)
       bd = bd - (ud * 4);
-      totarea = ur + " रोपनी " + ua + " आना " + ud + " पैसा " + bd + " दाम";
+      totarea = ur + " रोपनी " + ua + " आना " + ud + " पैसा " + bd + " दाम" + sqm + " वर्ग मिटर";
       return totarea;
     }
     else {
@@ -62,6 +63,4 @@ export class AreaToUnitsService {
     }
     return totarea;
   }
-
-
 }

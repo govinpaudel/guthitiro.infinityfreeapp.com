@@ -39,7 +39,6 @@ export class LagatreportComponent implements OnInit {
       }
     )
     this.loader.stop();
-
   }
   exportToExcel(): void {
     this.loader.start();
