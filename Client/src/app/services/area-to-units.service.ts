@@ -45,6 +45,7 @@ export class AreaToUnitsService {
     if (type == 1) {
       let x = data;
       let sqm=x*(508.74/256);
+      sqm = Math.round(sqm * 100) / 100;
       let ur = 0;
       let bd = 0;
       let ua = 0;
