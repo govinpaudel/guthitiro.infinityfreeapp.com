@@ -213,7 +213,6 @@ export class AddLandComponent implements OnInit {
     this.landForm.get('area').setValue(newdata1)
     const type = this.landForm.get('area_type_id').value
     const newdata = this.areaToUnitsService.areaToUnits(data, type)
-    this.landForm.get('area_units').setValue(newdata)
-
+    this.landForm.get('area_units').setValue(newdata);    
   }
 }
