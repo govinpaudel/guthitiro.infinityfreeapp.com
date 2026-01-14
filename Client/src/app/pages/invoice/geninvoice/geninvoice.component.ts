@@ -40,7 +40,10 @@ export class GenInvoiceComponent implements OnInit {
   }
 
   loadAabas(): void {
-    this.guthiService.getAabas().subscribe((res: any) => {
+    const data={
+      table_name:'aabas'
+    }
+    this.guthiService.getAll(data).subscribe((res: any) => {
       this.aabas = res.data || [];
 
       const currentAaba = this.aabas.find((aaba: any) => aaba.is_current == 1);

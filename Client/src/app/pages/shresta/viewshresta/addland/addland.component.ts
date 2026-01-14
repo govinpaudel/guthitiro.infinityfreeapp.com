@@ -3,11 +3,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { MaterialModule } from '../../../shared/material';
-import { GuthiService } from '../../../services/guthi.service';
-import { AuthService } from '../../../services/auth.service';
-import { AreaToUnitsService } from '../../../services/area-to-units.service';
-import { FormErrorComponent } from '../../../shared/form-error/form-error.component';
+import { MaterialModule } from '../../../../shared/material';
+import { GuthiService } from '../../../../services/guthi.service';
+import { AuthService } from '../../../../services/auth.service';
+import { AreaToUnitsService } from '../../../../services/area-to-units.service';
+import { FormErrorComponent } from '../../../../shared/form-error/form-error.component';
 
 @Component({
   selector: 'app-addland',
@@ -40,6 +40,7 @@ export class AddLandComponent implements OnInit {
   ngOnInit(): void {
     this.landForm = this.formbuilder.group(
       {
+        shresta_id: ['', Validators.required],
         state_id: ['', Validators.required],
         district_id: ['', Validators.required],
         palika_type_id: ['', Validators.required],
@@ -60,41 +61,50 @@ export class AddLandComponent implements OnInit {
     this.getAreaTypes()
     this.getLandTypes()
     this.getLandSubTypes()
-    if (this.aayekodata.land_id > 0) {
-      this.getEditData(this.aayekodata.land_id)
+    console.log('aayekodata',this.aayekodata)
+    this.landForm.patchValue({
+          shresta_id: this.aayekodata.shresta.shresta_id
+        })
+    if(this.aayekodata.land.id>0){
+    this.getEditData(this.aayekodata.land)
     }
+    
+      
+    
   }
-  getEditData(id: any) {
-    this.guthiService.getLandByid(id).subscribe(
-      (res: any) => {
-        this.editData = res.data;
+  getEditData(land: any) {   
+    console.log("editdata",land) 
         this.landForm.setValue({
-          state_id: this.editData[0].state_id,
-          district_id: this.editData[0].district_id,
-          palika_type_id: this.editData[0].palika_type_id,
-          palika_id: this.editData[0].palika_id,
-          gabisa_id: this.editData[0].gabisa_id,
-          ward_no: this.editData[0].ward_no,
-          kitta_no: this.editData[0].kitta_no,
-          land_type_id: this.editData[0].land_type_id,
-          land_sub_type_id: this.editData[0].land_sub_type_id,
-          area_type_id: this.editData[0].area_type_id,
-          area: this.editData[0].area,
-          area_units: this.editData[0].area_units
+          shresta_id: land.shresta_id,
+          state_id: land.state_id,
+          district_id: land.district_id,
+          palika_type_id: land.palika_type_id,
+          palika_id: land.palika_id,
+          gabisa_id: land.gabisa_id,
+          ward_no: land.ward_no,
+          kitta_no: land.kitta_no,
+          land_type_id: land.land_type_id,
+          land_sub_type_id: land.land_sub_type_id,
+          area_type_id: land.area_type_id,
+          area: land.area,
+          area_units: land.area_units
         })
         this.areaToUnits();
-        this.getdistrictByState(this.editData[0].state_id)
-        this.getLocalTypesByDistrict(this.editData[0].district_id)
+        this.getdistrictByState(this.aayekodata.state_id)
+        this.getLocalTypesByDistrict(this.aayekodata.district_id)
         this.getPalikaByDistrictAndType()
         this.gabisaByDistrictAndPalikaId()
-      }
-    )
+      
+    
   }
   getUserDetails() {
     this.userData = this.authService.getUser()
   }
   getStates() {
-    this.guthiService.getStates().subscribe(
+    const data={
+      table_name:"states"
+    }
+    this.guthiService.getAll(data).subscribe(
       (res: any) => {
         this.states = res.data;
         console.log('getStates', 'data', this.states)
@@ -140,7 +150,10 @@ export class AddLandComponent implements OnInit {
     )
   }
   getPalikaTypes() {
-    this.guthiService.getPalikaTypes().subscribe(
+    const data={
+      table_name:'palika_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       (res: any) => {
         this.palika_types = res.data;
         console.log('getPalikaTypes', this.palika_types);
@@ -148,7 +161,10 @@ export class AddLandComponent implements OnInit {
     )
   }
   getWards() {
-    this.guthiService.getWards().subscribe(
+    const data={
+      table_name:'wards'
+    }
+    this.guthiService.getAll(data).subscribe(
       (res: any) => {
         this.wards = res.data;
         console.log('loadWards', this.wards);
@@ -157,7 +173,10 @@ export class AddLandComponent implements OnInit {
   }
 
   getLandTypes() {
-    this.guthiService.getLandTypes().subscribe(
+    const data={
+      table_name:'land_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       (res: any) => {
         this.land_types = res.data;
         console.log('getLandTypes', this.land_types);
@@ -166,7 +185,10 @@ export class AddLandComponent implements OnInit {
   }
 
   getLandSubTypes() {
-    this.guthiService.getLandSubTypes().subscribe(
+    const data={
+      table_name:'land_sub_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       (res: any) => {
         this.land_sub_types = res.data;
         console.log('getLandSubTypes', this.land_sub_types);
@@ -175,7 +197,10 @@ export class AddLandComponent implements OnInit {
   }
 
   getAreaTypes() {
-    this.guthiService.getAreaTypes().subscribe(
+    const data={
+      table_name:'area_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       (res: any) => {
         this.area_types = res.data;
         console.log('loadAreaTypes', this.area_types);
@@ -185,8 +210,8 @@ export class AddLandComponent implements OnInit {
   onSubmit() {
     const formdata = this.landForm.getRawValue();
     console.log(formdata);
-    const newdata = { ...formdata, office_id: this.userData.office_id, user_id: this.userData.id, shresta_id: this.aayekodata.shresta_id, land_id: this.aayekodata.land_id,guthi_type_id: this.aayekodata.guthi_type_id }
-    console.log(newdata);
+    const newdata = { ...formdata, office_id: this.userData.office_id, user_id: this.userData.id, land_id: this.aayekodata.land.id,guthi_type_id: this.aayekodata.shresta.guthi_type_id }
+    console.log("new data",newdata);
     this.guthiService.AddOrUpdateLand(newdata).subscribe(
       {
         next: (res: any) => {

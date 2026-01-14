@@ -52,7 +52,10 @@ export class UpdaterratesComponent implements OnInit {
     this.loadEditData(this.data.guthi_type_id,this.data.id);
   }
   getAabas() {
-    this.guthiService.getAabas().subscribe(
+    const data={
+      table_name:'aabas'
+    }
+    this.guthiService.getAll(data).subscribe(
       {
         next: (res: any) => {
           this.aabas = res.data;
@@ -64,7 +67,10 @@ export class UpdaterratesComponent implements OnInit {
     )
   }
   getGuthiTypes() {
-    this.guthiService.getGuthiTypes().subscribe(
+    const data={
+      table_name:'guthi_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       {
         next: (res: any) => {
           this.guthi_types = res.data;
@@ -76,7 +82,10 @@ export class UpdaterratesComponent implements OnInit {
     )
   }
   getPalikaTypes() {
-    this.guthiService.getPalikaTypes().subscribe(
+    const data={
+      table_name:'palika_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       {
         next: (res: any) => {
           this.palika_types = res.data;
@@ -88,7 +97,10 @@ export class UpdaterratesComponent implements OnInit {
     )
   }
   getLandTypes() {
-    this.guthiService.getLandTypes().subscribe(
+    const data={
+      table_name:'land_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       {
         next: (res: any) => {
           this.land_types = res.data;
@@ -100,7 +112,10 @@ export class UpdaterratesComponent implements OnInit {
     )
   }
   getLandSubTypes() {
-    this.guthiService.getLandSubTypes().subscribe(
+    const data={
+      table_name:'land_sub_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       {
         next: (res: any) => {
           this.land_sub_types = res.data;
@@ -112,7 +127,10 @@ export class UpdaterratesComponent implements OnInit {
     )
   }
   getAreaTypes() {
-    this.guthiService.getAreaTypes().subscribe(
+    const data={
+      table_name:'area_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       {
         next: (res: any) => {
           this.area_types = res.data;

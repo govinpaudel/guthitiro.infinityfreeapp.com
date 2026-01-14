@@ -1,11 +1,15 @@
 <div class="container">
-  <div class="row">
-    <mat-toolbar>
-      {{aayekodata.title}}
-    </mat-toolbar>
-  </div>
   <form [formGroup]="landForm">
+  <div class="row">
+    <mat-toolbar class="row">
+      <div class="col">{{aayekodata.title}}</div>         
+    </mat-toolbar>
+  </div>  
     <div class="row">
+      <mat-form-field appearance="outline" class="col">
+        <mat-label>श्रेष्ता नं</mat-label>
+        <input matInput formControlName="shresta_id" type="number" required>
+        </mat-form-field>
       <mat-form-field appearance="outline" class="col">
         <mat-label>प्रदेश</mat-label>
         <mat-select formControlName="state_id" required (selectionChange)="getdistrictByState($event.value)">

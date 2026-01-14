@@ -48,7 +48,10 @@ export class AddrratesComponent implements OnInit {
     this.getAreaTypes();    
   }
   getAabas() {
-    this.guthiService.getAabas().subscribe(
+    const data={
+      table_name:'aabas'
+    }
+    this.guthiService.getAll(data).subscribe(
       {
         next: (res: any) => {
           this.aabas = res.data;
@@ -60,7 +63,10 @@ export class AddrratesComponent implements OnInit {
     )
   }
   getGuthiTypes() {
-    this.guthiService.getGuthiTypes().subscribe(
+    const data={
+      table_name:'guthi_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       {
         next: (res: any) => {
           this.guthi_types = res.data;
@@ -72,7 +78,10 @@ export class AddrratesComponent implements OnInit {
     )
   }
   getPalikaTypes() {
-    this.guthiService.getPalikaTypes().subscribe(
+    const data={
+      table_name:'palika_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       {
         next: (res: any) => {
           this.palika_types = res.data;
@@ -84,7 +93,10 @@ export class AddrratesComponent implements OnInit {
     )
   } 
   getAreaTypes() {
-    this.guthiService.getAreaTypes().subscribe(
+    const data={
+      table_name:'area_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       {
         next: (res: any) => {
           this.area_types = res.data;

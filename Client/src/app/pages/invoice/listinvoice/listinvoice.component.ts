@@ -35,20 +35,20 @@ export class ListInvoiceComponent implements OnInit {
     this.guthi_type_id = this.aayekodata.guthi_type_id
   }
   ngOnInit(): void {
-    this.getInvoicesByShresta(this.shrestaid)
-    this.getTenders(this.shrestaid)
+    this.getInvoicesByShrestaId(this.shrestaid)
+    this.getOldTendersByShrestaId(this.shrestaid)
   }
-  getInvoicesByShresta(id: any) {
+  getInvoicesByShrestaId(id: any) {
     this.loader.start();
-    this.guthiService.getInvoicesByShresta(id).subscribe(
+    this.guthiService.getInvoicesByShrestaId(id).subscribe(
       (res: any) => {
         this.invoiceData = res.data;
       }
     )
     this.loader.stop();
   }
-  getTenders(id: any) {
-    this.guthiService.getOldTendersByShresta(id).subscribe(
+  getOldTendersByShrestaId(id: any) {
+    this.guthiService.getOldTendersByShrestaId(id).subscribe(
       {
         next: (res: any) => {
           this.tenderData = res.data;
@@ -73,7 +73,7 @@ export class ListInvoiceComponent implements OnInit {
     })
     matDailog.afterClosed().subscribe((item: any) => {
       if (item == true) {
-        this.getInvoicesByShresta(this.shrestaid)
+        this.getInvoicesByShrestaId(this.shrestaid)
       }
     })
   }
@@ -90,8 +90,8 @@ export class ListInvoiceComponent implements OnInit {
     })
     matDailog.afterClosed().subscribe((item: any) => {
       if (item == true) {
-        this.getInvoicesByShresta(this.shrestaid)
-        this.getTenders(this.shrestaid)
+        this.getInvoicesByShrestaId(this.shrestaid)
+        this.getOldTendersByShrestaId(this.shrestaid)
       }
     })
   }
@@ -104,8 +104,8 @@ export class ListInvoiceComponent implements OnInit {
     })
     matDailog.afterClosed().subscribe((item: any) => {
       if (item == true) {
-        this.getInvoicesByShresta(this.shrestaid)
-        this.getTenders(this.shrestaid)
+        this.getInvoicesByShrestaId(this.shrestaid)
+        this.getOldTendersByShrestaId(this.shrestaid)
       }
     })
   }

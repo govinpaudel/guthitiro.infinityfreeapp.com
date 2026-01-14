@@ -29,7 +29,10 @@ ngOnInit(): void {
   this.loadDiscounts();
 }
 loadDiscounts(){
-  this.guthiService.getFineOrDiscounts().subscribe(
+  const data={
+    table_name:'discounts'
+  }
+  this.guthiService.getAll(data).subscribe(
     (res:any)=>{
       this.alldiscounts=res.data;      
     }

@@ -29,16 +29,16 @@ export class ListShrestaComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUserData()
-    this.loadShrestaData(this.userData.office_id)
+    this.getAllShrestaByOfficeId(this.userData.office_id)
   }
 
   loadUserData() {
     this.userData = this.authService.getUser()
   }
 
-  loadShrestaData(office_id: any) {
+  getAllShrestaByOfficeId(office_id: any) {
     this.loader.start();
-    this.guthiService.getAllShresta(office_id).subscribe(
+    this.guthiService.getAllShrestaByOfficeId(office_id).subscribe(
       (res: any) => {
         this.dataSource = new MatTableDataSource(res.data);
         this.dataSource.paginator = this.paginator;
@@ -47,18 +47,18 @@ export class ListShrestaComponent implements OnInit {
     )
     this.loader.stop();
   }
-  showShrestaAddEditForm(title: any, id: any) {
+  showShrestaAddEditForm(title: any, data: any) {
     let dialogRef = this.matDailog.open(AddShrestaComponent, {
       panelClass: 'custom-dialog-panel',
       height: '600px',
       width: '550px',
       enterAnimationDuration: "500ms",
       exitAnimationDuration: "500ms",
-      data: { title: title, id: id }
+      data: { title: title, data: data }
     });
     dialogRef.afterClosed().subscribe((item: any) => {
       if (item == true) {
-        this.loadShrestaData(this.userData.office_id)
+        this.getAllShrestaByOfficeId(this.userData.office_id)
       }
     })
 

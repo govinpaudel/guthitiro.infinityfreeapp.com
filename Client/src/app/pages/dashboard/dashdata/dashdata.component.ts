@@ -43,13 +43,13 @@ export class DashdataComponent implements OnInit {
     ) { }
     ngOnInit(): void {
         this.userData = this.authService.getUser();
-        this.getDashLandData(this.userData.office_id);
-        this.getDashRevenueData(this.userData.office_id, this.userData.aaba_id);
+        this.getDashLandDataByOfficeId(this.userData.office_id);
+        this.getDashRevenueDataByOfficeId(this.userData.office_id, this.userData.aaba_id);
     }
 
-    getDashRevenueData(id: any, id1: any) {
+    getDashRevenueDataByOfficeId(id: any, id1: any) {
         this.loader.start()
-        this.guthiService.getDashRevenueData(id, id1).subscribe(
+        this.guthiService.getDashRevenueDataByOfficeId(id, id1).subscribe(
             {
                 next: (res: any) => {
                     this.revenueData = res.data;
@@ -65,9 +65,9 @@ export class DashdataComponent implements OnInit {
         )
          this.loader.stop()
     }
-    getDashLandData(id: any) {
+    getDashLandDataByOfficeId(id: any) {
          this.loader.start()
-        this.guthiService.getDashLandData(id).subscribe(
+        this.guthiService.getDashLandDataByOfficeId(id).subscribe(
             {
                 next: (res: any) => {
                     this.landData = res.data;

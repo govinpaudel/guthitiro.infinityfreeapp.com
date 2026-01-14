@@ -1,24 +1,28 @@
 <div class="container">
   <div class="row">
     <mat-toolbar color="primary">
-      <span class="text-primary text-center">{{data.title}}</span>
+      <span class="text-primary text-center">{{aayekodata.title}}</span>
     </mat-toolbar>
   </div>
   <form [formGroup]="shrestaForm">
     <div class="row">
       <mat-form-field appearance="outline" class="col">
         <mat-label>गुठीको नाम</mat-label>
-        <input matInput placeholder="गुठीको नाम" appearance="outline" formControlName="guthi_name" required>
-        <mat-error *ngIf="shrestaForm.controls.guthi_name.touched && shrestaForm.controls.guthi_name.invalid">
-          <span *ngIf="shrestaForm.controls.guthi_name.errors.required">यो क्षेत्र अनिवार्य छ!</span>
-          <span *ngIf="shrestaForm.controls.guthi_name.errors.pattern">गलत डाटा!</span>
+        <mat-select formControlName="guthi_id" required >
+          <mat-option *ngFor="let item of guthis" [value]="item.id">
+            {{item.guthi_name}}
+          </mat-option>
+        </mat-select>
+          <mat-error *ngIf="shrestaForm.controls.guthi_id.touched && shrestaForm.controls.guthi_id.invalid">
+          <span *ngIf="shrestaForm.controls.guthi_id.errors.required">यो क्षेत्र अनिवार्य छ!</span>
+          <span *ngIf="shrestaForm.controls.guthi_id.errors.pattern">गलत डाटा!</span>
         </mat-error>
       </mat-form-field>
     </div>
     <div class="row">
       <mat-form-field appearance="outline" class="col">
         <mat-label>गुठीको प्रकार</mat-label>
-        <mat-select formControlName="guthi_type_id" required (selectionChange)="getTenantTypes($event.value)">
+        <mat-select formControlName="guthi_type_id" required (selectionChange)="filterTenantTypes($event.value)">
           <mat-option *ngFor="let item of guthiTypes" [value]="item.id">
             {{item.guthi_type_name}}
           </mat-option>
@@ -34,7 +38,7 @@
       <mat-form-field appearance="outline" class="col">
         <mat-label>जग्गाधनी / मोही</mat-label>
         <mat-select appearance="outline" formControlName="tenant_type_id" required>
-          <mat-option *ngFor="let item of tenantTypes" [value]="item.id">
+          <mat-option *ngFor="let item of filteredtenantTypes" [value]="item.id">
             {{item.tenant_type_name}}
           </mat-option>
         </mat-select>

@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddShrestaComponent } from '../addshresta/addshresta.component';
 import { MaterialModule } from '../../../shared/material';
 import { GuthiService } from '../../../services/guthi.service';
-import { AddLandComponent } from '../../land/addland/addland.component';
+import { AddLandComponent } from './addland/addland.component';
 import { CommonModule, Location } from '@angular/common';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { AreaToUnitsService } from '../../../services/area-to-units.service';
@@ -23,7 +23,7 @@ export class ViewshrestaComponent implements OnInit {
   landData: any;
   aayekodata: any;
   totland: any;
-  headerData:any;
+  headerData:any=[];
   constructor(private route: ActivatedRoute,
     private areaToUnit: AreaToUnitsService,
     private guthiService: GuthiService,
@@ -37,19 +37,18 @@ export class ViewshrestaComponent implements OnInit {
   }
   ngOnInit(): void {
     console.log('shresta_id', this.aayekodata.shresta_id, 'guthi_type_id', this.aayekodata.guthi_type_id);
-    this.loadLands(this.aayekodata.shresta_id);
-    this.loadHeaderData(this.aayekodata.shresta_id);
+    this.getLandsByShrestaId(this.aayekodata.shresta_id);
+    this.getOneShrestaById(this.aayekodata.shresta_id);
 
   }
-  loadHeaderData(id: any) {
+  getOneShrestaById(id: any) {
     this.loader.start();
     this.loader.stop();
-    this.guthiService.getShrestaById(id).subscribe(
+    this.guthiService.getOneShrestaById(id).subscribe(
       {
         next: (res: any) => {
-          // console.log(res.data);
-          this.headerData=res.data[0];
-          console.log(this.headerData);
+          console.log("header Data",res.data[0]);
+          this.headerData=res.data[0];          
         },
         error: (err: any) => {
           console.log(err)
@@ -60,9 +59,9 @@ export class ViewshrestaComponent implements OnInit {
     )
   }
 
-  loadLands(id: any) {
+  getLandsByShrestaId(id: any) {
     this.loader.start();
-    this.guthiService.getLands(id).subscribe(
+    this.guthiService.getLandsByShrestaId(id).subscribe(
       (res: any) => {
         this.landData = res.data;
         console.log('landdata', this.landData)
@@ -86,7 +85,7 @@ export class ViewshrestaComponent implements OnInit {
         this.guthiService.dupliland(id).subscribe({
           next: (res: any) => {
             this.toaster.success(res.message);
-            this.loadLands(this.aayekodata.shresta_id);
+            this.getLandsByShrestaId(this.aayekodata.shresta_id);
           },
           error: (err: any) => {
             console.log(err);
@@ -96,7 +95,7 @@ export class ViewshrestaComponent implements OnInit {
     });
   }
 
-  ShowAddLandForm(title: any, land_id: any) {
+  ShowAddLandForm(title: any, land: any) {
     let dialogRef = this.matDailog.open(AddLandComponent, {
       height: '450px',
       width: '80%',
@@ -104,12 +103,12 @@ export class ViewshrestaComponent implements OnInit {
       maxHeight: '100vh',
       enterAnimationDuration: "500ms",
       exitAnimationDuration: "500ms",
-      data: { title: title, land_id: land_id, shresta_id: this.aayekodata.shresta_id, guthi_type_id: this.aayekodata.guthi_type_id }
+      data: { title: title, land: land,shresta:this.aayekodata}
     });
 
     dialogRef.afterClosed().subscribe((item: any) => {
       if (item == true) {
-        this.loadLands(this.aayekodata.shresta_id)
+        this.getLandsByShrestaId(this.aayekodata.shresta_id)
       }
     })
   }
@@ -121,7 +120,7 @@ export class ViewshrestaComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((item: any) => {
       if (item == true) {
-        this.loadLands(this.aayekodata.shresta_id)
+        this.getLandsByShrestaId(this.aayekodata.shresta_id)
       }
     })
 
@@ -139,7 +138,7 @@ export class ViewshrestaComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((item: any) => {
       if (item == true) {
-        this.loadLands(this.aayekodata.shresta_id)
+        this.getLandsByShrestaId(this.aayekodata.shresta_id)
       }
     })
   }

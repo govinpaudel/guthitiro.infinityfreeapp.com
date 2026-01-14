@@ -55,7 +55,7 @@ export class AreaToUnitsService {
       bd = bd - (ua * 16);
       ud = Math.floor(bd / 4)
       bd = bd - (ud * 4);
-      totarea = ur + " रोपनी " + ua + " आना " + ud + " पैसा " + bd + " दाम" + sqm + " वर्ग मिटर";
+      totarea = ur + " रोपनी " + ua + " आना " + ud + " पैसा " + bd + " दाम  /  " + sqm + " वर्ग मिटर";
       return totarea;
     }
     else {

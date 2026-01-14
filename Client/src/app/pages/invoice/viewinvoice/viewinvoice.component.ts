@@ -51,12 +51,12 @@ export class ViewinvoiceComponent implements OnInit {
     // console.log("aayeko data", this.aayekodata)
     this.loadInvHeaderData(this.invoiceid)
     this.loadInvDetailData(this.invoiceid)
-    this.getPendingPaymentByShresta(this.shrestaid)
+    this.getPendingPaymentByShrestaId(this.shrestaid)
   }
 
-  getPendingPaymentByShresta(shrestaid: any) {
+  getPendingPaymentByShrestaId(shrestaid: any) {
     this.loader.start();
-    this.guthiService.getPendingPaymentByShresta(shrestaid).subscribe(
+    this.guthiService.getPendingPaymentByShrestaId(shrestaid).subscribe(
       {
         next: (res: any) => {
           this.pendingData = res.data;
@@ -121,7 +121,7 @@ export class ViewinvoiceComponent implements OnInit {
           this.toaster.success(res.message);
           this.loadInvHeaderData(this.invoiceid)
           this.loadInvDetailData(this.invoiceid)
-          this.getPendingPaymentByShresta(this.shrestaid)
+          this.getPendingPaymentByShrestaId(this.shrestaid)
         },
         error: (error: any) => {
           console.log(error)
@@ -140,7 +140,7 @@ export class ViewinvoiceComponent implements OnInit {
       if (item == true) {
         this.loadInvHeaderData(this.invoiceid)
         this.loadInvDetailData(this.invoiceid)
-        this.getPendingPaymentByShresta(this.shrestaid)
+        this.getPendingPaymentByShrestaId(this.shrestaid)
       }
     })
   }
@@ -168,7 +168,7 @@ export class ViewinvoiceComponent implements OnInit {
       if (item == true) {
         this.loadInvHeaderData(this.invoiceid)
         this.loadInvDetailData(this.invoiceid)
-        this.getPendingPaymentByShresta(this.shrestaid)
+        this.getPendingPaymentByShrestaId(this.shrestaid)
       }
     })
   }

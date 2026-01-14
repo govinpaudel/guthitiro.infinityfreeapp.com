@@ -62,7 +62,7 @@ export class oldTenderComponent implements OnInit {
   }
   
   getTenders() {
-    this.guthiService.getOldTendersByShresta(this.data).subscribe(
+    this.guthiService.getOldTendersByShrestaId(this.data).subscribe(
       {
         next: (res: any) => {
           this.old_tenders = res.data;

@@ -90,8 +90,11 @@ export class AddupdatesettingsComponent {
     this.loader.stop();
   }
   getStates() {
+    const data={
+      table_name:'states'
+    }
     this.loader.start();
-    this.guthiService.getStates().subscribe(
+    this.guthiService.getAll(data).subscribe(
       (res: any) => {
         this.states = res.data
       }
@@ -110,7 +113,10 @@ export class AddupdatesettingsComponent {
   }
   getPalikaTypes() {
     this.loader.start();
-    this.guthiService.getPalikaTypes().subscribe(
+    const data={
+      table_name:'palika_type'
+    }
+    this.guthiService.getAll(data).subscribe(
       (res: any) => {
         this.palika_types = res.data
         // console.log(this.tenantTypes)

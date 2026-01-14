@@ -74,7 +74,10 @@ export class TenderComponent implements OnInit {
   }
   
   getTenders() {
-    this.guthiService.getTenders().subscribe(
+    const data={
+      table_name:'tenders'
+    }
+    this.guthiService.getAll(data).subscribe(
       {
         next: (res: any) => {
           this.tenders = res.data;

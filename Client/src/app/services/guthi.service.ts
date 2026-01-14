@@ -11,38 +11,17 @@ export class GuthiService {
   apiUrl: any = environment.apiUrl
   constructor(private httpclient: HttpClient, private router: Router) { }
   //get all masters//
-  getAabas() {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getAabas")
-  }
-  getStates() {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getStates")
-  }
-  getGuthiTypes() {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getGuthiTypes")
-  }
-  getTenantTypes(id: any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getTenantTypes/" + id)
-  }
-  getPalikaTypes() {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getPalikaTypes")
-  }
-  getLandTypes() {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getLandTypes")
-  }
-  getLandSubTypes() {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getLandSubTypes")
-  }
-  getAreaTypes() {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getAreaTypes")
-  }
-  getAllShresta(officeid: any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getAllShresta/" + officeid)
+  getAll(data:any){
+    return this.httpclient.post(this.apiUrl + "/guthitiro/getAll",data)
+  }  
+  getAllShrestaByOfficeId(officeid: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getAllShrestaByOfficeId/" + officeid)
   }
   addUpdateShresta(data: any) {
     return this.httpclient.post(this.apiUrl + "/guthitiro/addUpdateShresta", data)
   }
-  getShrestaById(id: any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getShresta/" + id)
+  getOneShrestaById(id: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getOneShrestaById/" + id)
   }
   getGabisaById(id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getGabisaById/" + id)
@@ -58,16 +37,10 @@ export class GuthiService {
   }
   gabisaByDistrictAndPalikaId(id: any, palika_id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/gabisaByDistrictAndPalikaId/" + id + "/" + palika_id)
-  }
-  getWards() {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getWards")
-  }
-  getLands(id: any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getLands/" + id)
-  }
-  getLandByid(id: any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getLandById/" + id)
-  }
+  }  
+  getLandsByShrestaId(id: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getLandsByShrestaId/" + id)
+  }  
   AddOrUpdateLand(data: any) {
     return this.httpclient.post(this.apiUrl + "/guthitiro/AddOrUpdateLand/", data)
   }
@@ -80,8 +53,8 @@ export class GuthiService {
   getRatesById(guthi_type_id: any, id: any,) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getRatesById/" + guthi_type_id + "/" + id)
   }
-  getInvoicesByShresta(id: any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getInvoicesByShresta/" + id)
+  getInvoicesByShrestaId(id: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getInvoicesByShrestaId/" + id)
   }
   getPendingInvoicesByOfficeId(id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getPendingInvoicesByOfficeId/" + id)
@@ -120,20 +93,20 @@ export class GuthiService {
   getTenders() {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getTenders/")
   }
-  getDashRevenueData(officeid: any, aabaid: any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getDashRevenueData/" + officeid + "/" + aabaid)
+  getDashRevenueDataByOfficeId(officeid: any, aabaid: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getDashRevenueDataByOfficeId/" + officeid + "/" + aabaid)
   }
-  getDashLandData(officeid: any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getDashLandData/" + officeid)
+  getDashLandDataByOfficeId(officeid: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getDashLandDataByOfficeId/" + officeid)
   }
   getFineOrDiscounts() {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getFineOrDiscounts/")
   }
-  getPendingPaymentByShresta(shrestaid: any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getPendingPaymentByShresta/" + shrestaid)
+  getPendingPaymentByShrestaId(shrestaid: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getPendingPaymentByShrestaId/" + shrestaid)
   }
-  getOldTendersByShresta(shrestaid: any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getOldTendersByShresta/" + shrestaid)
+  getOldTendersByShrestaId(shrestaid: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getOldTendersByShrestaId/" + shrestaid)
   }
   getLagatByOfficeId(officeid: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getLagatByOfficeId/" + officeid)
