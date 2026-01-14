@@ -38,36 +38,46 @@
   </form>
 </div>
 <div class="container">
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>गुठीको नाम</th>
-        <th>जग्गाधनीको नाम</th>
-        <th>ठेगाना</th>
-        <th>पालिकाको नाम</th>
-        <th>गा.वि.स.को नाम</th>
-        <th>वडा नं</th>
-        <th>कित्ता नं</th>
-        <th>क्षेत्रफल</th>
-        <th>श्रेष्ता हेर्नुहोस्</th>        
-      </tr>
-    </thead>
-    <tbody>
-      @for (item of details; track $index) {
+  @if (details && details.length > 0) {
+    <table class="table table-bordered">
+      <thead>
         <tr>
-          <td>{{item.guthi_name}}-{{item.guthi_type_name}}</td>
-          <td>{{item.tenant_name}}</td>
-          <td>{{item.tenant_address}}</td>
-          <td>{{item.palika_name}}</td>
-          <td>{{item.gabisa_name}}</td>
-          <td>{{item.ward_no}}</td>
-          <td>{{item.kitta_no}}</td>
-          <td>{{item.area}}</td>
-          <td><button (click)='viewShrestaDetails(item.shresta_id,item.guthi_type_id)' mat-flat-button><i
-            class="fa fa-view" aria-hidden="true">श्रेष्ता विवरण हेर्नुहोस्</i>
-    </button></td>
+          <th>गुठीको नाम</th>
+          <th>जग्गाधनीको नाम</th>
+          <th>ठेगाना</th>
+          <th>पालिकाको नाम</th>
+          <th>गा.वि.स.को नाम</th>
+          <th>वडा नं</th>
+          <th>कित्ता नं</th>
+          <th>क्षेत्रफल</th>
+          <th>श्रेष्ता हेर्नुहोस्</th>        
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (item of details; track $index) {
+          <tr>
+            <td>{{item.guthi_name}}-{{item.guthi_type_name}}</td>
+            <td>{{item.tenant_name}}</td>
+            <td>{{item.tenant_address}}</td>
+            <td>{{item.palika_name}}</td>
+            <td>{{item.gabisa_name}}</td>
+            <td>{{item.ward_no}}</td>
+            <td>{{item.kitta_no}}</td>
+            <td>{{item.area}}</td>
+            <td>
+              <button
+                mat-flat-button
+                (click)="viewShrestaDetails(item.shresta_id, item.guthi_type_id)">
+                <i class="fa fa-view"></i> श्रेष्ता विवरण हेर्नुहोस्
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <div class="alert alert-warning text-center mt-3">
+      कुनै पनि विवरण फेला परेन ।
+    </div>
+  }
 </div>

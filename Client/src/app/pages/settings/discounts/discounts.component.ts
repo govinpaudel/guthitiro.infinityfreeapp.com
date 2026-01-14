@@ -20,7 +20,10 @@ export class DiscountsComponent implements OnInit {
   }
 
   loadDiscounts(): void {
-    this.guthiService.getFineOrDiscounts().subscribe((res: any) => {
+    const data={
+      table_name:'discounts'
+    }
+    this.guthiService.getAll(data).subscribe((res: any) => {
       this.discountData = res.data;
       console.log(this.discountData);
     });

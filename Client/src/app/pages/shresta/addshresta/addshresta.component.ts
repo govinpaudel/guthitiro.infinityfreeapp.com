@@ -22,7 +22,7 @@ export class AddShrestaComponent implements OnInit {
   tenantTypes: any[] = [];
   filteredtenantTypes: any[] = [];
   userData: any;
-  editData: any[] = [];
+  editData: any = null;
   constructor(@Inject(MAT_DIALOG_DATA) public aayekodata: any,
     private formBuilder: FormBuilder,
     private toaster: ToastrService,
@@ -40,18 +40,11 @@ export class AddShrestaComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^9\d{9}$/)
       ]]
-    });
-
-    this.shrestaForm.get('guthi_type_id')?.valueChanges.subscribe((id: any) => {
-      if (id) {
-        this.filterTenantTypes(id);
-      }
-    });
+    });    
     console.log("aayeko data", this.aayekodata);
     if (this.aayekodata.data.id > 0) {
       this.loadEditData(this.aayekodata.data)
     }
-
     this.getGuthis()
     this.getGuthiTypes()
     this.getTenantTypes()
@@ -108,12 +101,14 @@ export class AddShrestaComponent implements OnInit {
   filterTenantTypes(id: any) {
     console.log("i am filtering", id);
     if (!this.tenantTypes || this.tenantTypes.length === 0) {
+      console.log('data chaina')
       return;
     }
     const guthiTypeId = Number(id);
     this.filteredtenantTypes = this.tenantTypes.filter(
       (tenantType: any) => tenantType.guthi_type_id === guthiTypeId
     );
+    console.log('filtered_data',this.filteredtenantTypes);
   }
 
   getUserDetails() {

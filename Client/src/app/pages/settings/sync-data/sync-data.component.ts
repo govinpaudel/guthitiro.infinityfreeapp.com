@@ -66,7 +66,8 @@ export class SyncDataComponent {
         'tenders',
         'users',
         'wards',
-        'vouchers'
+        'vouchers',
+        'guthis'
       ]
     };
 
