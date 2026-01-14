@@ -90,28 +90,23 @@ export class AddLandComponent implements OnInit {
           area_units: land.area_units
         })
         this.areaToUnits();
-        this.getdistrictByState(this.aayekodata.state_id)
-        this.getLocalTypesByDistrict(this.aayekodata.district_id)
+        this.getdistrictByState(land.state_id)
+        this.getLocalTypesByDistrict(land.district_id)
         this.getPalikaByDistrictAndType()
-        this.gabisaByDistrictAndPalikaId()
-      
+        this.gabisaByDistrictAndPalikaId()      
     
   }
   getUserDetails() {
     this.userData = this.authService.getUser()
   }
-  getStates() {
-    const data={
-      table_name:"states"
-    }
-    this.guthiService.getAll(data).subscribe(
+  getStates() {    
+    this.guthiService.getAll({table_name:"states"}).subscribe(
       (res: any) => {
         this.states = res.data;
         console.log('getStates', 'data', this.states)
       }
     )
   }
-
   getdistrictByState(id: any) {
     this.guthiService.getdistrictByState(id).subscribe(
       (res: any) => {
@@ -149,22 +144,16 @@ export class AddLandComponent implements OnInit {
       }
     )
   }
-  getPalikaTypes() {
-    const data={
-      table_name:'palika_type'
-    }
-    this.guthiService.getAll(data).subscribe(
+  getPalikaTypes() {    
+    this.guthiService.getAll({table_name:'palika_type'}).subscribe(
       (res: any) => {
         this.palika_types = res.data;
         console.log('getPalikaTypes', this.palika_types);
       }
     )
   }
-  getWards() {
-    const data={
-      table_name:'wards'
-    }
-    this.guthiService.getAll(data).subscribe(
+  getWards() {    
+    this.guthiService.getAll({table_name:'wards' }).subscribe(
       (res: any) => {
         this.wards = res.data;
         console.log('loadWards', this.wards);
@@ -172,11 +161,8 @@ export class AddLandComponent implements OnInit {
     )
   }
 
-  getLandTypes() {
-    const data={
-      table_name:'land_type'
-    }
-    this.guthiService.getAll(data).subscribe(
+  getLandTypes() {    
+    this.guthiService.getAll({table_name:'land_type'}).subscribe(
       (res: any) => {
         this.land_types = res.data;
         console.log('getLandTypes', this.land_types);
@@ -184,11 +170,8 @@ export class AddLandComponent implements OnInit {
     )
   }
 
-  getLandSubTypes() {
-    const data={
-      table_name:'land_sub_type'
-    }
-    this.guthiService.getAll(data).subscribe(
+  getLandSubTypes() {    
+    this.guthiService.getAll({table_name:'land_sub_type'}).subscribe(
       (res: any) => {
         this.land_sub_types = res.data;
         console.log('getLandSubTypes', this.land_sub_types);
@@ -196,11 +179,8 @@ export class AddLandComponent implements OnInit {
     )
   }
 
-  getAreaTypes() {
-    const data={
-      table_name:'area_type'
-    }
-    this.guthiService.getAll(data).subscribe(
+  getAreaTypes() {   
+    this.guthiService.getAll({table_name:'area_type'}).subscribe(
       (res: any) => {
         this.area_types = res.data;
         console.log('loadAreaTypes', this.area_types);

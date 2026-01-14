@@ -64,41 +64,35 @@ export class AddShrestaComponent implements OnInit {
   }
 
 
-  getGuthis() {
-    const data = {
-      table_name: "guthis"
-    }
-    this.guthiService.getAll(data).subscribe(
+  getGuthis() {    
+    this.guthiService.getAll({table_name: "guthis"}).subscribe(
       (res: any) => {
         this.guthis = res.data
         console.log('guthis', res.data)
       }
     )
   }
-  getGuthiTypes() {
-    const data = {
-      table_name: "guthi_type"
-    }
-    this.guthiService.getAll(data).subscribe(
+  getGuthiTypes() {    
+    this.guthiService.getAll({table_name: "guthi_type"}).subscribe(
       (res: any) => {
         this.guthiTypes = res.data
         console.log('guthi_type', res.data)
       }
     )
   }
-  getTenantTypes() {
-    const data = {
-      table_name: "tenant_type"
-    }
-    this.guthiService.getAll(data).subscribe(
+  getTenantTypes() {    
+    this.guthiService.getAll({table_name: "tenant_type"}).subscribe(
       (res: any) => {
         this.tenantTypes = res.data
         console.log('tenant_types', res.data);
+        this.filterTenantTypes()
       }
     )
+    
   }
 
-  filterTenantTypes(id: any) {
+  filterTenantTypes() {
+    const id=this.shrestaForm.get('guthi_type_id').value;
     console.log("i am filtering", id);
     if (!this.tenantTypes || this.tenantTypes.length === 0) {
       console.log('data chaina')
@@ -116,13 +110,11 @@ export class AddShrestaComponent implements OnInit {
   }
   changeformat() {
     const control = this.shrestaForm.get('tenant_address');
-
     if (control) {
       const englishToNepaliMap: { [key: string]: string } = {
         '0': '०', '1': '१', '2': '२', '3': '३', '4': '४',
         '5': '५', '6': '६', '7': '७', '8': '८', '9': '९'
       };
-
       const originalValue = control.value || '';
       const convertedValue = originalValue.replace(/[0-9]/g, (d: string) => englishToNepaliMap[d]);
 
