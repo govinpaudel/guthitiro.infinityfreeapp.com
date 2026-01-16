@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../../shared/material';
 import { GuthiService } from '../../../services/guthi.service';
 import { AuthService } from '../../../services/auth.service';
-
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -40,73 +40,69 @@ export class AddShrestaComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^9\d{9}$/)
       ]]
-    });    
-    console.log("aayeko data", this.aayekodata);
-    if (this.aayekodata.data.id > 0) {
-      this.loadEditData(this.aayekodata.data)
-    }
-    this.getGuthis()
-    this.getGuthiTypes()
-    this.getTenantTypes()
-    this.getUserDetails()
+    });
+    this.userData = this.authService.getUser();
+    forkJoin({
+      guthis: this.getGuthis$(),
+      guthiTypes: this.getGuthiTypes$(),
+      tenantTypes: this.getTenantTypes$()
+    }).subscribe({
+      next: (res: any) => {
+        this.guthis = res.guthis.data;
+        this.guthiTypes = res.guthiTypes.data;
+        this.tenantTypes = res.tenantTypes.data;
+
+        // ✅ NOW edit data will work
+        if (this.aayekodata?.data?.id > 0) {
+          this.loadEditData(this.aayekodata.data);
+        }
+      },
+      error: () => {
+        this.toaster.error('Failed to load required data');
+      }
+    });
+
   }
+
+  getGuthis$() {
+    return this.guthiService.getAll({ table_name: "guthis" });
+  }
+
+  getGuthiTypes$() {
+    return this.guthiService.getAll({ table_name: "guthi_type" });
+  }
+
+  getTenantTypes$() {
+    return this.guthiService.getAll({ table_name: "tenant_type" });
+  }
+
+
+  filterTenantTypes() {
+    const id = Number(this.shrestaForm.get('guthi_type_id')?.value);
+    if (!id || !this.tenantTypes.length) return;
+
+    this.filteredtenantTypes = this.tenantTypes.filter(
+      (t: any) => Number(t.guthi_type_id) === id
+    );
+    console.log(this.filteredtenantTypes);
+  }
+
   loadEditData(data: any) {
     console.log('foredit', data);
     this.shrestaForm.patchValue({
       guthi_id: data.guthi_id,
       guthi_type_id: data.guthi_type_id,
-      tenant_type_id: data.tenant_type_id,
       tenant_name: data.tenant_name,
       tenant_address: data.tenant_address,
       tenant_mobile_no: data.tenant_mobile_no,
     });
+    this.filterTenantTypes();
 
-  }
+    this.shrestaForm.patchValue({
+      tenant_type_id: data.tenant_type_id
+    });
 
 
-  getGuthis() {    
-    this.guthiService.getAll({table_name: "guthis"}).subscribe(
-      (res: any) => {
-        this.guthis = res.data
-        console.log('guthis', res.data)
-      }
-    )
-  }
-  getGuthiTypes() {    
-    this.guthiService.getAll({table_name: "guthi_type"}).subscribe(
-      (res: any) => {
-        this.guthiTypes = res.data
-        console.log('guthi_type', res.data)
-      }
-    )
-  }
-  getTenantTypes() {    
-    this.guthiService.getAll({table_name: "tenant_type"}).subscribe(
-      (res: any) => {
-        this.tenantTypes = res.data
-        console.log('tenant_types', res.data);
-        this.filterTenantTypes()
-      }
-    )
-    
-  }
-
-  filterTenantTypes() {
-    const id=this.shrestaForm.get('guthi_type_id').value;
-    console.log("i am filtering", id);
-    if (!this.tenantTypes || this.tenantTypes.length === 0) {
-      console.log('data chaina')
-      return;
-    }
-    const guthiTypeId = Number(id);
-    this.filteredtenantTypes = this.tenantTypes.filter(
-      (tenantType: any) => tenantType.guthi_type_id === guthiTypeId
-    );
-    console.log('filtered_data',this.filteredtenantTypes);
-  }
-
-  getUserDetails() {
-    this.userData = this.authService.getUser()
   }
   changeformat() {
     const control = this.shrestaForm.get('tenant_address');
