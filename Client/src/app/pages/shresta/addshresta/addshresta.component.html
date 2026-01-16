@@ -22,7 +22,7 @@
     <div class="row">
       <mat-form-field appearance="outline" class="col">
         <mat-label>गुठीको प्रकार</mat-label>
-        <mat-select formControlName="guthi_type_id" required (selectionChange)="filterTenantTypes($event.value)">
+        <mat-select formControlName="guthi_type_id" required (selectionChange)="filterTenantTypes()">
           <mat-option *ngFor="let item of guthiTypes" [value]="item.id">
             {{item.guthi_type_name}}
           </mat-option>

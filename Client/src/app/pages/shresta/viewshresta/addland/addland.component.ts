@@ -67,9 +67,7 @@ export class AddLandComponent implements OnInit {
         })
     if(this.aayekodata.land.id>0){
     this.getEditData(this.aayekodata.land)
-    }
-    
-      
+    }     
     
   }
   getEditData(land: any) {   

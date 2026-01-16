@@ -1,5 +1,16 @@
 <div class="mb-3">
   <div class="btn-group" role="group" aria-label="Months">
+    <button *ngFor="let year of yearKeys; let i = index"
+            type="button"
+            class="btn btn-outline-primary"
+            [class.active]="selectedYear === year"
+            (click)="selectYear(year)">
+      {{ yearKeys[i] }}
+    </button>
+  </div>
+</div>
+<div class="mb-3">
+  <div class="btn-group" role="group" aria-label="Months">
     <button *ngFor="let month of monthKeys; let i = index"
             type="button"
             class="btn btn-outline-primary"
@@ -9,7 +20,6 @@
     </button>
   </div>
 </div>
-
 <div *ngIf="filteredData.length > 0" class="table-responsive">
   <table class="table table-bordered table-striped">
     <thead class="table-light">
