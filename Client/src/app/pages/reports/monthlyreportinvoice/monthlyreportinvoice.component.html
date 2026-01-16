@@ -24,6 +24,7 @@
   <table class="table table-bordered table-striped">
     <thead class="table-light">
       <tr>
+        <th>क्र.सं</th>
         <th>रसिद नं</th>
         <th>मिति</th>
         <th>जग्गाधनी / मोही</th>
@@ -31,7 +32,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let invoice of filteredData">
+      <tr *ngFor="let invoice of filteredData; let i = index">
+        <td>{{i+1}}</td>
         <td>{{ invoice.tender_no }}</td>
         <td>{{ invoice.ndate }}</td>
         <td>{{ invoice.tenant_name }}</td>

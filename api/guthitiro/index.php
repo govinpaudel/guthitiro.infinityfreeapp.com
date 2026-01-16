@@ -31,137 +31,92 @@ $method = $_SERVER['REQUEST_METHOD'];
 // -----------------------------
 if ($method === "GET") {
     switch ($pathParts[0] ?? "") {                
-        case "getdashlanddata":
-            getDashLandDataHandler($pathParts[1] ?? null);
+        case "getdashlanddatabyofficeid":
+            getDashLandDataByOfficeId($pathParts[1] ?? null);
             break;
-        case "getdashrevenuedata":
-            getDashRevenueDataHandler($pathParts[1] ?? null, $pathParts[2] ?? null);
+        case "getdashrevenuedatabyofficeid":
+            getDashRevenueDataByOfficeId($pathParts[1] ?? null, $pathParts[2] ?? null);
             break;
-        case "getshresta":
-            getShrestaHandler($pathParts[1] ?? null);
+        case "getallshrestabyofficeid":
+            getAllShrestaByOfficeId($pathParts[1] ?? null);
             break;
-        case "getallshresta":
-            getAllShrestaHandler($pathParts[1] ?? null);
-            break;
-        case "getlands":
-            getLandsHandler($pathParts[1] ?? null);
-            break;
-        case "getguthitypes":
-            getGuthiTypesHandler();
-            break;
-        case "gettenanttypes":
-            getTenantTypesHandler();
-            break;
-        case "getinvoicesbyshresta":
-            getInvoicesByShrestaHandler($pathParts[1] ?? null);
+        case "getoneshrestabyid":
+            getOneShrestaById($pathParts[1] ?? null);
+            break;        
+        case "getlandsbyshrestaid":
+            getLandsByShrestaId($pathParts[1] ?? null);
+            break;        
+        case "getinvoicesbyshrestaid":
+            getInvoicesByShrestaId($pathParts[1] ?? null);
             break;       
         case "getratesbyoffice":
-            getRatesByOfficeHandler($pathParts[1] ?? null, $pathParts[2] ?? null);
+            getRatesByOfficeId($pathParts[1] ?? null, $pathParts[2] ?? null);
             break;
         case "getratesbyid":
-            getRatesByIdHandler($pathParts[1] ?? null,$pathParts[2] ?? null);
+            getRatesById($pathParts[1] ?? null,$pathParts[2] ?? null);
             break;
-        case "getaabas":
-            getAabasHandler();
-            break;
-        case "getstates":
-            getStatesHandler();
-            break;
-        case "getgabisas":
-            getGabisasHandler();
-            break;
-        case "getdistricts":
-            getDistrictsHandler();
-            break;
-        case "getguthitypes":
-            getGuthiTypesHandler();
-            break;
-        case "getpalikatypes":
-            getPalikaTypesHandler();
-            break;
-        case "getlandtypes":
-            getLandTypesHandler();
-            break;
-        case "getlandsubtypes":
-            getLandSubTypesHandler();
-            break;
-        case "getareatypes":
-            getAreaTypesHandler();
-            break;
-        case "getfineordiscounts":
-            getFineOrDiscountsHandler();
-            break;
-        case "getpalikas":
-            getPalikasHandler();
-            break;
-        case "getgabisabyid":
-            getGabisaByIdHandler($pathParts[1] ?? null);
-            break;
+        case "getpendinginvoicesbyofficeid":
+            getPendingInvoicesByOfficeId($pathParts[1] ?? null);
+            break;                           
         case "loadinvheaderdata":
-            loadInvHeaderDataHandler($pathParts[1] ?? null);
+            loadInvHeaderData($pathParts[1] ?? null);
             break;
-        case "getpendingpaymentbyshresta":
-            getPendingPaymentByShrestaHandler($pathParts[1] ?? null);
+        case "getpendingpaymentbyshrestaid":
+            getPendingPaymentByShrestaId($pathParts[1] ?? null);
             break;
         case "loadinvdetaildata":
-            loadInvDetailDataHandler($pathParts[1] ?? null);
+            loadInvDetailData($pathParts[1] ?? null);
             break;
-        case "getoldtendersbyshresta":
-            getOldTendersByShrestaHandler($pathParts[1] ?? null);
+        case "getoldtendersbyshrestaid":
+            getOldTendersByShrestaId($pathParts[1] ?? null);
             break;
         case "dupliland":
-            duplilandHandler($pathParts[1] ?? null);
+            dupliland($pathParts[1] ?? null);
             break;
         case "districtbystate":
-            districtByStateHandler($pathParts[1] ?? null);
+            districtByState($pathParts[1] ?? null);
             break;
         case "localtypesbydistrict":
-            localTypesByDistrictHandler($pathParts[1] ?? null);
+            localTypesByDistrict($pathParts[1] ?? null);
             break;
         case "getpalikabydistrictandtype":
-            getPalikaByDistrictAndTypeHandler($pathParts[1] ?? null, $pathParts[2] ?? null);
+            getPalikaByDistrictAndType($pathParts[1] ?? null, $pathParts[2] ?? null);
             break;
         case "gabisabydistrictandpalikaid":
-            gabisaByDistrictAndPalikaIdHandler($pathParts[1] ?? null, $pathParts[2] ?? null);
-            break;
-        case "getwards":
-            getWardsHandler();
-            break;
-        case "getlandbyid":
-            getLandByIdHandler($pathParts[1] ?? null);
-            break;
-        case "gettenders":
-            getTendersHandler();
-            break;
+            gabisaByDistrictAndPalikaId($pathParts[1] ?? null, $pathParts[2] ?? null);
+            break;        
         case "getinvoicesbyofficeid":
-            getInvoicesByOfficeIdHandler($pathParts[1] ?? null);
+            getInvoicesByOfficeId($pathParts[1] ?? null);
             break;
         case "getlagatbyofficeid":
-            getLagatByOfficeIdHandler($pathParts[1] ?? null);
+            getLagatByOfficeId($pathParts[1] ?? null);
             break;
         case "gettenderbyno":
-            getTenderByNoHandler($pathParts[1] ?? null);
+            getTenderByNo($pathParts[1] ?? null);
             break;
         case "gettenderbyid":
-            getTenderByIdHandler($pathParts[1] ?? null);
+            getTenderById($pathParts[1] ?? null);
             break;
         case "getmonthsum":
-            getMonthSumHandler($pathParts[1] ?? null, $pathParts[2] ?? null);
+            getMonthSum($pathParts[1] ?? null, $pathParts[2] ?? null);
             break;
         case "getmonthsuminvoice":
-            getMonthsSumInvoiceHandler($pathParts[1] ?? null, $pathParts[2] ?? null);
+            getMonthsSumInvoice($pathParts[1] ?? null);
             break;
         case "getdistinctpalika":
-            getDistinctPalikaHandler($pathParts[1] ?? null);
+            getDistinctPalika($pathParts[1] ?? null);
             break;
         case "getdistinctgabisa":
-            getDistinctGabisaHandler($pathParts[1] ?? null);
+            getDistinctGabisa($pathParts[1] ?? null);
             break;
         case "getdistinctwards":
-            getDistinctWardsHandler($pathParts[1] ?? null);
+            getDistinctWards($pathParts[1] ?? null);
             break;
- 	case "getvouchers":
+ 	    case "getvouchers":
             getVouchers($pathParts[1] ?? null, $pathParts[2] ?? null);
+            break;
+        case "getgabisas":
+            getGabisas();
             break;    
         default:
             notFound();
@@ -169,43 +124,46 @@ if ($method === "GET") {
 } elseif ($method === "POST") {
     switch ($pathParts[0] ?? "") {
         case "signup":
-            signupHandler();
+            signup();
             break;
         case "login":
-            loginHandler();
+            login();
             break;
+        case "getall":
+            getAll();
+            break;   
         case "addupdateshresta":
-            addUpdateShrestaHandler();
+            addUpdateShresta();
             break;
         case "savetender":
-            saveTenderHandler();
+            saveTender();
             break;
         case "saveoldtender":
-            saveOldTenderHandler();
+            saveOldTender();
             break;
         case "addorupdateland":
-            addOrUpdateLandHandler();
+            addOrUpdateLand();
             break;
         case "geninvoice":
-             genInvoiceHandler();
+             genInvoice();
              break;
         case "updatediscounts":
-            updateDiscountsHandler();
+            updateDiscounts();
             break;
         case "updatetender":
-            updateTenderHandler();
+            updateTender();
             break;
         case "updatevoucher":
-            updateVoucherHandler();
+            updateVoucher();
             break;
         case "getkittadetails":
-            getKittaDetailsHandler();
+            getKittaDetails();
             break;
 	case "downloadrecords":
-            downloadRecordsHandler();
+            downloadRecords();
             break;
     case "deleteland":
-            deleteLandHandler();
+            deleteLand();
             break;
     case "updateratesininvoicebyid":
         updateRatesInInvoiceByid();
@@ -218,9 +176,9 @@ if ($method === "GET") {
 }
 
 // -----------------------------
-// Handlers
+// s
 // -----------------------------
-function loginHandler() {
+function login() {
     $pdo = getPDO();
     if (!$pdo) dbUnavailable("Main");
 
@@ -314,7 +272,7 @@ function loginHandler() {
         respondDbError($e);
     }
 }
-function getDashLandDataHandler($officeId) {
+function getDashLandDataByOfficeId($officeId) {
     if (!$officeId) invalidInput("officeid");
 
     $pdo = getPDO();
@@ -344,7 +302,7 @@ function getDashLandDataHandler($officeId) {
         respondDbError($e);
     }
 }
-function getDashRevenueDataHandler($officeId, $aabaId) {
+function getDashRevenueDataByOfficeId($officeId, $aabaId) {
     if (!$officeId) invalidInput("officeid");
     if (!$aabaId) invalidInput("aabaid");
 
@@ -391,7 +349,7 @@ function getDashRevenueDataHandler($officeId, $aabaId) {
         respondDbError($e);
     }
 }
-function getShrestaHandler($id) {
+function getOneShrestaById($id) {
     if (!$id) invalidInput("id");
 
     $pdo = getPDO();
@@ -399,12 +357,14 @@ function getShrestaHandler($id) {
 
     try {
         $sql = "SELECT 
-                    a.*, 
+                    a.*,
+                    d.guthi_name, 
                     b.guthi_type_name, 
                     c.tenant_type_name
                 FROM shresta_header a
                 INNER JOIN guthi_type b ON a.guthi_type_id = b.id
                 INNER JOIN tenant_type c ON a.tenant_type_id = c.id
+                INNER JOIN guthis d on a.guthi_id=d.id
                 WHERE a.id = :id";
 
         $stmt = $pdo->prepare($sql);
@@ -421,7 +381,54 @@ function getShrestaHandler($id) {
         respondDbError($e);
     }
 }
-function getAllShrestaHandler($officeId) {
+function getAll() {
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
+    $input = json_decode(file_get_contents("php://input"), true);
+    $table_name = $input['table_name'] ?? null;
+    if (!$table_name) {
+        echo json_encode(["status" => false, "message" => "Table name required"]);
+        exit();
+    }
+    // ✅ Allow only specific tables (VERY IMPORTANT for security)
+    $allowedTables = [
+        'states',
+        'districts',
+        'users',
+        'lands',
+        'guthis',
+        'guthi_type',
+        'tenant_type',
+        'wards',
+        'aabas',
+        'area_type',
+        'land_type',
+        'land_sub_type',
+        'discounts',
+        'tenders'
+
+    ];
+
+    if (!in_array($table_name, $allowedTables)) {
+        echo json_encode(["status" => false, "message" => "Invalid table name"]);
+        exit();
+    }
+
+    try {
+        $sql = "SELECT * FROM `$table_name`";
+        $stmt = $pdo->query($sql);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode([
+            "status" => true,
+            "data" => $data
+        ]);
+        exit();
+    } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
+function getAllShrestaByOfficeId($officeId) {
     if (!$officeId) invalidInput("officeid");
 
     $pdo = getPDO();
@@ -430,11 +437,13 @@ function getAllShrestaHandler($officeId) {
     try {
         $sql = "SELECT 
                     a.*,
+                    d.guthi_name,
                     b.guthi_type_name,
                     c.tenant_type_name
                 FROM shresta_header a
                 INNER JOIN guthi_type b ON a.guthi_type_id = b.id
                 INNER JOIN tenant_type c ON a.tenant_type_id = c.id
+                INNER JOIN guthis d on a.guthi_id=d.id
                 WHERE a.office_id = :office_id
                 ORDER BY a.id";
 
@@ -452,7 +461,7 @@ function getAllShrestaHandler($officeId) {
         respondDbError($e);
     }
 }
-function getLandsHandler($shrestaId) {
+function getLandsByShrestaId($shrestaId) {
     if (!$shrestaId) invalidInput("shresta_id");
 
     $pdo = getPDO();
@@ -496,43 +505,7 @@ function getLandsHandler($shrestaId) {
         respondDbError($e);
     }
 }
-function getGuthiTypesHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $sql = "SELECT id, guthi_type_name FROM guthi_type ORDER BY guthi_type_name";
-        $stmt = $pdo->query($sql);
-        $guthiTypes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode([
-            "status" => true,
-            "data" => $guthiTypes
-        ]);
-        exit();
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getTenantTypesHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $sql = "SELECT id, tenant_type_name FROM tenant_type ORDER BY tenant_type_name";
-        $stmt = $pdo->query($sql);
-        $tenantTypes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode([
-            "status" => true,
-            "data" => $tenantTypes
-        ]);
-        exit();
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getInvoicesByShrestaHandler($shrestaId) {
+function getInvoicesByShrestaId($shrestaId) {
     if (!$shrestaId) invalidInput("shresta_id");
 
     $pdo = getPDO();
@@ -565,57 +538,7 @@ function getInvoicesByShrestaHandler($shrestaId) {
         respondDbError($e);
     }
 }
-function getGabisasHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $sql = "SELECT 
-                    a.*,
-                    b.state_name,
-                    c.district_name,
-                    d.palika_type_name,
-                    e.palika_name
-                FROM gabisas a
-                INNER JOIN states b ON a.state_id = b.id
-                INNER JOIN districts c ON a.district_id = c.id
-                INNER JOIN palika_type d ON a.palika_type_id = d.id
-                INNER JOIN palikas e ON a.palika_id = e.id
-                ORDER BY b.id, c.district_name, d.id, e.palika_name, a.gabisa_name";
-
-        $stmt = $pdo->query($sql);
-        $gabisas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode([
-            "status" => true,
-            "data" => $gabisas
-        ]);
-        exit();
-
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getDistrictsHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $sql = "SELECT * FROM districts ORDER BY district_name";
-        $stmt = $pdo->query($sql);
-        $districts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode([
-            "status" => true,
-            "data" => $districts
-        ]);
-        exit();
-
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getRatesByOfficeHandler($officeId, $type) {
+function getRatesByOfficeId($officeId, $type) {
     if (!$officeId) invalidInput("officeid");
     if (!isset($type)) invalidInput("type");
 
@@ -676,152 +599,7 @@ function getRatesByOfficeHandler($officeId, $type) {
         respondDbError($e);
     }
 }
-function getRatesByIdHandler($id, $type) {
-    if (!$id) invalidInput("id");
-    if (!isset($type)) invalidInput("type");
-
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        if ($type == 1) {
-            $sql = "SELECT * FROM rates_adhinasta WHERE id = :id";
-        } else {
-            $sql = "SELECT * FROM rates_raitani WHERE id = :id";
-        }
-
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(["id" => $id]);
-        $rate = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode([
-            "status" => true,
-            "data" => $rate
-        ]);
-        exit();
-
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getAabasHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $stmt = $pdo->query("SELECT * FROM aabas ORDER BY id");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode(["status" => true, "data" => $data]);
-        exit();
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getStatesHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $stmt = $pdo->query("SELECT * FROM states ORDER BY state_name");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode(["status" => true, "data" => $data]);
-        exit();
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getPalikaTypesHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $stmt = $pdo->query("SELECT * FROM palika_type ORDER BY palika_type_name");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode(["status" => true, "data" => $data]);
-        exit();
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getLandTypesHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $stmt = $pdo->query("SELECT * FROM land_type ORDER BY land_type_name");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode(["status" => true, "data" => $data]);
-        exit();
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getLandSubTypesHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $stmt = $pdo->query("SELECT * FROM land_sub_type ORDER BY id");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode(["status" => true, "data" => $data]);
-        exit();
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getAreaTypesHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $stmt = $pdo->query("SELECT * FROM area_type ORDER BY area_type_name");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode(["status" => true, "data" => $data]);
-        exit();
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getFineOrDiscountsHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $sql = "SELECT 
-                    a.*,
-                    b.guthi_type_name
-                FROM discounts a
-                INNER JOIN guthi_type b ON b.id = a.guthi_type_id
-                ORDER BY a.guthi_type_id, a.d_type, a.d_percent";
-
-        $stmt = $pdo->query($sql);
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode([
-            "status" => true,
-            "data" => $data
-        ]);
-        exit();
-
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getPalikasHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $stmt = $pdo->query("SELECT * FROM palikas ORDER BY palika_name");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode(["status" => true, "data" => $data]);
-        exit();
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function getGabisaByIdHandler($id) {
+function getGabisaById($id) {
     if (!$id) invalidInput("id");
 
     $pdo = getPDO();
@@ -838,7 +616,7 @@ function getGabisaByIdHandler($id) {
         respondDbError($e);
     }
 }
-function addUpdateShrestaHandler() {
+function addUpdateShresta() {
     $pdo = getPDO();
     if (!$pdo) dbUnavailable("Main");
 
@@ -851,7 +629,7 @@ function addUpdateShrestaHandler() {
             // Update existing shresta
             $sql = "UPDATE shresta_header 
                     SET guthi_type_id = :guthi_type_id,
-                        guthi_name = :guthi_name,
+                        guthi_id = :guthi_id,
                         tenant_type_id = :tenant_type_id,
                         tenant_name = :tenant_name,
                         tenant_address = :tenant_address,
@@ -862,7 +640,7 @@ function addUpdateShrestaHandler() {
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
                 "guthi_type_id" => $data['guthi_type_id'],
-                "guthi_name" => $data['guthi_name'],
+                "guthi_id" => $data['guthi_id'],
                 "tenant_type_id" => $data['tenant_type_id'],
                 "tenant_name" => $data['tenant_name'],
                 "tenant_address" => $data['tenant_address'],
@@ -873,23 +651,22 @@ function addUpdateShrestaHandler() {
 
             echo json_encode([
                 "status" => true,
-                "message" => "सफलतापुर्वक संशोधन भयो ।",
-                "data" => ["rows_affected" => $stmt->rowCount()]
-            ]);
+                "message" => "सफलतापुर्वक संशोधन भयो ।"]
+            );
             exit();
 
         } else {
             // Insert new shresta
             $sql = "INSERT INTO shresta_header 
-                        (office_id, guthi_type_id, guthi_name, tenant_type_id, tenant_name, tenant_address, tenant_mobile_no, created_by_user_id)
+                        (office_id, guthi_type_id, guthi_id, tenant_type_id, tenant_name, tenant_address, tenant_mobile_no, created_by_user_id)
                     VALUES 
-                        (:officeid, :guthi_type_id, :guthi_name, :tenant_type_id, :tenant_name, :tenant_address, :tenant_mobile_no, :userid)";
+                        (:officeid, :guthi_type_id, :guthi_id, :tenant_type_id, :tenant_name, :tenant_address, :tenant_mobile_no, :userid)";
 
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
                 "officeid" => $data['officeid'],
                 "guthi_type_id" => $data['guthi_type_id'],
-                "guthi_name" => $data['guthi_name'],
+                "guthi_id" => $data['guthi_id'],
                 "tenant_type_id" => $data['tenant_type_id'],
                 "tenant_name" => $data['tenant_name'],
                 "tenant_address" => $data['tenant_address'],
@@ -899,16 +676,15 @@ function addUpdateShrestaHandler() {
 
             echo json_encode([
                 "status" => true,
-                "message" => "सफलतापुर्वक दर्ता भयो ।",
-                "data" => ["inserted_id" => $pdo->lastInsertId()]
-            ]);
+                "message" => "सफलतापुर्वक दर्ता भयो ।"]
+            );
             exit();
         }
     } catch (Exception $e) {
         respondDbError($e);
     }
 }
-function loadInvHeaderDataHandler($id) {
+function loadInvHeaderData($id) {
     if (!$id) invalidInput("id");
     $pdo = getPDO();
     if (!$pdo) dbUnavailable("Main");
@@ -917,7 +693,7 @@ function loadInvHeaderDataHandler($id) {
         $sql = "SELECT a.*, 
                        e.aaba_name,
                        d.guthi_type_name,
-                       b.guthi_name,
+                       f.guthi_name,
                        c.tenant_type_name,
                        b.tenant_name,
                        b.tenant_address,
@@ -927,6 +703,7 @@ function loadInvHeaderDataHandler($id) {
                 INNER JOIN tenant_type c ON b.tenant_type_id = c.id
                 INNER JOIN guthi_type d ON b.guthi_type_id = d.id
                 INNER JOIN aabas e ON e.id = a.tiro_aaba_id
+                INNER JOIN guthis f on f.id=b.guthi_id
                 WHERE a.id = :id";
 
         $stmt = $pdo->prepare($sql);
@@ -940,7 +717,7 @@ function loadInvHeaderDataHandler($id) {
         respondDbError($e);
     }
 }
-function getPendingPaymentByShrestaHandler($shrestaId) {
+function getPendingPaymentByShrestaId($shrestaId) {
     if (!$shrestaId) invalidInput("shrestaId");
     $pdo = getPDO();
     if (!$pdo) dbUnavailable("Main");
@@ -976,7 +753,7 @@ function getPendingPaymentByShrestaHandler($shrestaId) {
         respondDbError($e);
     }
 }
-function loadInvDetailDataHandler($headerId) {
+function loadInvDetailData($headerId) {
     if (!$headerId) invalidInput("headerId");
     $pdo = getPDO();
     if (!$pdo) dbUnavailable("Main");
@@ -1010,7 +787,7 @@ function loadInvDetailDataHandler($headerId) {
         respondDbError($e);
     }
 }
-function getOldTendersByShrestaHandler($shrestaId) {
+function getOldTendersByShrestaId($shrestaId) {
     if (!$shrestaId) invalidInput("shrestaId");
     $pdo = getPDO();
     if (!$pdo) dbUnavailable("Main");
@@ -1034,7 +811,7 @@ function getOldTendersByShrestaHandler($shrestaId) {
         respondDbError($e);
     }
 }
-function saveTenderHandler() {
+function saveTender() {
     $pdo = getPDO();
     if (!$pdo) dbUnavailable("Main");
 
@@ -1046,9 +823,9 @@ function saveTenderHandler() {
 
         foreach ($user['data'] as $item) {
             $sqlInsert = "INSERT INTO invoice_tender
-                (office_id, aaba_id, tiro_aaba_id, shresta_id, edate, ndate, mon, invoice_id, tender_type_id, tender_no, amount, created_by_user_id)
+                (office_id, aaba_id, tiro_aaba_id, shresta_id, edate, ndate, mon, invoice_id, tender_type_id, tender_no, amount, created_by_user_id,created_at)
                 VALUES
-                (:office_id, :aaba_id, :tiro_aaba_id, :shresta_id, :edate, :ndate, :mon, :invoice_id, :tender_type_id, :tender_no, :amount, :created_by_user_id)";
+                (:office_id, :aaba_id, :tiro_aaba_id, :shresta_id, :edate, :ndate, :mon, :invoice_id, :tender_type_id, :tender_no, :amount, :created_by_user_id,NOW())";
 
             $stmt = $pdo->prepare($sqlInsert);
             $stmt->execute([
@@ -1067,7 +844,7 @@ function saveTenderHandler() {
             ]);
 
             // Update invoice_header to mark paid
-            $sqlUpdate = "UPDATE invoice_header SET paid_status = 1 WHERE id = :id";
+            $sqlUpdate = "UPDATE invoice_header SET paid_status = 1,updated_at=NOW() WHERE id = :id";
             $stmtUpdate = $pdo->prepare($sqlUpdate);
             $stmtUpdate->execute(["id" => $item['id']]);
         }
@@ -1081,7 +858,7 @@ function saveTenderHandler() {
         respondDbError($e);
     }
 }
-function saveOldTenderHandler() {
+function saveOldTender() {
     $pdo = getPDO();
     if (!$pdo) dbUnavailable("Main");
 
@@ -1112,7 +889,7 @@ function saveOldTenderHandler() {
         respondDbError($e);
     }
 }
-function updateTenderHandler(){
+function updateTender(){
     try {
         $pdo = getPDO();
         if (!$pdo) {
@@ -1156,7 +933,8 @@ function updateTenderHandler(){
             mon = :mon,
             tender_no = :tender_no,
             amount = :amount,
-            updated_by_user_id = :user_id
+            updated_by_user_id = :user_id,
+            updated_at=NOW()
         WHERE id = :id
         ";
 
@@ -1188,7 +966,7 @@ function updateTenderHandler(){
         exit();
     }
 }
-function updateVoucherHandler() {
+function updateVoucher() {
     try {
         $pdo = getPDO();
         if (!$pdo) {
@@ -1306,7 +1084,7 @@ function updateVoucherHandler() {
     }
 }
 
-function duplilandHandler($landId) {
+function dupliland($landId) {
     if (!$landId) invalidInput("land_id");
 
     $pdo = getPDO();
@@ -1371,7 +1149,7 @@ function duplilandHandler($landId) {
         respondDbError($e);
     }
 }
-function districtByStateHandler($stateId) {
+function districtByState($stateId) {
     if (!$stateId) invalidInput("state_id");
 
     $pdo = getPDO();
@@ -1394,7 +1172,7 @@ function districtByStateHandler($stateId) {
         respondDbError($e);
     }
 }
-function localTypesByDistrictHandler($districtId) {
+function localTypesByDistrict($districtId) {
     if (!$districtId) invalidInput("district_id");
 
     $pdo = getPDO();
@@ -1418,7 +1196,7 @@ function localTypesByDistrictHandler($districtId) {
         respondDbError($e);
     }
 }
-function getPalikaByDistrictAndTypeHandler($districtId, $palikaTypeId) {
+function getPalikaByDistrictAndType($districtId, $palikaTypeId) {
     if (!$districtId) invalidInput("district_id");
     if (!$palikaTypeId) invalidInput("palika_type_id");
 
@@ -1446,7 +1224,7 @@ function getPalikaByDistrictAndTypeHandler($districtId, $palikaTypeId) {
         respondDbError($e);
     }
 }
-function gabisaByDistrictAndPalikaIdHandler($districtId, $palikaId) {
+function gabisaByDistrictAndPalikaId($districtId, $palikaId) {
     if (!$districtId) invalidInput("district_id");
     if (!$palikaId) invalidInput("palika_id");
 
@@ -1470,23 +1248,7 @@ function gabisaByDistrictAndPalikaIdHandler($districtId, $palikaId) {
         respondDbError($e);
     }
 }
-function getWardsHandler() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    try {
-        $sql = "SELECT * FROM wards";
-        $stmt = $pdo->query($sql);
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode(["status" => true, "data" => $data]);
-        exit();
-
-    } catch (Exception $e) {
-        respondDbError($e);
-    }
-}
-function addOrUpdateLandHandler() {
+function addOrUpdateLand() {
     $data = json_decode(file_get_contents("php://input"), true);
 
     if (!$data) invalidInput("request body");
@@ -1513,7 +1275,8 @@ function addOrUpdateLandHandler() {
                         area_type_id = :area_type_id,
                         area = :area,
                         area_units = :area_units,
-                        updated_by_user_id = :userid
+                        updated_by_user_id = :userid,
+                        updated_at=NOW()
                     WHERE id = :land_id";
 
             $stmt = $pdo->prepare($sql);
@@ -1623,7 +1386,7 @@ function addOrUpdateLandHandler() {
         respondDbError($e);
     }
 }
-function getLandByIdHandler($landId) {
+function getLandById($landId) {
     if (!$landId) invalidInput("id");
 
     $pdo = getPDO();
@@ -1642,7 +1405,7 @@ function getLandByIdHandler($landId) {
         respondDbError($e);
     }
 }
-function genInvoiceHandler() {
+function genInvoice() {
     $data = json_decode(file_get_contents('php://input'), true);
 
     if (!$data) invalidInput("request body");
@@ -1865,8 +1628,7 @@ function updateRaitaniRatesInDetail($pdo, $invoice_header_id) {
         return false;
     }
 }
-
-function updateDiscountsHandler() {
+function updateDiscounts() {
     $data = json_decode(file_get_contents('php://input'), true);
     if (!$data || !isset($data['invoiceid'], $data['radiovalue'], $data['seldiscount'])) {
         echo json_encode(["status"=>false, "message"=>"Invalid request"]);
@@ -1934,7 +1696,7 @@ function updateDiscountsHandler() {
         exit();
     }
 }
-function getTendersHandler() {
+function getTenders() {
     try {
         $pdo = getPDO();
         if (!$pdo) {
@@ -1957,7 +1719,7 @@ function getTendersHandler() {
         exit();
     }
 }
-function getInvoicesByOfficeIdHandler($office_id){
+function getInvoicesByOfficeId($office_id){
     try {
         $pdo = getPDO();
         if (!$pdo) {
@@ -1981,7 +1743,7 @@ function getInvoicesByOfficeIdHandler($office_id){
             a.office_id,
             d.office_name,
             e.guthi_type_name,
-            b.guthi_name,
+            f.guthi_name,
             b.tenant_name,
             b.tenant_address,
             a.ndate,
@@ -2006,6 +1768,8 @@ function getInvoicesByOfficeIdHandler($office_id){
             ON d.id = a.office_id
         INNER JOIN guthi_type e 
             ON e.id = b.guthi_type_id
+        INNER JOIN guthis f on
+        b.guthi_id=f.id
         WHERE a.office_id = :office_id
         ORDER BY a.office_id, a.edate, b.tenant_name, a.tiro_aaba_id
         ";
@@ -2032,7 +1796,7 @@ function getInvoicesByOfficeIdHandler($office_id){
         exit();
     }
 }
-function getLagatByOfficeIdHandler($office_id){
+function getLagatByOfficeId($office_id){
     try {
         $pdo = getPDO();
         if (!$pdo) {
@@ -2056,7 +1820,7 @@ function getLagatByOfficeIdHandler($office_id){
             a.office_id,
             h.office_name,
             b.guthi_type_name,
-            a.guthi_name,
+            k.guthi_name,
             c.tenant_type_name,
             a.tenant_name,
             a.tenant_address,
@@ -2081,11 +1845,12 @@ function getLagatByOfficeIdHandler($office_id){
         INNER JOIN offices h ON h.id = a.office_id
         INNER JOIN land_type i ON i.id = d.land_type_id
         INNER JOIN land_sub_type j ON j.id = d.land_sub_type_id
+        INNER JOIN guthis k on k.id=a.guthi_id
         WHERE a.office_id = :office_id
           AND d.status = 1
         ORDER BY 
             a.guthi_type_id,
-            a.guthi_name,
+            k.guthi_name,
             f.gabisa_name,
             d.ward_no,
             d.kitta_no
@@ -2113,7 +1878,7 @@ function getLagatByOfficeIdHandler($office_id){
         exit();
     }
 }
-function getTenderByNoHandler($tender_no){
+function getTenderByNo($tender_no){
     try {
         $pdo = getPDO();
         if (!$pdo) {
@@ -2135,12 +1900,14 @@ function getTenderByNoHandler($tender_no){
         $sql = "
         SELECT 
             a.*,
-            b.guthi_name,
+            c.guthi_name,
             b.tenant_name,
             b.tenant_address
         FROM invoice_tender a
-        LEFT JOIN shresta_header b 
+        LEFT JOIN shresta_header b         
             ON a.shresta_id = b.id
+        LEFT JOIN guthis c 
+            on c.id=b.guthi_id
         WHERE a.tender_no like :tender_no
         ";
 
@@ -2167,7 +1934,7 @@ function getTenderByNoHandler($tender_no){
     }
 }
 
-function getTenderByIdHandler($tender_id){
+function getTenderById($tender_id){
     try {
         $pdo = getPDO();
         if (!$pdo) {
@@ -2215,7 +1982,7 @@ function getTenderByIdHandler($tender_id){
         exit();
     }
 }
-function getMonthSumHandler($office_id, $aaba_id){
+function getMonthSum($office_id, $aaba_id){
     try {
         $pdo = getPDO();
         if (!$pdo) {
@@ -2277,54 +2044,35 @@ function getMonthSumHandler($office_id, $aaba_id){
         exit();
     }
 }
-function getMonthsSumInvoiceHandler($officeId, $aabaId) {
-    if (!$officeId) invalidInput("office_id");
-    if (!$aabaId) invalidInput("aaba_id");
+function getMonthsSumInvoice($officeId) {
+    if (!$officeId) invalidInput("office_id");   
 
     $pdo = getPDO();
     if (!$pdo) dbUnavailable("Main");
 
     try {
         $sql = "
-            SELECT 
-                a.mon, 
+        SELECT 
+                a.aaba_id,a.mon, 
                 a.tender_no,
                 a.ndate, 
                 b.tenant_name, 
                 SUM(a.amount) as amount
             FROM invoice_tender a
             INNER JOIN shresta_header b ON a.shresta_id = b.id
-            WHERE a.aaba_id = :aaba_id AND a.office_id = :office_id
-            GROUP BY a.mon, a.tender_no
-            ORDER BY a.mon, a.tender_no,a.ndate
+            WHERE a.office_id = :office_id
+            GROUP BY a.aaba_id,a.mon, a.tender_no
+            ORDER BY a.aaba_id,a.mon, a.tender_no,a.ndate            
         ";
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            "aaba_id" => $aabaId,
-            "office_id" => $officeId
-        ]);
+        $stmt->execute(["office_id" => $officeId]);
 
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Group by month
-        $data = [];
-        foreach ($rows as $row) {
-            $monthKey = "month" . $row['mon']; // e.g., month1, month2
-            if (!isset($data[$monthKey])) {
-                $data[$monthKey] = [];
-            }
-            $data[$monthKey][] = [
-                "tender_no" => $row['tender_no'],
-                "ndate"=>$row['ndate'],
-                "tenant_name" => $row['tenant_name'],
-                "amount" => $row['amount']
-            ];
-        }
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);        
 
         echo json_encode([
             "status" => true,
-            "data" => $data
+            "data" =>$results
         ]);
         exit();
 
@@ -2332,7 +2080,7 @@ function getMonthsSumInvoiceHandler($officeId, $aabaId) {
         respondDbError($e);
     }
 }
-function getDistinctPalikaHandler($officeId) {
+function getDistinctPalika($officeId) {
     if (!$officeId) invalidInput("officeId");  // validate input
 
     $pdo = getPDO();
@@ -2356,7 +2104,7 @@ function getDistinctPalikaHandler($officeId) {
         respondDbError($e);
     }
 }
-function getDistinctGabisaHandler($palikaId) {
+function getDistinctGabisa($palikaId) {
     if (!$palikaId) invalidInput("palikaId");
 
     $pdo = getPDO();
@@ -2380,7 +2128,7 @@ function getDistinctGabisaHandler($palikaId) {
         respondDbError($e);
     }
 }
-function getDistinctWardsHandler($gabisaId) {
+function getDistinctWards($gabisaId) {
     if (!$gabisaId) invalidInput("gabisaId");
 
     $pdo = getPDO();
@@ -2403,7 +2151,7 @@ function getDistinctWardsHandler($gabisaId) {
         respondDbError($e);
     }
 }
-function getKittaDetailsHandler() {
+function getKittaDetails() {
     // Validate required inputs
     $requestData = json_decode(file_get_contents('php://input'), true);
     $requiredFields = ['office_id', 'palika_id', 'gabisa_id', 'ward_no', 'kitta_no'];
@@ -2420,7 +2168,7 @@ function getKittaDetailsHandler() {
         $sql = "SELECT a.shresta_id,
                        a.guthi_type_id,
                        e.guthi_type_name,
-                       b.guthi_name,
+                       f.guthi_name,
                        b.tenant_name,
                        b.tenant_address,
                        c.palika_name,
@@ -2434,6 +2182,7 @@ function getKittaDetailsHandler() {
                 INNER JOIN palikas c ON c.id = a.palika_id
                 INNER JOIN gabisas d ON d.id = a.gabisa_id
                 INNER JOIN guthi_type e ON a.guthi_type_id = e.id
+                INNER JOIN guthis f on b.guthi_id=f.id
                 WHERE a.office_id = :office_id
                   AND a.palika_id = :palika_id
                   AND a.gabisa_id = :gabisa_id
@@ -2458,7 +2207,7 @@ function getKittaDetailsHandler() {
         respondDbError($e);
     }
 }
-function downloadRecordsHandler() {
+function downloadRecords() {
     header("Content-Type: application/json");
 
     $pdo = getPDO();
@@ -2516,8 +2265,7 @@ function downloadRecordsHandler() {
         ]);
     }
 }
-
-function deleteLandHandler() {
+function deleteLand() {
     // Validate required inputs
     $requestData = json_decode(file_get_contents('php://input'), true);
     $requiredFields = ['id', 'remarks'];
@@ -2545,6 +2293,44 @@ function deleteLandHandler() {
         exit();
 
     } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
+ function getPendingInvoicesByOfficeId($office_id){
+     $pdo = getPDO();
+    if (!$pdo) return dbUnavailable("Remote");
+
+    if (!$office_id ) {
+        return invalidInput("office_id");
+    }
+
+    try {
+        $stmt = $pdo->prepare("
+            SELECT 
+                    a.*,
+										e.tenant_name,										
+                    b.nepname,
+                    c.aaba_name,
+                    d.aaba_name AS tiro_aaba_name
+                FROM invoice_header a
+                INNER JOIN users b ON a.created_by_user_id = b.id
+                INNER JOIN aabas c ON a.invoice_aaba_id = c.id
+                INNER JOIN aabas d ON a.tiro_aaba_id = d.id
+								inner join shresta_header e on a.shresta_id=e.id
+                WHERE a.office_id=? and a.paid_status=0
+                ORDER BY a.shresta_id,a.tiro_aaba_id
+        ");
+
+        $stmt->execute([$office_id]);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode([
+            "status"  => true,
+            "message" => "भुक्तानी बाँकी विवरण प्राप्त भयो",
+            "data"    => $results
+        ], JSON_UNESCAPED_UNICODE);
+
+    } catch (PDOException $e) {
         respondDbError($e);
     }
 }
@@ -2578,7 +2364,6 @@ function getVouchers($aaba_id,$office_id) {
         respondDbError($e);
     }
 }
-
 function updateRatesInInvoiceByid() {
     $pdo = getPDO();
     if (!$pdo) dbUnavailable("Main");
@@ -2646,8 +2431,37 @@ function updateRatesInInvoiceByid() {
         respondDbError($e);
     }
 }
+function getGabisas() {
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
 
+    try {
+        $sql = "SELECT 
+                    a.*,
+                    b.state_name,
+                    c.district_name,
+                    d.palika_type_name,
+                    e.palika_name
+                FROM gabisas a
+                INNER JOIN states b ON a.state_id = b.id
+                INNER JOIN districts c ON a.district_id = c.id
+                INNER JOIN palika_type d ON a.palika_type_id = d.id
+                INNER JOIN palikas e ON a.palika_id = e.id
+                ORDER BY b.id, c.district_name, d.id, e.palika_name, a.gabisa_name";
 
+        $stmt = $pdo->query($sql);
+        $gabisas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode([
+            "status" => true,
+            "data" => $gabisas
+        ]);
+        exit();
+
+    } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
 function notFound() { http_response_code(404); echo json_encode(["status"=>false,"message"=>"Not Found"]); exit(); }
 function methodNotAllowed() { http_response_code(405); echo json_encode(["status"=>false,"message"=>"Method Not Allowed"]); exit(); }
 function respondDbError($e) { http_response_code(500); echo json_encode(["status"=>false,"message"=>"Database Error","error"=>$e->getMessage()]); exit(); }
