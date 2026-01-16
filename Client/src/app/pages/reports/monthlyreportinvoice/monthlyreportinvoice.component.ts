@@ -19,9 +19,9 @@ export class MonthlyreportinvoiceComponent implements OnInit {
   userData: any;
   invoiceData: any;
   filteredData: any[] = [];
-  yearKeys=['7071','7172','7273','7374','7475','7576','7677','7778','7879','7980','8081','8182','8283']
-  monthKeys = ['4', '5', '6', '7', '8', '9', '10', '11', '12', '1', '2', '3'];
-  monthNames = ['श्रावण', 'भदौ', 'असोज', 'कार्तिक', 'मंसिर', 'पौष', 'माघ', 'फाल्गुन', 'चैत्र', 'वैशाख', 'जेठ', 'असार'];
+  yearKeys:any[]=[];
+  monthKeys:any[]= [];
+  monthNames:any[] = [];
  
   selectedMonth: string = '';
   selectedYear: string ='';
@@ -36,6 +36,7 @@ export class MonthlyreportinvoiceComponent implements OnInit {
       {
         next: (res: any) => {
           this.invoiceData = res.data;
+          this.populateYearAndMonths(this.invoiceData);
         },
         error: (err: any) => {
           console.log(err);
@@ -68,5 +69,32 @@ export class MonthlyreportinvoiceComponent implements OnInit {
       String(item.aaba_id) === yearKey
     );
   }
+populateYearAndMonths(data: any[]) {
 
+  // ---- YEARS (AABA) ----
+  this.yearKeys = Array.from(
+    new Set(data.map(item => String(item.aaba_id)))
+  ).sort(); // optional sorting
+
+
+  // ---- MONTHS (ORDERED) ----
+  const monthMap = new Map<number, { mon: number; name: string }>();
+
+  data.forEach(item => {
+    if (!monthMap.has(item.month_order)) {
+      monthMap.set(item.month_order, {
+        mon: item.mon,
+        name: item.month_name
+      });
+    }
+  });
+
+  // sort by fiscal month order (श्रावण → असार)
+  const sortedMonths = Array.from(monthMap.entries())
+    .sort((a, b) => a[0] - b[0])
+    .map(entry => entry[1]);
+
+  this.monthKeys  = sortedMonths.map(m => String(m.mon));
+  this.monthNames = sortedMonths.map(m => m.name);
+}
 }

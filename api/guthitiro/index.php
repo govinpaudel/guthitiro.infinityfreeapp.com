@@ -101,7 +101,7 @@ if ($method === "GET") {
             getMonthSum($pathParts[1] ?? null, $pathParts[2] ?? null);
             break;
         case "getmonthsuminvoice":
-            getMonthsSumInvoice($pathParts[1] ?? null);
+            getMonthSumInvoice($pathParts[1] ?? null);
             break;
         case "getdistinctpalika":
             getDistinctPalika($pathParts[1] ?? null);
@@ -2044,25 +2044,25 @@ function getMonthSum($office_id, $aaba_id){
         exit();
     }
 }
-function getMonthsSumInvoice($officeId) {
+function getMonthSumInvoice($officeId) {
     if (!$officeId) invalidInput("office_id");   
 
     $pdo = getPDO();
     if (!$pdo) dbUnavailable("Main");
 
     try {
-        $sql = "
-        SELECT 
-                a.aaba_id,a.mon, 
+        $sql = "SELECT 
+                a.aaba_id,c.month_order,a.mon,c.month_name, 
                 a.tender_no,
                 a.ndate, 
                 b.tenant_name, 
                 SUM(a.amount) as amount
             FROM invoice_tender a
             INNER JOIN shresta_header b ON a.shresta_id = b.id
+						INNER JOIN months c on a.mon=c.id
             WHERE a.office_id = :office_id
-            GROUP BY a.aaba_id,a.mon, a.tender_no
-            ORDER BY a.aaba_id,a.mon, a.tender_no,a.ndate            
+            GROUP BY  a.aaba_id,c.month_order,a.mon,c.month_name,a.tender_no,a.ndate
+            ORDER BY a.aaba_id,c.month_order,a.mon,c.month_name,a.tender_no,a.ndate           
         ";
 
         $stmt = $pdo->prepare($sql);
