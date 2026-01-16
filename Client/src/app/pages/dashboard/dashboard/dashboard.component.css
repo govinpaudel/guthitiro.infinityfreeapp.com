@@ -2,13 +2,13 @@
     flex: 1 1 auto;
   }
   .drawer{
-    height: 400px;   
+    height: 500px;   
     width:200px;
     
   }
   .div-100{
     width: 100wh;
-    height: 80vh;        
+    height: 95vh;        
   }
   .fa{
     color: navy;
