@@ -8,27 +8,24 @@ import { MaterialModule } from '../../../../shared/material';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-addrates',
+  selector: 'app-updaterrates',
   imports: [MaterialModule, CommonModule, ReactiveFormsModule],
-  templateUrl: './addarates.component.html',
-  styleUrl: './addarates.component.css'
+  templateUrl: './updaterrates.component.html',
+  styleUrl: './updaterrates.component.css'
 })
-export class AddaratesComponent implements OnInit {
+export class UpdaterratesComponent implements OnInit {
   rateForm: any = FormGroup;
   userData: any;
-  aabas: any;
-  guthi_types: any;
-  palika_types: any;
-  land_types: any;
-  land_sub_types: any;
+  aabas: any;  
+  palika_types: any;  
   area_types: any;
-  guthi_type_id:any =1;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  guthi_type_id:any=2;
+  constructor(@Inject(MAT_DIALOG_DATA) public aayekodata: any,
     private formbuilder: FormBuilder,
     private guthiService: GuthiService,
     private authService: AuthService,
     private toaster: ToastrService,
-    private matDailogRef: MatDialogRef<AddaratesComponent>
+    private matDailogRef: MatDialogRef<UpdaterratesComponent>
   ) { }
 
   ngOnInit(): void {
@@ -36,28 +33,20 @@ export class AddaratesComponent implements OnInit {
     this.rateForm = this.formbuilder.group(
       {
         start_aaba_id: ['', Validators.required],
-        end_aaba_id:['', Validators.required],        
-        palika_type_id: [[], Validators.required],
-        land_type_id: [[], Validators.required],
-        land_sub_type_id: [[], Validators.required],
+        end_aaba_id: ['', Validators.required],        
+        palika_type_id: [[], Validators.required],        
         area_type_id: ['', Validators.required],
         rate: ['', [Validators.required, Validators.pattern("^[0-9]+(\\.[0-9]{1,2})?$")]],
         unit_rate: [{ value: null, disabled: true }]
       }
     )
-    this.getAabas();   
-    this.getPalikaTypes();
-    this.getLandTypes();
-    this.getLandSubTypes();
-    this.getAreaTypes();   
-
-
+    this.getAabas();    
+    this.getPalikaTypes();   
+    this.getAreaTypes();    
+    this.loadEditData(this.aayekodata.data);
   }
-  getAabas() {
-    const data={
-      table:"aabas"
-    }
-    this.guthiService.getAll(data).subscribe(
+  getAabas() {    
+    this.guthiService.getAll({table_name:'aabas'}).subscribe(
       {
         next: (res: any) => {
           this.aabas = res.data;
@@ -68,11 +57,9 @@ export class AddaratesComponent implements OnInit {
       }
     )
   }
-  getPalikaTypes() {
-    const data={
-      table:"palika_type"
-    }
-    this.guthiService.getAll(data).subscribe(
+  
+  getPalikaTypes() {   
+    this.guthiService.getAll({table_name:'palika_type'}).subscribe(
       {
         next: (res: any) => {
           this.palika_types = res.data;
@@ -83,39 +70,10 @@ export class AddaratesComponent implements OnInit {
       }
     )
   }
-  getLandTypes() {
+  
+   getAreaTypes() {
     const data={
-      table:"land_type"
-    }
-    this.guthiService.getAll(data).subscribe(
-      {
-        next: (res: any) => {
-          this.land_types = res.data;
-        },
-        error: (err: any) => {
-          console.log(err);
-        }
-      }
-    )
-  }
-  getLandSubTypes() {
-    const data={
-      table:"land_sub_type"
-    }
-    this.guthiService.getAll(data).subscribe(
-      {
-        next: (res: any) => {
-          this.land_sub_types = res.data;
-        },
-        error: (err: any) => {
-          console.log(err);
-        }
-      }
-    )
-  }
-  getAreaTypes() {
-    const data={
-      table:"area_type"
+      table_name:'area_type'
     }
     this.guthiService.getAll(data).subscribe(
       {
@@ -131,9 +89,9 @@ export class AddaratesComponent implements OnInit {
   onSubmit() {
     const formdata = this.rateForm.getRawValue();
     // console.log(formdata);
-    const newdata = { ...formdata, user_id: this.userData.id, id: this.data.id, office_id: this.userData.office_id,guthi_type_id:this.guthi_type_id }
-    console.log(newdata);
-    this.guthiService.addUpdateRates(newdata).subscribe(
+    // const newdata = { ...formdata, user_id: this.userData.id, id: this.data.id, office_id: this.userData.office_id,guthi_type_id:this.guthi_type_id }
+    // console.log(newdata);
+    this.guthiService.addUpdateRates(formdata).subscribe(
       {
         next: (res: any) => {
           if (res.status == true) {
@@ -166,5 +124,23 @@ export class AddaratesComponent implements OnInit {
       x = rate
     }
     this.rateForm.get('unit_rate').setValue(x)
-  } 
+  }
+  loadEditData(data:any) {
+    console.log('I am patching',data);
+    if (data > 0) {
+      
+            this.rateForm.patchValue({
+              start_aaba_id: data.start_aaba_id,
+              end_aaba_id: data.end_aaba_id,              
+              palika_type_id: data.palika_type_id,              
+              area_type_id: data.area_type_id,
+              rate: data.rate,
+              unit_rate: data.unit_rate
+            })}}
+         
+
+        
+      
+    
+  
 }

@@ -3,7 +3,6 @@ import { GuthiService } from '../../../services/guthi.service';
 import { MaterialModule } from '../../../shared/material';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../../../services/auth.service';
-import { AddaratesComponent } from './addarates/addarates.component';
 import { UpdatearatesComponent } from './updatearates/updatearates.component';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
@@ -47,7 +46,7 @@ Delete(guthi_type_id:any,id:any){
   
 }
 AddRates(title: any, id:any) {
-    let dialogRef = this.matDailog.open(AddaratesComponent, {
+    let dialogRef = this.matDailog.open(UpdatearatesComponent, {
       height: '300px',
       width: '80%',
       maxWidth: '100vw',
@@ -63,21 +62,5 @@ AddRates(title: any, id:any) {
       }
     })
   }
-  EditRates(title: any,guthi_type_id:any, id:any) {
-    let dialogRef = this.matDailog.open(UpdatearatesComponent, {
-      height: '300px',
-      width: '80%',
-      maxWidth: '100vw',
-      maxHeight:'100vh',
-      enterAnimationDuration: "500ms",
-      exitAnimationDuration: "500ms",
-      data: { title: title, id: id,guthi_type_id:guthi_type_id }
-    });
-
-    dialogRef.afterClosed().subscribe((item: any) => {
-      if (item == true) {
-       this.getRatesByOffice(this.userData.office_id,this.type);
-      }
-    })
-  }
+  
 }

@@ -1,14 +1,14 @@
 <div class="container">
   <div class="row">
     <mat-toolbar>
-      {{data.title}}
+      {{aayekodata.title}}
       <!-- {{data.shrestaid}}{{data.landid}} -->
     </mat-toolbar>
   </div>
 <form [formGroup]="rateForm">
  <div class="row">
       <mat-form-field appearance="outline" class="col">
-        <mat-label>शूरु आ.व.</mat-label>
+        <mat-label>शुरु आ.व.</mat-label>
         <mat-select formControlName="start_aaba_id">
           @for(item of aabas;track item)
           {
@@ -20,8 +20,8 @@
           <span *ngIf="rateForm.controls.start_aaba_id.errors.pattern">गलत डाटा!</span>
         </mat-error>
       </mat-form-field>
-  <mat-form-field appearance="outline" class="col">
-        <mat-label>शूरु आ.व.</mat-label>
+<mat-form-field appearance="outline" class="col">
+        <mat-label>अन्तिम आ.व.</mat-label>
         <mat-select formControlName="end_aaba_id">
           @for(item of aabas;track item)
           {
@@ -32,10 +32,10 @@
           <span *ngIf="rateForm.controls.end_aaba_id.errors.required">यो क्षेत्र अनिवार्य छ!</span>
           <span *ngIf="rateForm.controls.end_aaba_id.errors.pattern">गलत डाटा!</span>
         </mat-error>
-      </mat-form-field>      
+      </mat-form-field>    
       <mat-form-field appearance="outline" class="col">
         <mat-label>स्थानिय प्रकार</mat-label>
-        <mat-select formControlName="palika_type_id" multiple>
+        <mat-select formControlName="palika_type_id" >
           @for(item of palika_types;track item)
           {
           <mat-option [value]=item.id>{{item.palika_type_name}}</mat-option>
@@ -45,31 +45,9 @@
           <span *ngIf="rateForm.controls.palika_type_id.errors.required">यो क्षेत्र अनिवार्य छ!</span>
           <span *ngIf="rateForm.controls.palika_type_id.errors.pattern">गलत डाटा!</span>
         </mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="col">
-        <mat-label>जग्गाको विरह</mat-label>
-        <mat-select formControlName="land_type_id" multiple>
-          @for(item of land_types;track item)
-          {<mat-option [value]=item.id>{{item.land_type_name}}</mat-option>}
-        </mat-select>
-        <mat-error *ngIf="rateForm.controls.land_type_id.touched && rateForm.controls.land_type_id.invalid">
-          <span *ngIf="rateForm.controls.land_type_id.errors.required">यो क्षेत्र अनिवार्य छ!</span>
-          <span *ngIf="rateForm.controls.land_type_id.errors.pattern">गलत डाटा!</span>
-        </mat-error>
-      </mat-form-field>
+      </mat-form-field>     
     </div>
-    <div class="row">
-        <mat-form-field appearance="outline" class="col">
-        <mat-label>जग्गाको प्रकार</mat-label>
-        <mat-select formControlName="land_sub_type_id" multiple>
-          @for(item of land_sub_types;track item)
-          {<mat-option [value]=item.id>{{item.land_sub_type_name}}</mat-option>}
-        </mat-select>
-        <mat-error *ngIf="rateForm.controls.land_sub_type_id.touched && rateForm.controls.land_sub_type_id.invalid">
-          <span *ngIf="rateForm.controls.land_sub_type_id.errors.required">यो क्षेत्र अनिवार्य छ!</span>
-          <span *ngIf="rateForm.controls.land_sub_type_id.errors.pattern">गलत डाटा!</span>
-        </mat-error>
-      </mat-form-field>
+    <div class="row">        
       <mat-form-field appearance="outline" class="col">
         <mat-label>क्षेत्रफल प्रकार</mat-label>
         <mat-select formControlName="area_type_id" (selectionChange)="areaToUnitRate()">

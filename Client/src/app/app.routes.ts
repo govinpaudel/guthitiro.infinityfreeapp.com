@@ -10,8 +10,7 @@ import { ViewshrestaComponent } from './pages/shresta/viewshresta/viewshresta.co
 import { ListShrestaComponent } from './pages/shresta/listshresta/listshresta.component';
 import { ReportDashComponent } from './pages/reports/report-dash/report-dash.component';
 import { LocalsettingsComponent } from './pages/settings/localsettings/localsettings.component';
-import {AratesComponent} from './pages/settings/arates/arates.component';
-import { RratesComponent } from './pages/settings/rrates/rrates.component';
+import { AratesComponent } from './pages/settings/adhinastarates/arates.component';
 import { DiscountsComponent } from './pages/settings/discounts/discounts.component';
 import { LagatreportComponent } from './pages/reports/lagatreport/lagatreport.component';
 import { InvoicereportComponent } from './pages/reports/invoicereport/invoicereport.component';
@@ -22,6 +21,7 @@ import { MonthlyreportinvoiceComponent } from './pages/reports/monthlyreportinvo
 import { SyncDataComponent } from './pages/settings/sync-data/sync-data.component';
 import { VoucherreportComponent } from './pages/reports/voucherreport/voucherreport.component';
 import { PendingpaymentComponent } from './pages/reports/pendingpayment/pendingpayment.component';
+import { RratesComponent } from './pages/settings/raitanirates/rrates.component';
 
 export const routes: Routes = [
     {path:"",title:"GKMS | लगईन गर्नुहोस्",redirectTo:'login',pathMatch:'full'},
