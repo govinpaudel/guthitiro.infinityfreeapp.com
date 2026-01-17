@@ -51,10 +51,7 @@ if ($method === "GET") {
             break;       
         case "getratesbyoffice":
             getRatesByOfficeId($pathParts[1] ?? null, $pathParts[2] ?? null);
-            break;
-        case "getratesbyid":
-            getRatesById($pathParts[1] ?? null,$pathParts[2] ?? null);
-            break;
+            break;       
         case "getpendinginvoicesbyofficeid":
             getPendingInvoicesByOfficeId($pathParts[1] ?? null);
             break;                           
@@ -166,8 +163,14 @@ if ($method === "GET") {
             deleteLand();
             break;
     case "updateratesininvoicebyid":
-        updateRatesInInvoiceByid();
-        break;
+            updateRatesInInvoiceByid();
+            break;
+     case "addupdaterrates":
+            addUpdateRRates();
+            break;
+    case "addupdatearates":
+            addUpdateARates();
+            break;   
         default:
             methodNotAllowed();
     }
@@ -405,7 +408,8 @@ function getAll() {
         'land_type',
         'land_sub_type',
         'discounts',
-        'tenders'
+        'tenders',
+        'palika_type'
 
     ];
 
@@ -2462,6 +2466,260 @@ function getGabisas() {
         respondDbError($e);
     }
 }
+function addUpdateARates()
+{
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
+
+    // Read JSON body
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    $id                = $input['id'] ?? 0;
+    $office_id         = $input['office_id'] ?? null;
+    $start_aaba_id     = $input['start_aaba_id'] ?? null;
+    $end_aaba_id       = $input['end_aaba_id'] ?? null;
+    $guthi_type_id     = $input['guthi_type_id'] ?? null;
+    $palika_type_id    = $input['palika_type_id'] ?? null;
+    $land_type_id      = $input['land_type_id'] ?? null;
+    $land_sub_type_id  = $input['land_sub_type_id'] ?? null;
+    $area_type_id      = $input['area_type_id'] ?? null;
+    $rate              = $input['rate'] ?? null;
+    $unit_rate         = $input['unit_rate'] ?? null;
+    $user_id           = $input['user_id'] ?? null;
+
+    // -----------------------------
+    // Validation
+    // -----------------------------
+    if (!$start_aaba_id)    invalidInput("start_aaba_id");
+    if (!$end_aaba_id)      invalidInput("end_aaba_id");
+    if (!$guthi_type_id)    invalidInput("guthi_type_id");
+    if (!$palika_type_id)   invalidInput("palika_type_id");
+    if (!$land_type_id)     invalidInput("land_type_id");
+    if (!$area_type_id)     invalidInput("area_type_id");
+    if ($rate === null)     invalidInput("rate");
+    if ($unit_rate === null)invalidInput("unit_rate");
+    if (!$user_id)          invalidInput("user_id");
+
+    try {
+
+        // -----------------------------
+        // UPDATE
+        // -----------------------------
+        if ((int)$id > 0) {
+
+            $stmt = $pdo->prepare("
+                UPDATE rates_adhinasta SET
+                    start_aaba_id = :start_aaba_id,
+                    end_aaba_id = :end_aaba_id,
+                    guthi_type_id = :guthi_type_id,
+                    palika_type_id = :palika_type_id,
+                    land_type_id = :land_type_id,
+                    land_sub_type_id = :land_sub_type_id,
+                    area_type_id = :area_type_id,
+                    rate = :rate,
+                    unit_rate = :unit_rate,
+                    updated_by_user_id = :user_id
+                WHERE id = :id
+            ");
+
+            $stmt->execute([
+                "start_aaba_id"    => $start_aaba_id,
+                "end_aaba_id"      => $end_aaba_id,
+                "guthi_type_id"    => $guthi_type_id,
+                "palika_type_id"   => $palika_type_id,
+                "land_type_id"     => $land_type_id,
+                "land_sub_type_id" => $land_sub_type_id,
+                "area_type_id"     => $area_type_id,
+                "rate"             => $rate,
+                "unit_rate"        => $unit_rate,
+                "user_id"          => $user_id,
+                "id"               => $id
+            ]);
+
+            echo json_encode([
+                "status"  => true,
+                "message" => "दर संशोधन सफल भयो ।"
+            ], JSON_UNESCAPED_UNICODE);
+            exit();
+        }
+
+        // -----------------------------
+        // INSERT
+        // -----------------------------       
+
+        $stmt = $pdo->prepare("
+            INSERT INTO rates_adhinasta (
+                office_id,
+                start_aaba_id,
+                end_aaba_id,
+                guthi_type_id,
+                palika_type_id,
+                land_type_id,
+                land_sub_type_id,
+                area_type_id,
+                rate,
+                unit_rate,
+                created_by_user_id
+            ) VALUES (
+                :office_id,
+                :start_aaba_id,
+                :end_aaba_id,
+                :guthi_type_id,
+                :palika_type_id,
+                :land_type_id,
+                :land_sub_type_id,
+                :area_type_id,
+                :rate,
+                :unit_rate,
+                :user_id
+            )
+        ");
+
+        $stmt->execute([
+            "office_id"        => $office_id,
+            "start_aaba_id"    => $start_aaba_id,
+            "end_aaba_id"      => $end_aaba_id,
+            "guthi_type_id"    => $guthi_type_id,
+            "palika_type_id"   => $palika_type_id,
+            "land_type_id"     => $land_type_id,
+            "land_sub_type_id" => $land_sub_type_id,
+            "area_type_id"     => $area_type_id,
+            "rate"             => $rate,
+            "unit_rate"        => $unit_rate,
+            "user_id"          => $user_id
+        ]);
+
+        echo json_encode([
+            "status"  => true,
+            "message" => "दर दर्ता सफल भयो ।"
+        ], JSON_UNESCAPED_UNICODE);
+        exit();
+
+    } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
+function addUpdateRRates()
+{
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
+
+    // Read JSON body
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    $id             = $input['id'] ?? 0;
+    $office_id      = $input['office_id'] ?? null;
+    $start_aaba_id  = $input['start_aaba_id'] ?? null;
+    $end_aaba_id    = $input['end_aaba_id'] ?? null;
+    $guthi_type_id  = $input['guthi_type_id'] ?? null;
+    $palika_type_id = $input['palika_type_id'] ?? null;
+    $area_type_id   = $input['area_type_id'] ?? null;
+    $rate           = $input['rate'] ?? null;
+    $unit_rate      = $input['unit_rate'] ?? null;
+    $user_id        = $input['user_id'] ?? null;
+
+    // -----------------------------
+    // Validation (common)
+    // -----------------------------
+    if (!$start_aaba_id)   invalidInput("start_aaba_id");
+    if (!$end_aaba_id)     invalidInput("end_aaba_id");
+    if (!$palika_type_id)  invalidInput("palika_type_id");
+    if (!$area_type_id)    invalidInput("area_type_id");
+    if ($rate === null)    invalidInput("rate");
+    if ($unit_rate === null) invalidInput("unit_rate");
+    if (!$user_id)         invalidInput("user_id");
+
+    try {
+
+        // -----------------------------
+        // UPDATE
+        // -----------------------------
+        if ((int)$id > 0) {
+
+            $stmt = $pdo->prepare("
+                UPDATE rates_raitani SET
+                    start_aaba_id = :start_aaba_id,
+                    end_aaba_id = :end_aaba_id,
+                    palika_type_id = :palika_type_id,
+                    area_type_id = :area_type_id,
+                    rate = :rate,
+                    unit_rate = :unit_rate,
+                    updated_by_user_id = :user_id
+                WHERE id = :id
+            ");
+
+            $stmt->execute([
+                "start_aaba_id"  => $start_aaba_id,
+                "end_aaba_id"    => $end_aaba_id,
+                "palika_type_id" => $palika_type_id,
+                "area_type_id"   => $area_type_id,
+                "rate"           => $rate,
+                "unit_rate"      => $unit_rate,
+                "user_id"        => $user_id,
+                "id"             => $id
+            ]);
+
+            echo json_encode([
+                "status"  => true,
+                "message" => "दर संशोधन सफल भयो ।"
+            ], JSON_UNESCAPED_UNICODE);
+            exit();
+        }
+
+        // -----------------------------
+        // INSERT
+        // -----------------------------
+        if (!$office_id)     invalidInput("office_id");
+        if (!$guthi_type_id) invalidInput("guthi_type_id");
+
+        $stmt = $pdo->prepare("
+            INSERT INTO rates_raitani (
+                office_id,
+                start_aaba_id,
+                end_aaba_id,
+                guthi_type_id,
+                palika_type_id,
+                area_type_id,
+                rate,
+                unit_rate,
+                created_by_user_id
+            ) VALUES (
+                :office_id,
+                :start_aaba_id,
+                :end_aaba_id,
+                :guthi_type_id,
+                :palika_type_id,
+                :area_type_id,
+                :rate,
+                :unit_rate,
+                :user_id
+            )
+        ");
+
+        $stmt->execute([
+            "office_id"      => $office_id,
+            "start_aaba_id"  => $start_aaba_id,
+            "end_aaba_id"    => $end_aaba_id,
+            "guthi_type_id"  => $guthi_type_id,
+            "palika_type_id" => $palika_type_id,
+            "area_type_id"   => $area_type_id,
+            "rate"           => $rate,
+            "unit_rate"      => $unit_rate,
+            "user_id"        => $user_id
+        ]);
+
+        echo json_encode([
+            "status"  => true,
+            "message" => "दर सफलतापुर्वक दर्ता भएको छ ।"
+        ], JSON_UNESCAPED_UNICODE);
+        exit();
+
+    } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
+
+
 function notFound() { http_response_code(404); echo json_encode(["status"=>false,"message"=>"Not Found"]); exit(); }
 function methodNotAllowed() { http_response_code(405); echo json_encode(["status"=>false,"message"=>"Method Not Allowed"]); exit(); }
 function respondDbError($e) { http_response_code(500); echo json_encode(["status"=>false,"message"=>"Database Error","error"=>$e->getMessage()]); exit(); }

@@ -72,8 +72,11 @@ export class GuthiService {
   updDiscounts(data: any) {
     return this.httpclient.post(this.apiUrl + "/guthitiro/updatediscounts/", data)
   }
-  addUpdateRates(data: any) {
-    return this.httpclient.post(this.apiUrl + "/guthitiro/addUpdateRates/", data)
+  addUpdateRRates(data: any) {
+    return this.httpclient.post(this.apiUrl + "/guthitiro/addUpdateRRates/", data)
+  }
+  addUpdateARates(data: any) {
+    return this.httpclient.post(this.apiUrl + "/guthitiro/addUpdateARates/", data)
   }
   saveTender(data: any) {
     return this.httpclient.post(this.apiUrl + "/guthitiro/saveTender", data)

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { AddShrestaComponent } from '../addshresta/addshresta.component';
+import { AddShrestaComponent } from '../addOrEditShresta/addshresta.component';
 import { MaterialModule } from '../../../shared/material';
 import { GuthiService } from '../../../services/guthi.service';
 import { AddLandComponent } from './addland/addland.component';

@@ -7,7 +7,7 @@ import { GuthiService } from '../../../services/guthi.service';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AddShrestaComponent } from '../addshresta/addshresta.component';
+import { AddShrestaComponent } from '../addOrEditShresta/addshresta.component';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 

@@ -23,7 +23,7 @@ export class UpdatearatesComponent implements OnInit {
   land_sub_types: any;
   area_types: any;
   guthi_type_id:any=1
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  constructor(@Inject(MAT_DIALOG_DATA) public aayekodata: any,
     private formbuilder: FormBuilder,
     private guthiService: GuthiService,
     private authService: AuthService,
@@ -45,23 +45,17 @@ export class UpdatearatesComponent implements OnInit {
         unit_rate: [{ value: null, disabled: true }]
       }
     )
-    this.getAabas();    
-    this.getPalikaTypes();
-    this.getLandTypes();
-    this.getLandSubTypes();
-    this.getAreaTypes();
-    this.loadEditData(this.guthi_type_id,this.data.id);
+    this.getAabas();
+    this.userData=this.authService.getUser()    
+    
   }
-  getAabas() {
-    const data={
-      table_name:"aabas"
-    }
-    this.guthiService.getAll(data).subscribe(
+  getAabas() {   
+    this.guthiService.getAll({table_name:"aabas"}).subscribe(
       {
         next: (res: any) => {
           this.aabas = res.data;
-
-          
+          console.log('aaba loaded');
+          this.getPalikaTypes();          
         },
         error: (err: any) => {
           console.log(err);
@@ -69,14 +63,13 @@ export class UpdatearatesComponent implements OnInit {
       }
     )
   }
- getPalikaTypes() {
-  const data={
-      table_name:"palika_type"
-    }
-    this.guthiService.getAll(data).subscribe(
+ getPalikaTypes() {  
+    this.guthiService.getAll({ table_name:"palika_type"}).subscribe(
       {
         next: (res: any) => {
           this.palika_types = res.data;
+          console.log('palika_type loaded');
+          this.getLandTypes();
         },
         error: (err: any) => {
           console.log(err);
@@ -84,14 +77,13 @@ export class UpdatearatesComponent implements OnInit {
       }
     )
   }
-  getLandTypes() {
-    const data={
-      table_name:"land_type"
-    }
-    this.guthiService.getAll(data).subscribe(
+  getLandTypes() {    
+    this.guthiService.getAll({table_name:"land_type"}).subscribe(
       {
         next: (res: any) => {
           this.land_types = res.data;
+          console.log('land type loaded');
+          this.getLandSubTypes();
         },
         error: (err: any) => {
           console.log(err);
@@ -99,14 +91,13 @@ export class UpdatearatesComponent implements OnInit {
       }
     )
   }
-  getLandSubTypes() {
-    const data={
-      table_name:"land_sub_type"
-    }
-    this.guthiService.getAll(data).subscribe(
+  getLandSubTypes() {    
+    this.guthiService.getAll({table_name:"land_sub_type"}).subscribe(
       {
         next: (res: any) => {
           this.land_sub_types = res.data;
+          console.log('land_sub_type loaded')
+          this.getAreaTypes();
         },
         error: (err: any) => {
           console.log(err);
@@ -114,14 +105,14 @@ export class UpdatearatesComponent implements OnInit {
       }
     )
   }
-  getAreaTypes() {
-    const data={
-      table_name:'area_type'
-    }
-    this.guthiService.getAll(data).subscribe(
+  getAreaTypes() {   
+    this.guthiService.getAll({table_name:'area_type'}).subscribe(
       {
         next: (res: any) => {
           this.area_types = res.data;
+          if(this.aayekodata.data.id>0){
+            this.loadEditData(this.aayekodata.data)
+          }
         },
         error: (err: any) => {
           console.log(err);
@@ -132,9 +123,9 @@ export class UpdatearatesComponent implements OnInit {
   onSubmit() {
     const formdata = this.rateForm.getRawValue();
     // console.log(formdata);
-    const newdata = { ...formdata, user_id: this.userData.id, id: this.data.id, office_id: this.userData.office_id,guthi_type_id:this.guthi_type_id }
+    const newdata = { ...formdata, user_id: this.userData.id, id: this.aayekodata.data.id, office_id: this.userData.office_id,guthi_type_id:this.guthi_type_id }
     console.log(newdata);
-    this.guthiService.addUpdateRates(newdata).subscribe(
+    this.guthiService.addUpdateARates(newdata).subscribe(
       {
         next: (res: any) => {
           if (res.status == true) {
@@ -168,30 +159,20 @@ export class UpdatearatesComponent implements OnInit {
     }
     this.rateForm.get('unit_rate').setValue(x)
   }
-  loadEditData(type:any,id: any) {
-    console.log(id);
-    if (id > 0) {
-      this.guthiService.getRatesById(type,id).subscribe(
-        {
-          next: (res: any) => {
-            console.log(res.data[0]);
+  loadEditData(data:any) {
+    console.log(data);    
             this.rateForm.setValue({
-              start_aaba_id: res.data[0].start_aaba_id,              
-              end_aaba_id: res.data[0].end_aaba_id,
-              palika_type_id: res.data[0].palika_type_id,
-              land_type_id: res.data[0].land_type_id,
-              land_sub_type_id: res.data[0].land_sub_type_id,
-              area_type_id: res.data[0].area_type_id,
-              rate: res.data[0].rate,
-              unit_rate: res.data[0].unit_rate
+              start_aaba_id: data.start_aaba_id,              
+              end_aaba_id: data.end_aaba_id,
+              palika_type_id: data.palika_type_id,
+              land_type_id: data.land_type_id,
+              land_sub_type_id: data.land_sub_type_id,
+              area_type_id: data.area_type_id,
+              rate: data.rate,
+              unit_rate: data.unit_rate
             })
-          },
-          error: (err: any) => {
-            console.log(err);
+         
+      
           }
-
-        }
-      )
-    }
-  }
+  
 }

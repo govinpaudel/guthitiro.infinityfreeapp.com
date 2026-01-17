@@ -7,6 +7,7 @@ import { MaterialModule } from '../../../shared/material';
 import { GuthiService } from '../../../services/guthi.service';
 import { AuthService } from '../../../services/auth.service';
 import { forkJoin } from 'rxjs';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class AddShrestaComponent implements OnInit {
     private toaster: ToastrService,
     private guthiService: GuthiService,
     private authService: AuthService,
+    private loader:NgxUiLoaderService,
     private matRef: MatDialogRef<AddShrestaComponent>) { }
   ngOnInit(): void {
     this.shrestaForm = this.formBuilder.group({
@@ -42,42 +44,65 @@ export class AddShrestaComponent implements OnInit {
       ]]
     });
     this.userData = this.authService.getUser();
-    forkJoin({
-      guthis: this.getGuthis$(),
-      guthiTypes: this.getGuthiTypes$(),
-      tenantTypes: this.getTenantTypes$()
-    }).subscribe({
-      next: (res: any) => {
-        this.guthis = res.guthis.data;
-        this.guthiTypes = res.guthiTypes.data;
-        this.tenantTypes = res.tenantTypes.data;
+    this.getGuthis();
+  }
+getGuthis(){
+  this.loader.start();
+  // console.log(id)
+  this.guthiService.getAll({ table_name: "guthis" }).subscribe(
+    { next:
+    (res:any)=>{      
+      this.guthis=res.data;
+      console.log('guthi loaded');
+      this.getGuthiTypes()
+    },
+    error: (err:any)=>{
+      console.log(err)
+    }
+  }
+  )
+  this.loader.stop();
+}
 
-        // ✅ NOW edit data will work
-        if (this.aayekodata?.data?.id > 0) {
+getGuthiTypes(){
+  this.loader.start();
+  // console.log(id)
+  this.guthiService.getAll({ table_name: "guthi_type" }).subscribe(
+    { next:
+    (res:any)=>{      
+      this.guthiTypes=res.data;
+      console.log('guthi_type loaded');
+      this.getTenantTypes()
+    },
+    error: (err:any)=>{
+      console.log(err)
+    }
+  }
+  )
+  this.loader.stop();
+}
+getTenantTypes(){
+  this.loader.start();
+  // console.log(id)
+  this.guthiService.getAll({ table_name: "tenant_type" }).subscribe(
+    { next:
+    (res:any)=>{      
+      this.tenantTypes=res.data;
+      console.log('tenant type loaded');
+      if (this.aayekodata?.data?.id > 0) {
           this.loadEditData(this.aayekodata.data);
         }
-      },
-      error: () => {
-        this.toaster.error('Failed to load required data');
-      }
-    });
 
+    },
+    error: (err:any)=>{
+      console.log(err)
+    }
   }
+  )
+  this.loader.stop();
+}
 
-  getGuthis$() {
-    return this.guthiService.getAll({ table_name: "guthis" });
-  }
-
-  getGuthiTypes$() {
-    return this.guthiService.getAll({ table_name: "guthi_type" });
-  }
-
-  getTenantTypes$() {
-    return this.guthiService.getAll({ table_name: "tenant_type" });
-  }
-
-
-  filterTenantTypes() {
+filterTenantTypes() {
     const id = Number(this.shrestaForm.get('guthi_type_id')?.value);
     if (!id || !this.tenantTypes.length) return;
 

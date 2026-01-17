@@ -93,11 +93,10 @@ export class UpdaterratesComponent implements OnInit {
     )
   }
   onSubmit() {
-    const formdata = this.rateForm.getRawValue();
-    // console.log(formdata);
-    // const newdata = { ...formdata, user_id: this.userData.id, id: this.data.id, office_id: this.userData.office_id,guthi_type_id:this.guthi_type_id }
-    // console.log(newdata);
-    this.guthiService.addUpdateRates(formdata).subscribe(
+    const formdata = this.rateForm.getRawValue();    
+    const newdata = { ...formdata, user_id: this.userData.id, id: this.aayekodata.data.id, office_id: this.userData.office_id,guthi_type_id:this.guthi_type_id }
+    console.log('sent to server',newdata);
+    this.guthiService.addUpdateRRates(newdata).subscribe(
       {
         next: (res: any) => {
           if (res.status == true) {
