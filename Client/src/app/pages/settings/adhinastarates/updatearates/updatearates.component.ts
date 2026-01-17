@@ -60,6 +60,8 @@ export class UpdatearatesComponent implements OnInit {
       {
         next: (res: any) => {
           this.aabas = res.data;
+
+          
         },
         error: (err: any) => {
           console.log(err);

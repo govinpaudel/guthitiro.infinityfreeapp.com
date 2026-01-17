@@ -42,10 +42,10 @@ getRatesByOffice(id:any,type:any){
   )
   this.loader.stop();
 }
-Delete(guthi_type_id:any,id:any){
+Delete(data:any){
   
 }
-AddRates(title: any, id:any) {
+AddRates(title: any, data:any) {
     let dialogRef = this.matDailog.open(UpdatearatesComponent, {
       height: '300px',
       width: '80%',
@@ -53,7 +53,7 @@ AddRates(title: any, id:any) {
       maxHeight:'100vh',
       enterAnimationDuration: "500ms",
       exitAnimationDuration: "500ms",
-      data: { title: title, id: id }
+      data: { title: title, data: data }
     });
 
     dialogRef.afterClosed().subscribe((item: any) => {

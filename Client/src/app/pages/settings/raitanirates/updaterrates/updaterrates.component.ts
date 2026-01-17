@@ -41,15 +41,17 @@ export class UpdaterratesComponent implements OnInit {
       }
     )
     this.getAabas();    
-    this.getPalikaTypes();   
-    this.getAreaTypes();    
-    this.loadEditData(this.aayekodata.data);
+       
+     
+    
   }
   getAabas() {    
     this.guthiService.getAll({table_name:'aabas'}).subscribe(
       {
         next: (res: any) => {
           this.aabas = res.data;
+          console.log('aabas loaded');
+          this.getPalikaTypes();
         },
         error: (err: any) => {
           console.log(err);
@@ -63,6 +65,8 @@ export class UpdaterratesComponent implements OnInit {
       {
         next: (res: any) => {
           this.palika_types = res.data;
+          console.log('palika loaded');
+          this.getAreaTypes()
         },
         error: (err: any) => {
           console.log(err);
@@ -79,6 +83,8 @@ export class UpdaterratesComponent implements OnInit {
       {
         next: (res: any) => {
           this.area_types = res.data;
+          console.log('area type loaded');
+          this.loadEditData(this.aayekodata.data);          
         },
         error: (err: any) => {
           console.log(err);
@@ -127,7 +133,7 @@ export class UpdaterratesComponent implements OnInit {
   }
   loadEditData(data:any) {
     console.log('I am patching',data);
-    if (data > 0) {
+    if (data.id > 0) {
       
             this.rateForm.patchValue({
               start_aaba_id: data.start_aaba_id,

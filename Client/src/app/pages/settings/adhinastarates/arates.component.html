@@ -31,9 +31,9 @@
                     <td>{{item.land_sub_type_name}}</td>
                     <td>{{item.area_type_name}}</td>
                     <td>{{item.rate}}</td>
-                    <td><button (click)="EditRates('दर संशोधन फाराम',item.guthi_type_id,item.id)" mat-icon-button class="custom-icon-button"><i class="fa fa-cog fa-xs icon-blue"
+                    <td><button (click)="AddRates('दर संशोधन फाराम',item)" mat-icon-button class="custom-icon-button"><i class="fa fa-cog fa-xs icon-blue"
                                 aria-hidden="true" ></i></button></td>
-                    <td><button (click)="Delete(item.guthi_type_id,item.id)" mat-icon-button class="custom-icon-button"><i class="fa fa-trash fa-xs icon-red"
+                    <td><button (click)="Delete(item)" mat-icon-button class="custom-icon-button"><i class="fa fa-trash fa-xs icon-red"
                                 aria-hidden="true" ></i></button></td>
                 </tr>
                 }
