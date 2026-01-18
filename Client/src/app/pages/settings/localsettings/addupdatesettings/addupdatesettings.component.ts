@@ -25,12 +25,12 @@ export class AddupdatesettingsComponent {
   editData: any;
   palikaNameCtrl = new FormControl('', Validators.required);
   filteredPalikas!: Observable<any[]>;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  constructor(@Inject(MAT_DIALOG_DATA) public aayekodata: any,
     private formBuilder: FormBuilder,
     private toaster: ToastrService,
     private guthiService: GuthiService,
     private authService: AuthService,
-    private loader:NgxUiLoaderService,
+    private loader: NgxUiLoaderService,
     private matRef: MatDialogRef<AddupdatesettingsComponent>) { }
   ngOnInit(): void {
     this.gabisaForm = this.formBuilder.group({
@@ -40,19 +40,11 @@ export class AddupdatesettingsComponent {
       palika_id: ['', Validators.required],
       gabisa_name: [{ value: null, disabled: true }],
     })
-    this.getStates()
-    this.getDistricts()
-    this.getPalikaTypes()
-    this.getPalikas()
-    this.getUserDetails()
-    if (this.data.id > 0) {
-      this.loadEditData(this.data.id)
-    }
-    this.filteredPalikas = this.palikaNameCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterPalikas(value || ''))
-    );
+    this.userData = this.authService.getUser();
+    this.getStates();
+    console.log('aayekodata', this.aayekodata);
   }
+
   private _filterPalikas(value: string): any[] {
     const filterValue = value.toLowerCase();
     return this.palikas?.filter((p: any) =>
@@ -69,74 +61,74 @@ export class AddupdatesettingsComponent {
     }
   }
 
-  loadEditData(id: any) {
-    this.loader.start();
-    this.guthiService.getGabisaById(id).subscribe(
-      (res: any) => {
-        this.editData = res.data;
-        console.log(this.editData)
-        const palikaId = this.editData[0].palika_id;
+  loadEditData(data: any) {
+    this.loader.start();    
+        console.log(data);
+        const palikaId = data.palika_id;
         const palikaObj = this.palikas?.find((p: any) => p.id === palikaId);
         this.palikaNameCtrl.setValue(palikaObj?.palika_name || '');
         this.gabisaForm.setValue({
-          state_id: this.editData[0].state_id,
-          district_id: this.editData[0].district_id,
-          palika_type_id: this.editData[0].palika_type_id,
+          state_id: data.state_id,
+          district_id: data.district_id,
+          palika_type_id: data.palika_type_id,
           palika_id: palikaId,
-          gabisa_name: this.editData[0].gabisa_name
+          gabisa_name: data.gabisa_name
         })
+        this.loader.stop();
       }
-    )
-    this.loader.stop();
-  }
+    
+    
+  
+
   getStates() {
-    const data={
-      table_name:'states'
-    }
     this.loader.start();
-    this.guthiService.getAll(data).subscribe(
+    this.guthiService.getAll({ table_name: 'states' }).subscribe(
       (res: any) => {
-        this.states = res.data
+        this.states = res.data;
+        console.log('states received');
+        this.getDistricts()
       }
     )
     this.loader.stop();
   }
   getDistricts() {
     this.loader.start();
-    this.guthiService.getDistricts().subscribe(
+    this.guthiService.getAll({ table_name: 'districts' }).subscribe(
       (res: any) => {
         this.districts = res.data
-        // console.log(this.tenantTypes)
+        console.log('district received');
+        this.getPalikaTypes()
       }
     )
     this.loader.stop();
   }
   getPalikaTypes() {
     this.loader.start();
-    const data={
-      table_name:'palika_type'
-    }
-    this.guthiService.getAll(data).subscribe(
+    this.guthiService.getAll({ table_name: 'palika_type' }).subscribe(
       (res: any) => {
         this.palika_types = res.data
-        // console.log(this.tenantTypes)
+        console.log('palika_type received');
+        this.getPalikas();
       }
     )
     this.loader.stop();
   }
   getPalikas() {
     this.loader.start();
-    this.guthiService.getPalikas().subscribe(
+    this.guthiService.getAll({ table_name: 'palikas' }).subscribe(
       (res: any) => {
         this.palikas = res.data
-        // console.log(this.tenantTypes)
+        console.log('palikas received');
+        if (this.aayekodata.data.id > 0) {
+          this.loadEditData(this.aayekodata.data)
+        }
+        this.filteredPalikas = this.palikaNameCtrl.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filterPalikas(value || ''))
+        );
       }
     )
     this.loader.stop();
-  }
-
-  getUserDetails() {
-    this.userData = this.authService.getUser()
   }
 
 
@@ -144,7 +136,7 @@ export class AddupdatesettingsComponent {
     this.loader.start();
     try {
       const data = this.gabisaForm.value
-      const newdata = { ...data, "office_id": this.userData.office_id, "user_id": this.userData.id, "id": this.data.id }
+      const newdata = { ...data, "office_id": this.userData.office_id, "user_id": this.userData.id, "id": this.aayekodata.data.id }
       console.log(newdata);
       this.guthiService.addUpdateGabisa(newdata).subscribe(
         (res: any) => {

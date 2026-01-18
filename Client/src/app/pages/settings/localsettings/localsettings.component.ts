@@ -46,13 +46,13 @@ export class LocalsettingsComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  showEditForm(title: any, id: any) {
+  showEditForm(title: any, data: any) {
     let dialogRef = this.matDailog.open(AddupdatesettingsComponent, {
       height: '500px',
       width: '500px',
       enterAnimationDuration: "500ms",
       exitAnimationDuration: "500ms",
-      data: { title: title, id: id }
+      data: { title: title, data: data }
     });
 
 
