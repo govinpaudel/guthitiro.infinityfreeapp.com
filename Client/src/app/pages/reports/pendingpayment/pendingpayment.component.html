@@ -18,8 +18,8 @@
             <td>{{ item.tenant_name }}</td>            
             <td>{{ item.final_amount | number:'1.2-2' }}</td>            
             <td>
-                <span *ngIf="item.paid_status === '1'" class="text-success">भएको</span>
-                <span *ngIf="item.paid_status === '0'" class="text-danger">बाँकी</span>
+                <span *ngIf="item.paid_status === 1" class="text-success">भएको</span>
+                <span *ngIf="item.paid_status === 0" class="text-danger">बाँकी</span>
             </td>      
         </tr>
     </tbody>
