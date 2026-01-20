@@ -170,7 +170,9 @@ if ($method === "GET") {
             break;
     case "addupdatearates":
             addUpdateARates();
-            break;   
+            break;
+    case "addupdategabisa":
+            addUpdateGabisa();
         default:
             methodNotAllowed();
     }
@@ -409,7 +411,8 @@ function getAll() {
         'land_sub_type',
         'discounts',
         'tenders',
-        'palika_type'
+        'palika_type',
+        'palikas'
 
     ];
 
@@ -570,7 +573,7 @@ function getRatesByOfficeId($officeId, $type) {
                     INNER JOIN land_sub_type f ON f.id = a.land_sub_type_id
                     INNER JOIN area_type g ON g.id = a.area_type_id
                     WHERE a.office_id = :office_id
-                    ORDER BY a.start_aaba_id";
+                    ORDER BY a.start_aaba_id,a.end_aaba_id,a.guthi_type_id,a.palika_type_id,a.land_type_id,a.land_sub_type_id";
 
         } else {
             // Raitani rates
@@ -586,7 +589,7 @@ function getRatesByOfficeId($officeId, $type) {
                     INNER JOIN aabas d ON a.start_aaba_id = d.id
                     INNER JOIN aabas e ON a.end_aaba_id = e.id
                     WHERE a.office_id = :office_id
-                    ORDER BY a.start_aaba_id";
+                    ORDER BY a.start_aaba_id,a.end_aaba_id,a.palika_type_id";
         }
 
         $stmt = $pdo->prepare($sql);
@@ -2719,6 +2722,75 @@ function addUpdateRRates()
     }
 }
 
+function addUpdateGabisa() {
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
+
+    // Read JSON input
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    $id              = $input['id'] ?? null;
+    $state_id        = $input['state_id'] ?? null;
+    $district_id     = $input['district_id'] ?? null;
+    $palika_type_id  = $input['palika_type_id'] ?? null;
+    $palika_id       = $input['palika_id'] ?? null;
+
+    // -----------------------------
+    // Validation
+    // -----------------------------
+    if (!$id) invalidInput("id");
+    if (!$state_id) invalidInput("state_id");
+    if (!$district_id) invalidInput("district_id");
+    if (!$palika_type_id) invalidInput("palika_type_id");
+    if (!$palika_id) invalidInput("palika_id");
+
+    try {
+        $sql = "
+            UPDATE gabisas
+            SET 
+                state_id = :state_id,
+                district_id = :district_id,
+                palika_type_id = :palika_type_id,
+                palika_id = :palika_id,
+                updated_at = NOW()
+            WHERE id = :id
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            "state_id"       => $state_id,
+            "district_id"    => $district_id,
+            "palika_type_id" => $palika_type_id,
+            "palika_id"      => $palika_id,
+            "id"             => $id
+        ]);
+
+        if ($stmt->rowCount() === 0) {
+            http_response_code(404);
+            echo json_encode([
+                "status" => false,
+                "message" => "रेकर्ड फेला परेन ।"
+            ]);
+            exit();
+        }
+
+        http_response_code(200);
+        echo json_encode([
+            "status" => true,
+            "message" => "गा.वि.स संशोधन सफल भयो"
+        ]);
+        exit();
+
+    } catch (PDOException $e) {
+        error_log($e->getMessage());
+        http_response_code(500);
+        echo json_encode([
+            "status" => false,
+            "message" => "Database error"
+        ]);
+        exit();
+    }
+}
 
 function notFound() { http_response_code(404); echo json_encode(["status"=>false,"message"=>"Not Found"]); exit(); }
 function methodNotAllowed() { http_response_code(405); echo json_encode(["status"=>false,"message"=>"Method Not Allowed"]); exit(); }
