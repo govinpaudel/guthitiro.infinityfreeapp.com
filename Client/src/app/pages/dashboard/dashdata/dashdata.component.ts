@@ -113,16 +113,20 @@ export class DashdataComponent implements OnInit {
     loadDataToChart1() {
         let guthiType1Sum = 0;
         let guthiType2Sum = 0;
+        let guthiType3Sum = 0;
         this.landData.forEach((item: any) => {
             if (item.guthi_type_id === 1) {
                 guthiType1Sum += Math.round((item.area_units) / 256);
             } else if (item.guthi_type_id === 2) {
                 guthiType2Sum += Math.round((item.area_units) / 256);
+            } else if (item.guthi_type_id === 3) {
+                guthiType3Sum += Math.round((item.area_units) / 256);
             }
+
         });
 
-        const total = guthiType1Sum + guthiType2Sum;
-        const result = [total, guthiType1Sum, guthiType2Sum];
+        const total = guthiType1Sum + guthiType2Sum+guthiType3Sum;
+        const result = [total, guthiType1Sum, guthiType2Sum,guthiType3Sum];
         this.chartOptions1 = {
             series: [
                 {
@@ -136,7 +140,7 @@ export class DashdataComponent implements OnInit {
                 height: 350
             },
             title: {
-                text: 'जग्गाको विवरण विवरण',
+                text: 'जग्गाको विवरण',
                 align: 'center',        // options: 'left', 'center', 'right'
                 margin: 20,
                 style: {
@@ -146,7 +150,7 @@ export class DashdataComponent implements OnInit {
                 }
             },
             xaxis: {
-                categories: ['जम्मा', 'अधिनस्त', 'रैतान नम्बरी']
+                categories: ['जम्मा', 'अधिनस्त', 'रैतान नम्बरी','तैनाथी']
             }
         };
     }
