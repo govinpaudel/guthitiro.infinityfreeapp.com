@@ -15,7 +15,7 @@ export class AuthService {
     private toaster: ToastrService
   ) { }
   login(data: any) {
-    return this.httpClient.post(this.apiUrl + "/guthitiro/login", data)
+    return this.httpClient.post(this.apiUrl + "/guthitiro/login", data,{responseType:'text'})
   }
 
   register(data: any) {

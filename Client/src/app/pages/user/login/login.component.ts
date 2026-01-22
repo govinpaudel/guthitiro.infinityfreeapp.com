@@ -55,8 +55,8 @@ submitForm() {
       next: (res: any) => {
 
         // ✅ API returned text instead of JSON
-        if (typeof res === 'string') {
-          location.reload();
+        if (typeof res === 'string' && res.includes('<html')) {
+          window.location.href=window.location.href;
           return;
         }
 
