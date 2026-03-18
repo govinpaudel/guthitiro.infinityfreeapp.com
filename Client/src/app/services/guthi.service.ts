@@ -11,9 +11,9 @@ export class GuthiService {
   apiUrl: any = environment.apiUrl
   constructor(private httpclient: HttpClient, private router: Router) { }
   //get all masters//
-  getAll(data:any){
-    return this.httpclient.post(this.apiUrl + "/guthitiro/getAll",data)
-  }  
+  getAll(data: any) {
+    return this.httpclient.post(this.apiUrl + "/guthitiro/getAll", data)
+  }
   getAllShrestaByOfficeId(officeid: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getAllShrestaByOfficeId/" + officeid)
   }
@@ -37,10 +37,10 @@ export class GuthiService {
   }
   gabisaByDistrictAndPalikaId(id: any, palika_id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/gabisaByDistrictAndPalikaId/" + id + "/" + palika_id)
-  }  
+  }
   getLandsByShrestaId(id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getLandsByShrestaId/" + id)
-  }  
+  }
   AddOrUpdateLand(data: any) {
     return this.httpclient.post(this.apiUrl + "/guthitiro/AddOrUpdateLand/", data)
   }
@@ -99,6 +99,10 @@ export class GuthiService {
   getDashRevenueDataByOfficeId(officeid: any, aabaid: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getDashRevenueDataByOfficeId/" + officeid + "/" + aabaid)
   }
+  getDashDepositDataByOfficeId(officeid: any, aabaid: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getDashDepositDataByOfficeId/" + officeid + "/" + aabaid)
+  }
+
   getDashLandDataByOfficeId(officeid: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getDashLandDataByOfficeId/" + officeid)
   }
@@ -117,14 +121,14 @@ export class GuthiService {
   getInvoicesByOfficeId(officeid: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getInvoicesByOfficeId/" + officeid)
   }
-  updateRatesInInvoiceByid(data:any) {
-    return this.httpclient.post(this.apiUrl + "/guthitiro/updateRatesInInvoiceByid",data)
+  updateRatesInInvoiceByid(data: any) {
+    return this.httpclient.post(this.apiUrl + "/guthitiro/updateRatesInInvoiceByid", data)
   }
   getmonthsum(office_id: any, aaba_id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getmonthsum/" + office_id + "/" + aaba_id, {})
   }
   getmonthsuminvoice(office_id: any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getmonthsuminvoice/" + office_id , {})
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getmonthsuminvoice/" + office_id, {})
   }
 
   dupliland(land_id: any) {
@@ -151,20 +155,20 @@ export class GuthiService {
   getDistinctWards(gabisa_id: any) {
     return this.httpclient.get(this.apiUrl + "/guthitiro/getDistinctWards/" + gabisa_id)
   }
-  getVouchers(aaba_id:any,office_id:any) {
-    return this.httpclient.get(this.apiUrl + "/guthitiro/getVouchers/" + aaba_id+"/"+office_id)
+  getVouchers(aaba_id: any, office_id: any) {
+    return this.httpclient.get(this.apiUrl + "/guthitiro/getVouchers/" + aaba_id + "/" + office_id)
   }
-  getKittaDetails(formdata:any) {
-    return this.httpclient.post(this.apiUrl + "/guthitiro/getKittaDetails",formdata)
+  getKittaDetails(formdata: any) {
+    return this.httpclient.post(this.apiUrl + "/guthitiro/getKittaDetails", formdata)
   }
-  downloadRecords(formdata:any){
-    return this.httpclient.post(this.apiUrl + "/guthitiro/downloadrecords",formdata)
+  downloadRecords(formdata: any) {
+    return this.httpclient.post(this.apiUrl + "/guthitiro/downloadrecords", formdata)
   }
-  deleteLand(formdata:any){
-    return this.httpclient.post(this.apiUrl + "/guthitiro/deleteland",formdata)
+  deleteLand(formdata: any) {
+    return this.httpclient.post(this.apiUrl + "/guthitiro/deleteland", formdata)
   }
-  updateRecords(formdata:any){
-    return this.httpclient.post(`http://${formdata.ipaddress}` + "/api/sync/guthitiro.php",formdata)
+  updateRecords(formdata: any) {
+    return this.httpclient.post(`http://${formdata.ipaddress}` + "/api/sync/guthitiro.php", formdata)
   }
 
 }

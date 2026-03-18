@@ -37,6 +37,9 @@ if ($method === "GET") {
         case "getdashrevenuedatabyofficeid":
             getDashRevenueDataByOfficeId($pathParts[1] ?? null, $pathParts[2] ?? null);
             break;
+        case "getdashdepositdatabyofficeid":
+            getDashDepositDataByOfficeId($pathParts[1] ?? null, $pathParts[2] ?? null);
+            break;
         case "getallshrestabyofficeid":
             getAllShrestaByOfficeId($pathParts[1] ?? null);
             break;
@@ -170,9 +173,7 @@ if ($method === "GET") {
             break;
     case "addupdatearates":
             addUpdateARates();
-            break;
-    case "addupdategabisa":
-            addUpdateGabisa();
+            break;   
         default:
             methodNotAllowed();
     }
@@ -354,6 +355,56 @@ function getDashRevenueDataByOfficeId($officeId, $aabaId) {
         respondDbError($e);
     }
 }
+function getDashDepositDataByOfficeId($officeId, $aabaId) {
+    if (!$officeId) invalidInput("officeid");
+    if (!$aabaId) invalidInput("aabaid");
+
+    $pdo = getPDO();
+    if (!$pdo) dbUnavailable("Main");
+
+    try {
+        $sql = "SELECT 
+                    office_id,
+                    aaba_id,
+                    SUM(amount) AS A,
+                    SUM(CASE WHEN mon = 4  THEN amount ELSE 0 END) AS B,
+                    SUM(CASE WHEN mon = 5  THEN amount ELSE 0 END) AS C,
+                    SUM(CASE WHEN mon = 6  THEN amount ELSE 0 END) AS D,
+                    SUM(CASE WHEN mon = 7  THEN amount ELSE 0 END) AS E,
+                    SUM(CASE WHEN mon = 8  THEN amount ELSE 0 END) AS F,
+                    SUM(CASE WHEN mon = 9  THEN amount ELSE 0 END) AS G,
+                    SUM(CASE WHEN mon = 10 THEN amount ELSE 0 END) AS H,
+                    SUM(CASE WHEN mon = 11 THEN amount ELSE 0 END) AS I,
+                    SUM(CASE WHEN mon = 12 THEN amount ELSE 0 END) AS J,
+                    SUM(CASE WHEN mon = 1  THEN amount ELSE 0 END) AS K,
+                    SUM(CASE WHEN mon = 2  THEN amount ELSE 0 END) AS L,
+                    SUM(CASE WHEN mon = 3  THEN amount ELSE 0 END) AS M
+                FROM vouchers
+                WHERE office_id = :office_id
+                  AND aaba_id = :aaba_id
+                GROUP BY office_id, aaba_id";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            "office_id" => $officeId,
+            "aaba_id"   => $aabaId
+        ]);
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode([
+            "status" => true,
+            "data" => $result
+        ]);
+        exit();
+
+    } catch (Exception $e) {
+        respondDbError($e);
+    }
+}
+
+
+
 function getOneShrestaById($id) {
     if (!$id) invalidInput("id");
 
@@ -411,8 +462,7 @@ function getAll() {
         'land_sub_type',
         'discounts',
         'tenders',
-        'palika_type',
-        'palikas'
+        'palika_type'
 
     ];
 
@@ -573,7 +623,7 @@ function getRatesByOfficeId($officeId, $type) {
                     INNER JOIN land_sub_type f ON f.id = a.land_sub_type_id
                     INNER JOIN area_type g ON g.id = a.area_type_id
                     WHERE a.office_id = :office_id
-                    ORDER BY a.start_aaba_id,a.end_aaba_id,a.guthi_type_id,a.palika_type_id,a.land_type_id,a.land_sub_type_id";
+                    ORDER BY a.start_aaba_id";
 
         } else {
             // Raitani rates
@@ -589,7 +639,7 @@ function getRatesByOfficeId($officeId, $type) {
                     INNER JOIN aabas d ON a.start_aaba_id = d.id
                     INNER JOIN aabas e ON a.end_aaba_id = e.id
                     WHERE a.office_id = :office_id
-                    ORDER BY a.start_aaba_id,a.end_aaba_id,a.palika_type_id";
+                    ORDER BY a.start_aaba_id";
         }
 
         $stmt = $pdo->prepare($sql);
@@ -2722,75 +2772,6 @@ function addUpdateRRates()
     }
 }
 
-function addUpdateGabisa() {
-    $pdo = getPDO();
-    if (!$pdo) dbUnavailable("Main");
-
-    // Read JSON input
-    $input = json_decode(file_get_contents("php://input"), true);
-
-    $id              = $input['id'] ?? null;
-    $state_id        = $input['state_id'] ?? null;
-    $district_id     = $input['district_id'] ?? null;
-    $palika_type_id  = $input['palika_type_id'] ?? null;
-    $palika_id       = $input['palika_id'] ?? null;
-
-    // -----------------------------
-    // Validation
-    // -----------------------------
-    if (!$id) invalidInput("id");
-    if (!$state_id) invalidInput("state_id");
-    if (!$district_id) invalidInput("district_id");
-    if (!$palika_type_id) invalidInput("palika_type_id");
-    if (!$palika_id) invalidInput("palika_id");
-
-    try {
-        $sql = "
-            UPDATE gabisas
-            SET 
-                state_id = :state_id,
-                district_id = :district_id,
-                palika_type_id = :palika_type_id,
-                palika_id = :palika_id,
-                updated_at = NOW()
-            WHERE id = :id
-        ";
-
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            "state_id"       => $state_id,
-            "district_id"    => $district_id,
-            "palika_type_id" => $palika_type_id,
-            "palika_id"      => $palika_id,
-            "id"             => $id
-        ]);
-
-        if ($stmt->rowCount() === 0) {
-            http_response_code(404);
-            echo json_encode([
-                "status" => false,
-                "message" => "रेकर्ड फेला परेन ।"
-            ]);
-            exit();
-        }
-
-        http_response_code(200);
-        echo json_encode([
-            "status" => true,
-            "message" => "गा.वि.स संशोधन सफल भयो"
-        ]);
-        exit();
-
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-        http_response_code(500);
-        echo json_encode([
-            "status" => false,
-            "message" => "Database error"
-        ]);
-        exit();
-    }
-}
 
 function notFound() { http_response_code(404); echo json_encode(["status"=>false,"message"=>"Not Found"]); exit(); }
 function methodNotAllowed() { http_response_code(405); echo json_encode(["status"=>false,"message"=>"Method Not Allowed"]); exit(); }

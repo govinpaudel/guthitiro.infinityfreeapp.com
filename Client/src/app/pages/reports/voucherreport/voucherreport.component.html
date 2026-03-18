@@ -1,95 +1,91 @@
-<div class="container-fluid">
+<div class="container-fluid py-4">
+  <mat-card class="shadow-sm border-0">
+    
+    <mat-card-header class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
+      <mat-card-title class="m-0 h5 fw-bold text-primary">
+        भौचर विवरण (Voucher Details)
+      </mat-card-title>
+      
+      <button mat-raised-button color="primary" class="rounded-pill px-4" (click)="showAddEditForm(0)">
+        <mat-icon class="me-2">add</mat-icon>
+        नयाँ थप्नुहोस्
+      </button>
+    </mat-card-header>
 
-    <mat-card>
-        <mat-card-header class="header-flex">
-            <mat-card-title>भौचर विवरण</mat-card-title>
+    <mat-card-content>
+      <div class="table-responsive" *ngIf="voucherData.length; else noData">
+        <table mat-table [dataSource]="voucherData" class="w-100 table-hover">
 
-            <span class="spacer"></span>
+          <ng-container matColumnDef="sn">
+            <th mat-header-cell *matHeaderCellDef class="bg-light py-3" width="80px">क्र.सं.</th>
+            <td mat-cell *matCellDef="let row; let i = index" class="py-2">{{ i + 1 }}</td>
+            <td mat-footer-cell *matFooterCellDef class="bg-light fw-bold py-3">जम्मा (Total)</td>
+          </ng-container>
 
-            <button mat-raised-button color="primary" (click)="showAddEditForm(0)">
-                
-                Add
-            </button>
-        </mat-card-header>
+          <ng-container matColumnDef="office_name">
+            <th mat-header-cell *matHeaderCellDef class="bg-light py-3">कार्यालय</th>
+            <td mat-cell *matCellDef="let row" class="py-2">{{ row.office_name }}</td>
+            <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+          </ng-container>
 
-        <mat-card-content>
+          <ng-container matColumnDef="aaba_name">
+            <th mat-header-cell *matHeaderCellDef class="bg-light py-3">आ.व.</th>
+            <td mat-cell *matCellDef="let row" class="py-2">{{ row.aaba_name }}</td>
+            <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+          </ng-container>
 
-            <div class="table-responsive" *ngIf="voucherData.length; else noData">
+          <ng-container matColumnDef="edate">
+            <th mat-header-cell *matHeaderCellDef class="bg-light py-3">मिति (ई.)</th>
+            <td mat-cell *matCellDef="let row" class="py-2 text-muted">{{ row.edate | date:'yyyy-MM-dd' }}</td>
+            <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+          </ng-container>
 
-                <table mat-table [dataSource]="voucherData" class="mat-elevation-z2 w-100">
+          <ng-container matColumnDef="ndate">
+            <th mat-header-cell *matHeaderCellDef class="bg-light py-3">मिति (ने.)</th>
+            <td mat-cell *matCellDef="let row" class="py-2 fw-medium">{{ row.ndate }}</td>
+            <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+          </ng-container>
 
-                    <!-- SN -->
-                    <ng-container matColumnDef="sn">
-                        <th mat-header-cell *matHeaderCellDef>क्र.सं.</th>
-                        <td mat-cell *matCellDef="let row; let i = index">
-                            {{ i + 1 }}
-                        </td>
-                    </ng-container>
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef class="bg-light py-3 text-end pe-4">रकम</th>
+            <td mat-cell *matCellDef="let row" class="py-2 text-end pe-4 fw-bold">
+              {{ row.amount | number:'1.2-2' }}
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="bg-light text-end pe-4 fw-bold text-success border-top border-dark">
+              रू. {{ getTotalAmount() | number:'1.2-2' }}
+            </td>
+          </ng-container>
 
-                    <!-- Office Name -->
-                    <ng-container matColumnDef="office_name">
-                        <th mat-header-cell *matHeaderCellDef>कार्यालय</th>
-                        <td mat-cell *matCellDef="let row">
-                            {{ row.office_name }}
-                        </td>
-                    </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="bg-light py-3 text-end">कृयाकलाप</th>
+            <td mat-cell *matCellDef="let row" class="py-2 text-end">
+              <button mat-icon-button color="primary" class="me-1" (click)="showAddEditForm(row)" matTooltip="Edit">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" matTooltip="Delete">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+          </ng-container>
 
-                    <!-- Aaba Name -->
-                    <ng-container matColumnDef="aaba_name">
-                        <th mat-header-cell *matHeaderCellDef>आ.व.</th>
-                        <td mat-cell *matCellDef="let row">
-                            {{ row.aaba_name }}
-                        </td>
-                    </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="align-middle"></tr>
+          
+          <tr mat-footer-row *matFooterRowDef="displayedColumns" 
+              [hidden]="!voucherData.length" 
+              class="align-middle shadow-sm">
+          </tr>
+        </table>
+      </div>
 
-                    <!-- English Date -->
-                    <ng-container matColumnDef="edate">
-                        <th mat-header-cell *matHeaderCellDef>मिति (ई.)</th>
-                        <td mat-cell *matCellDef="let row">
-                            {{ row.edate | date:'yyyy-MM-dd' }}
-                        </td>
-                    </ng-container>
+      <ng-template #noData>
+        <div class="d-flex flex-column align-items-center justify-content-center py-5 bg-light rounded border border-dashed">
+          <mat-icon class="text-secondary mb-2" style="transform: scale(2);">assignment_late</mat-icon>
+          <span class="text-muted mt-3">विवरण फेला परेन (No Vouchers Found)</span>
+        </div>
+      </ng-template>
 
-                    <!-- Nepali Date -->
-                    <ng-container matColumnDef="ndate">
-                        <th mat-header-cell *matHeaderCellDef>मिति (ने.)</th>
-                        <td mat-cell *matCellDef="let row">
-                            {{ row.ndate }}
-                        </td>
-                    </ng-container>
-
-                    <!-- Amount -->
-                    <ng-container matColumnDef="amount">
-                        <th mat-header-cell *matHeaderCellDef class="text-end">रकम</th>
-                        <td mat-cell *matCellDef="let row" class="text-end">
-                            {{ row.amount | number:'1.2-2' }}
-                        </td>
-                    </ng-container>
-                    <!-- Action -->
-                    <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef class="text-end">कृयाकलाप</th>
-                        <td class="text-end"  mat-cell *matCellDef="let row">
-                            <button mat-raised-button color="primary" (click)="showAddEditForm(row)">
-                               
-                                Edit
-                            </button>
-                        </td>
-                    </ng-container>
-                    <!-- Header & Row -->
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-                </table>
-            </div>
-
-            <!-- No Data -->
-            <ng-template #noData>
-                <div class="text-center text-muted p-4">
-                    कुनै डाटा उपलब्ध छैन
-                </div>
-            </ng-template>
-
-        </mat-card-content>
-    </mat-card>
-
+    </mat-card-content>
+  </mat-card>
 </div>

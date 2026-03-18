@@ -58,5 +58,10 @@ displayedColumns: string[] = [
       }
     })
       }
+      getTotalAmount() {
+  return this.voucherData
+    .map(v => v.amount)
+    .reduce((acc, value) => acc + (Number(value) || 0), 0);
+}
   
 }

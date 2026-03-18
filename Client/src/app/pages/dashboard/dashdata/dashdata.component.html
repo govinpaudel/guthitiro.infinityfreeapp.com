@@ -1,20 +1,44 @@
 <div class="row">
-  <div class="col-12 col-sm-4">
-<apx-chart
-  *ngIf="chartOptions1 && chartOptions1.series"
-  [series]="chartOptions1.series!"
-  [chart]="chartOptions1.chart!"
-  [xaxis]="chartOptions1.xaxis!"
-  [title]="chartOptions1.title!">
-</apx-chart>
+  <div class="col-12 mb-4"> 
+    <mat-card class="shadow-sm border-0">
+      <mat-card-content>
+        <apx-chart
+          *ngIf="chartOptions1 && chartOptions1.series"
+          [series]="chartOptions1.series!"
+          [chart]="chartOptions1.chart!"
+          [xaxis]="chartOptions1.xaxis!"
+          [title]="chartOptions1.title!">
+        </apx-chart>
+      </mat-card-content>
+    </mat-card>
   </div>
-  <div class="col-12 col-sm-8">
-<apx-chart
-  *ngIf="chartOptions && chartOptions.series"
-  [series]="chartOptions.series!"
-  [chart]="chartOptions.chart!"
-  [xaxis]="chartOptions.xaxis!"
-  [title]="chartOptions.title!">
-</apx-chart>
+
+  <div class="col-12 mb-4">
+    <mat-card class="shadow-sm border-0">
+      <mat-card-content>
+        <apx-chart
+          *ngIf="chartOptions && chartOptions.series"
+          [series]="chartOptions.series!"
+          [chart]="chartOptions.chart!"
+          [xaxis]="chartOptions.xaxis!"
+          [title]="chartOptions.title!">
+        </apx-chart>
+      </mat-card-content>
+    </mat-card>
   </div>
+
+ <div class="col-12 mb-4">
+    <mat-card class="shadow-sm border-0">
+      <mat-card-content>
+        <apx-chart
+          *ngIf="chartOptions2 && chartOptions2.series"
+          [series]="chartOptions2.series!"
+          [chart]="chartOptions2.chart!"
+          [xaxis]="chartOptions2.xaxis!"
+          [title]="chartOptions2.title!">
+        </apx-chart>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
 </div>
